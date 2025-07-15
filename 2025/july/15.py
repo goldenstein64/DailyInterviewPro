@@ -18,14 +18,18 @@ Can you find a solution in O(n) time?
 """
 
 import unittest
-from itertools import pairwise
+from itertools import pairwise, product
 
 
 def check(ls: list[int]) -> bool:
     """
     My original implementation. This just counts how many times a pair of
-    elements wasn't found to be non-decreasing. If it's greater than once, it's
+    elements was found to be decreasing. If that count is greater than one, it's
     assumed it can't be fixed by changing one element.
+
+    It also makes the assumption that if that count is equal to one, the issue
+    can be fixed by changing one element. This assumption is wrong for four-
+    element arrays like [2, 3, 0, 1].
     """
     corrected: bool = False
     for num1, num2 in pairwise(ls):
@@ -51,36 +55,42 @@ def check_sim(ls: list[int]) -> bool:
             else:
                 ls[i + 1] = ls[i]  # pretend to raise nums[i+1]
             changed = True
+
     return True
 
 
 class Tests(unittest.TestCase):
-    cases: list[tuple[list[int], bool]] = [
-        ([], True),
-        ([5], True),
-        ([5, 10], True),
-        ([9, 3], True),
-        ([1, 4, 7], True),
-        ([13, 4, 13], True),
-        ([1, 13, 7], True),
-        ([13, 4, 7], True),
-        ([4, 2, 3], True),
-        ([3, 6, 1], True),
-        ([1, 1, 2, 1], True),
-        ([1, 1, 2, 3], True),
-        ([1, 2, 3, 1], True),
-        ([4, 2, 1], False),
-        ([13, 4, 1], False),
-        ([4, 3, 2, 2], False),
-        ([5, 1, 3, 2, 5], False),
-        ([5, 4, 3, 2, 1], False),
-    ]
+    @staticmethod
+    def cases() -> list[tuple[list[int], bool]]:
+        return [
+            ([], True),
+            ([5], True),
+            ([5, 10], True),
+            ([9, 3], True),
+            ([1, 4, 7], True),
+            ([13, 4, 13], True),
+            ([1, 13, 7], True),
+            ([13, 4, 7], True),
+            ([4, 2, 3], True),
+            ([3, 6, 1], True),
+            ([4, 3, 4, 2], False),
+            ([13, 4, 1], False),
+            ([4, 3, 2, 2], False),
+            ([5, 1, 3, 2, 5], False),
+            ([5, 4, 3, 2, 1], False),
+            ([2, 3, 0, 1], False),
+        ]
 
     def test_all(self):
-        for ls, expected in self.cases:
-            with self.subTest(ls=ls, expected=expected):
-                self.assertEqual(expected, check(ls))
-                self.assertEqual(expected, check_sim(ls))
+        for solution in [check, check_sim]:
+            for ls, expected in self.cases():
+                with self.subTest(solution=solution.__name__, ls=ls, expected=expected):
+                    self.assertEqual(expected, solution(ls))
+
+    def test_fuzz(self):
+        for a, b, c, d in product(range(4), range(4), range(4), range(4)):
+            with self.subTest(ls=[a, b, c, d]):
+                self.assertEqual(check([a, b, c, d]), check_sim([a, b, c, d]))
 
 
 if __name__ == "__main__":
