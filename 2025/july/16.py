@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import unittest
+from typing import Callable
 
 
 @dataclass
@@ -17,29 +18,46 @@ class Node:
     right: Node | None = None
 
 
+def find_ceiling_floor_loop(root_node: Node, k: int) -> tuple[int | None, int | None]:
+    floor: int | None = None
+    ceil: int | None = None
+    node: Node | None = root_node
+    while node is not None:
+        if k < node.value:
+            ceil = root_node.value if ceil is None else min(root_node.value, ceil)
+            node = node.left
+        elif node.value < k:
+            floor = root_node.value if floor is None else max(root_node.value, floor)
+            node = node.right
+        else:
+            return (k, k)
+
+    return (floor, ceil)
+
+
 def find_ceiling_floor(
     root_node: Node, k: int, floor: int | None = None, ceil: int | None = None
 ) -> tuple[int | None, int | None]:
     """
-    How would I approach this?
-
-    This is really the same thing as saying "is k in the tree? If so, return
-    (k, k). If not, give me the two numbers it's between.
+    Return (k, k) if k is in the tree. Otherwise, return the leaves closest to it.
     """
     if k < root_node.value:  # it's on the left
-        new_ceil = min(root_node.value, ceil) if ceil else root_node.value
+        new_ceil = root_node.value if ceil is None else min(root_node.value, ceil)
         if root_node.left:
             return find_ceiling_floor(root_node.left, k, floor, new_ceil)
         else:
             return (floor, new_ceil)
     elif root_node.value < k:  # it's on the right
-        new_floor = max(root_node.value, floor) if floor else root_node.value
+        new_floor = root_node.value if floor is None else max(root_node.value, floor)
         if root_node.right:
             return find_ceiling_floor(root_node.right, k, new_floor, ceil)
         else:
             return (new_floor, ceil)
     else:
         return (k, k)
+
+
+type Solution = Callable[[Node, int], tuple[int | None, int | None]]
 
 
 class Tests(unittest.TestCase):
@@ -72,8 +90,11 @@ class Tests(unittest.TestCase):
 
     def test_all(self):
         tree = self.tree()
-        for k, expected in self.cases:
-            self.assertEqual(expected, find_ceiling_floor(tree, k))
+        solutions: list[Solution] = [find_ceiling_floor, find_ceiling_floor_loop]
+        for solution in solutions:
+            for k, expected in self.cases:
+                with self.subTest(solution=solution.__name__, k=k, expected=expected):
+                    self.assertEqual(expected, solution(tree, k))
 
 
 if __name__ == "__main__":
