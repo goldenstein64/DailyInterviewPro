@@ -11,6 +11,7 @@ Example:
 """
 
 import unittest
+from itertools import combinations
 
 
 def find_pythagorean_triplets(nums: list[int]) -> bool:
@@ -65,12 +66,7 @@ def find_pythagorean_triplets(nums: list[int]) -> bool:
 def find_pythagorean_triplets_all(nums: list[int]) -> bool:
     """brute-force function provided by ChatGPT"""
     squares = set(x * x for x in nums)
-    for i in range(len(nums)):
-        for j in range(i + 1, len(nums)):
-            if nums[i] != nums[j]:
-                if nums[i] ** 2 + nums[j] ** 2 in squares:
-                    return True
-    return False
+    return any(a != b and a**2 + b**2 in squares for a, b in combinations(nums, 2))
 
 
 class Tests(unittest.TestCase):
