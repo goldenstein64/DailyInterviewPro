@@ -6,8 +6,6 @@ returns the number of unique ways to climb the stairs.
 Can you find a solution in O(n) time?
 """
 
-# TODO: ChatGPT review
-
 import unittest
 from functools import cache
 
@@ -69,8 +67,17 @@ def staircase(n: int) -> int:
 
 class Tests(unittest.TestCase):
     cases: list[tuple[int, int]] = [
+        (0, 0),  # arguably, you can't climb a staircase that doesn't exist
+        (1, 1),
+        (2, 2),
+        (3, 3),
         (4, 5),
         (5, 8),
+        (6, 13),
+        (7, 21),
+        (8, 34),
+        (9, 55),
+        (10, 89),
     ]
 
     def test_all(self):
