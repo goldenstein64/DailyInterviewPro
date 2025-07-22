@@ -116,10 +116,10 @@ class Tests(unittest.TestCase):
     )
 
     def test_all(self):
-        for arg1, arg2, expected in self.cases:
-            with self.subTest(l1=list(arg1), l2=list(arg2)):
-                self.assertEqual(expected, Solution().sum_rec(arg1, arg2))
-                self.assertEqual(expected, Solution().sum_loop(arg1, arg2))
+        for l1, l2, expected in self.cases:
+            with self.subTest(l1=list(l1), l2=list(l2)):
+                self.assertEqual(expected, Solution().sum_rec(l1, l2))
+                self.assertEqual(expected, Solution().sum_loop(l1, l2))
 
 
 if __name__ == "__main__":
