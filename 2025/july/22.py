@@ -62,8 +62,8 @@ def eval_once(stacks: list[EvalStack], state: State, c: str) -> State:
             last_stack = stacks.pop()
             stacks[-1].apply(last_stack.val)
 
-        case _:
-            raise ValueError
+        case args:
+            raise ValueError(f"could not match on {args}")
 
     return state
 
