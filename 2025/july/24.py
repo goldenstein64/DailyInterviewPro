@@ -39,16 +39,13 @@ def word_search(matrix: list[list[str]], word: str) -> bool:
     """naive implementation"""
     if word == "":
         return True
-
-    if len(matrix) <= 0:
+    elif len(matrix) <= 0:
         return False
 
-    # horizontal search first
-    for i, j in product(range(len(matrix)), range(len(matrix[0]))):
-        if word_search_point(matrix, word, i, j):
-            return True
-
-    return False
+    return any(
+        word_search_point(matrix, word, i, j)
+        for i, j in product(range(len(matrix)), range(len(matrix[0])))
+    )
 
 
 def word_search_gpt(matrix: list[list[str]], word: str) -> bool:
