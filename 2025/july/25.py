@@ -13,10 +13,32 @@ constraint.
 """
 
 import unittest
+from collections import deque
+from typing import Iterable
 
 
 class Solution:
+    def min_sub_array_len_gen(self, nums: Iterable[int], s: int) -> int:
+        """a streaming alternative implementation given to me by ChatGPT."""
+        window: deque[int] = deque()
+        rolling_sum: int = 0
+        min_len: int | None = None
+
+        for num in nums:
+            window.append(num)
+            rolling_sum += num
+
+            while rolling_sum >= s:
+                min_len = len(window) if min_len is None else min(min_len, len(window))
+                rolling_sum -= window.popleft()
+
+        return 0 if min_len is None else min_len
+
     def min_sub_array_len(self, nums: list[int], s: int) -> int:
+        """
+        An implementation that uses a sliding window to determine the shortest
+        valid sub-array.
+        """
         i: int = 0
         rolling_sum: int = 0
         result: int | None = None
@@ -47,9 +69,10 @@ class Tests(unittest.TestCase):
     ]
 
     def test_all(self):
-        for nums, s, expected in self.cases:
-            with self.subTest(nums=nums, s=s, expected=expected):
-                self.assertEqual(expected, Solution().min_sub_array_len(nums, s))
+        for solution in ("min_sub_array_len", "min_sub_array_len_gen"):
+            for nums, s, expected in self.cases:
+                with self.subTest(solution=solution, nums=nums, s=s, expected=expected):
+                    self.assertEqual(expected, getattr(Solution(), solution)(nums, s))
 
 
 if __name__ == "__main__":
