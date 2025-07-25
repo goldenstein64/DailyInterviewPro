@@ -57,6 +57,10 @@ def word_search_gpt(matrix: list[list[str]], word: str) -> bool:
     faster in practice because it uses Python's built-in substring search
     algorithm
     """
+    if word == "":
+        return True
+    elif len(matrix) <= 0:
+        return False
 
     rows: Generator[str] = ("".join(row) for row in matrix)
     columns: Generator[str] = ("".join(column) for column in zip(*matrix))
@@ -65,15 +69,17 @@ def word_search_gpt(matrix: list[list[str]], word: str) -> bool:
 
 class Tests(unittest.TestCase):
     matrices: dict[str, list[list[str]]] = {
+        "empty": [],
         "matrix": [
             ["F", "A", "C", "I"],
             ["O", "B", "Q", "P"],
             ["A", "N", "O", "B"],
             ["M", "A", "S", "S"],
-        ]
+        ],
     }
 
     cases: list[tuple[str, str, bool]] = [
+        ("empty", "", True),
         ("matrix", "", True),
         ("matrix", "A", True),
         ("matrix", "AM", True),
