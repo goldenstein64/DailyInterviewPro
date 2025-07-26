@@ -1,4 +1,5 @@
 {
-    "python.analysis.typeCheckingMode": "strict",
-    "editor.formatOnSave": true,
+  "python.analysis.typeCheckingMode": "strict",
+  "editor.formatOnSave": true,
+  "black-formatter.importStrategy": "fromEnvironment"
 }
