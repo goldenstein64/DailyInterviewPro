@@ -21,9 +21,11 @@ from typing import Callable
 @cache
 def num_ways(n: int, m: int) -> int:
     """
-    Calculate the number of paths through an n-by-m grid where all paths
-    start at the top-left, end at the bottom-right, and can only move right or
-    down.
+    Calculate the number of paths through a grid of n-by-m points where all
+    paths:
+    - start at the top-left
+    - end at the bottom-right
+    - can only move right or down.
     """
     if n == 0 or m == 0 or n == m == 1:
         return 0
