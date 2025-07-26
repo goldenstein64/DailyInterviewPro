@@ -9,11 +9,11 @@ Example:
 """
 
 import unittest
-from typing import Callable
-from enum import Enum
 from dataclasses import dataclass, field
-from operator import neg, add, sub
+from enum import Enum
 from functools import partial
+from operator import add, neg, sub
+from typing import Callable
 
 
 class State(Enum):

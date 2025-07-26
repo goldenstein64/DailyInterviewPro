@@ -10,8 +10,8 @@ Example:
 from __future__ import annotations
 
 import unittest
-from typing import Any
 from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass

@@ -9,7 +9,6 @@ Can you find a solution in O(n) time?
 import unittest
 from functools import cache
 
-
 # this looks like the fibonacci sequence...
 #
 # 1: 1

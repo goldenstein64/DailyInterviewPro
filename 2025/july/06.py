@@ -17,8 +17,8 @@ Example:
 from __future__ import annotations
 
 import unittest
-from typing import Generator
 from dataclasses import dataclass
+from typing import Generator
 
 
 @dataclass

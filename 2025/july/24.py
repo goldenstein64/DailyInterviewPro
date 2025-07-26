@@ -15,7 +15,7 @@ Example:
 """
 
 import unittest
-from itertools import product, chain
+from itertools import chain, product
 from typing import Generator
 
 

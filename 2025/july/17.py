@@ -22,9 +22,9 @@ f     b
 
 from __future__ import annotations
 
-from typing import Generator
-from dataclasses import dataclass
 import unittest
+from dataclasses import dataclass
+from typing import Generator
 
 
 @dataclass

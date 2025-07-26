@@ -6,8 +6,8 @@ exist, then print them as None.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import unittest
+from dataclasses import dataclass
 from typing import Callable
 
 

@@ -8,8 +8,9 @@ s, and insert a t).
 """
 
 import unittest
-import numpy as np
 from itertools import product
+
+import numpy as np
 
 
 def distance_rec(s1: str, s2: str) -> int:

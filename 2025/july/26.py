@@ -11,10 +11,10 @@ Example:
     Down, right.
 """
 
+import math
+import unittest
 from functools import cache
 from itertools import product
-import unittest
-import math
 from typing import Callable
 
 

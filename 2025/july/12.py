@@ -11,7 +11,7 @@ Challenge: Try sorting the list using constant space.
 
 import unittest
 from collections import Counter
-from random import shuffle, randint
+from random import randint, shuffle
 
 
 def sort_nums(nums: list[int]) -> None:
