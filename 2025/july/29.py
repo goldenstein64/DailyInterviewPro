@@ -101,7 +101,7 @@ class Tests(unittest.TestCase):
 
     def test_all(self):
         for values, expected in self.cases:
-            with self.subTest(values=values, expected=expected):
+            with self.subTest(node=values, expected=expected):
                 node = Node.from_values(values)
                 actual_node = remove_consecutive_sum_to_0(node)
                 actual = None if actual_node is None else [*actual_node.values()]
