@@ -11,8 +11,8 @@ removed. 4 -> -4 also sums up to 0 too so that sequence should also be removed.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import unittest
+from dataclasses import dataclass
 from typing import Iterable, Iterator
 
 

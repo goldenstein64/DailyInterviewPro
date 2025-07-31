@@ -7,10 +7,10 @@ Try to do it in a single pass and using constant space.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Iterable, Iterator, cast, Callable
-from itertools import product
 import unittest
+from dataclasses import dataclass
+from itertools import product
+from typing import Callable, Iterable, Iterator, cast
 
 
 @dataclass
