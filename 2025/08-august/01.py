@@ -16,9 +16,9 @@ Example:
 """
 
 import unittest
-from collections import deque, defaultdict
-from typing import Callable
+from collections import defaultdict, deque
 from itertools import product
+from typing import Callable
 
 
 def find_valid_course(incomplete: dict[str, list[str]]) -> str | None:
