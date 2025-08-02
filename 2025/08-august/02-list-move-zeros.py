@@ -52,7 +52,7 @@ class Solution:
 class Tests(unittest.TestCase):
     solutions: list[str] = [
         "move_zeros",
-        "move_zeros_tetris",
+        "move_zeros_swap",
     ]
 
     cases: list[tuple[list[int], list[int]]] = [
