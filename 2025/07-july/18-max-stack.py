@@ -20,20 +20,14 @@ class MaxStack:
 
     def push(self, val: int) -> None:
         self.stack.append(val)
-        if len(self.max_stack) > 0:
-            self.max_stack.append(max(self.max_stack[-1], val))
-        else:
-            self.max_stack.append(val)
+        self.max_stack.append(max(self.max_stack[-1], val) if self.max_stack else val)
 
     def pop(self) -> int:
         self.max_stack.pop()
         return self.stack.pop()
 
     def max(self) -> int | None:
-        if len(self.max_stack) > 0:
-            return self.max_stack[-1]
-        else:
-            return None
+        return self.max_stack[-1] if self.max_stack else None
 
 
 class Tests(unittest.TestCase):
