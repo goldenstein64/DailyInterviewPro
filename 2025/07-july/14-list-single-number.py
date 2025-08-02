@@ -54,7 +54,8 @@ def single_number_const_space(nums: list[int]) -> int:
 
 def single_number_xor_trick(nums: list[int]) -> int:
     """
-    ChatGPT came up with this solution. I would've never guessed it myself.
+    ChatGPT came up with this solution. I would've never guessed it myself. It's
+    known as the "XOR" trick.
     """
     result = 0
     for num in nums:
