@@ -11,10 +11,10 @@ Example:
 """
 
 import unittest
+from heapq import nlargest, nsmallest
 from itertools import combinations, product
 from math import prod
 from typing import Callable
-from heapq import nsmallest, nlargest
 
 
 def maximum_product_of_three(nums: list[int]) -> int:

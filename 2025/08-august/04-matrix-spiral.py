@@ -16,9 +16,9 @@ Example:
 from __future__ import annotations
 
 import unittest
-from typing import Final, Generator
-from itertools import count
 from dataclasses import dataclass
+from itertools import count
+from typing import Final, Generator
 
 
 @dataclass(frozen=True)
