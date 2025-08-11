@@ -13,26 +13,14 @@ from __future__ import annotations
 
 import unittest
 from dataclasses import dataclass
-from operator import lt
 from itertools import product
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Generator,
-    Iterable,
-    Iterator,
-    cast,
-    override,
-    Protocol,
-)
+from operator import lt
+from typing import (TYPE_CHECKING, Any, Generator, Iterable, Iterator,
+                    Protocol, cast, override)
 
 if TYPE_CHECKING:
-    from _typeshed import (
-        SupportsDunderGE,
-        SupportsDunderGT,
-        SupportsDunderLE,
-        SupportsDunderLT,
-    )
+    from _typeshed import (SupportsDunderGE, SupportsDunderGT,
+                           SupportsDunderLE, SupportsDunderLT)
 
     type Comparable = (
         SupportsDunderLT[Any]
