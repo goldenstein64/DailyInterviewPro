@@ -20,48 +20,36 @@ import unittest
 # from bisect import bisect_left, bisect_right
 
 
-def bisect_left(
-    arr: list[int], target: int, lo: int | None = None, hi: int | None = None
-) -> int:
-    if lo == None:
-        lo = 0
-
-    if hi == None:
-        hi = len(arr)
-
+def bisect_left_bounds(arr: list[int], target: int, lo: int, hi: int) -> int:
     if lo >= hi:
         return hi
 
     mid = (lo + hi) // 2
     val = arr[mid]
-    if val == target:
-        return mid
-    elif val < target:
-        return bisect_left(arr, target, lo=lo, hi=mid - 1)
+    if val <= target:
+        return bisect_left_bounds(arr, target, lo, mid)
     else:
-        return bisect_left(arr, target, lo=mid + 1, hi=hi)
+        return bisect_left_bounds(arr, target, mid + 1, hi)
 
 
-def bisect_right(
-    arr: list[int], target: int, lo: int | None = None, hi: int | None = None
-) -> int:
-    if lo == None:
-        lo = 0
+def bisect_left(arr: list[int], target: int) -> int:
+    return bisect_left_bounds(arr, target, 0, len(arr))
 
-    if hi == None:
-        hi = len(arr)
 
+def bisect_right_bounds(arr: list[int], target: int, lo: int, hi: int) -> int:
     if lo >= hi:
         return hi
 
     mid = (lo + hi) // 2
     val = arr[mid]
-    if val == target:
-        return mid
-    elif val > target:
-        return bisect_right(arr, target, lo=mid + 1, hi=hi)
+    if val >= target:
+        return bisect_right_bounds(arr, target, mid + 1, hi)
     else:
-        return bisect_right(arr, target, lo=lo, hi=mid - 1)
+        return bisect_right_bounds(arr, target, lo, mid)
+
+
+def bisect_right(arr: list[int], target: int) -> int:
+    return bisect_right_bounds(arr, target, 0, len(arr))
 
 
 class Solution:
