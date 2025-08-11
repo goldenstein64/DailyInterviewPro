@@ -12,7 +12,7 @@ Your solution should run in linear time.
 """
 
 import unittest
-from itertools import islice, accumulate, product
+from itertools import accumulate, islice, product
 from typing import Callable
 
 
