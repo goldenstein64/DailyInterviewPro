@@ -19,10 +19,10 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Tree[T]:
-    val: T
-    left: Tree[T] | None = None
-    right: Tree[T] | None = None
+class Tree:
+    val: int
+    left: Tree | None = None
+    right: Tree | None = None
 
     def str_buffer(self, buffer: list[str], depth: int) -> None:
         indent = "  " * depth
@@ -44,7 +44,7 @@ class Tree[T]:
         return "\n".join(buffer)
 
 
-def create_bst_slice[T](values: list[T], i: int, j: int) -> Tree[T] | None:
+def create_bst_slice(values: list[int], i: int, j: int) -> Tree | None:
     """Create a binary search tree from values[i:j]."""
     if i >= j:
         return None
@@ -57,13 +57,13 @@ def create_bst_slice[T](values: list[T], i: int, j: int) -> Tree[T] | None:
     )
 
 
-def create_bst[T](values: list[T]) -> Tree[T] | None:
+def create_bst(values: list[int]) -> Tree | None:
     """Create a binary search tree from a sorted list of values."""
     return create_bst_slice(values, 0, len(values))
 
 
 class Tests(unittest.TestCase):
-    cases: list[tuple[list[int], Tree[int] | None]] = [
+    cases: list[tuple[list[int], Tree | None]] = [
         ([], None),
         ([1], Tree(1)),
         ([1, 2, 3], Tree(2, left=Tree(1), right=Tree(3))),
