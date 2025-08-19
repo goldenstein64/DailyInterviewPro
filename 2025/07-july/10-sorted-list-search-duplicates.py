@@ -26,7 +26,7 @@ def bisect_left_bounds(arr: list[int], target: int, lo: int, hi: int) -> int:
 
     mid = (lo + hi) // 2
     val = arr[mid]
-    if val <= target:
+    if target <= val:
         return bisect_left_bounds(arr, target, lo, mid)
     else:
         return bisect_left_bounds(arr, target, mid + 1, hi)
@@ -42,7 +42,7 @@ def bisect_right_bounds(arr: list[int], target: int, lo: int, hi: int) -> int:
 
     mid = (lo + hi) // 2
     val = arr[mid]
-    if val >= target:
+    if target >= val:
         return bisect_right_bounds(arr, target, mid + 1, hi)
     else:
         return bisect_right_bounds(arr, target, lo, mid)
