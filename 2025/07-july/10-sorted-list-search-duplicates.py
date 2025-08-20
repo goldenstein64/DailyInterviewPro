@@ -3,16 +3,16 @@ Given a sorted array, A, with possibly duplicated elements, find the indices of
 the first and last occurrences of a target element, x. Return -1 if the target
 is not found.
 
-Example:
+Examples:
 
-    Input: A = [1,3,3,5,7,8,9,9,9,15], target = 9
-    Output: [6,8]
+>>> get_range([1,3,3,5,7,8,9,9,9,15], 9)
+[6, 8]
 
-    Input: A = [100, 150, 150, 153], target = 150
-    Output: [1,2]
+>>> get_range([100, 150, 150, 153], 150)
+[1, 2]
 
-    Input: A = [1,2,3,4,5,6,10], target = 9
-    Output: [-1, -1]
+>>> get_range([1,2,3,4,5,6,10], 9)
+[-1, -1]
 """
 
 import unittest
@@ -52,13 +52,12 @@ def bisect_right(arr: list[int], target: int) -> int:
     return bisect_right_bounds(arr, target, 0, len(arr))
 
 
-class Solution:
-    def get_range(self, arr: list[int], target: int) -> list[int]:
-        first: int = bisect_left(arr, target)
-        if first == len(arr) or arr[first] != target:
-            return [-1, -1]
+def get_range(arr: list[int], target: int) -> list[int]:
+    first: int = bisect_left(arr, target)
+    if first == len(arr) or arr[first] != target:
+        return [-1, -1]
 
-        return [first, bisect_right(arr, target) - 1]
+    return [first, bisect_right(arr, target) - 1]
 
 
 class Tests(unittest.TestCase):
@@ -73,8 +72,11 @@ class Tests(unittest.TestCase):
     def test_all(self):
         for arr, target, expected in self.cases:
             with self.subTest(arr=arr, target=target, expected=expected):
-                self.assertEqual(expected, Solution().get_range(arr, target))
+                self.assertEqual(expected, get_range(arr, target))
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

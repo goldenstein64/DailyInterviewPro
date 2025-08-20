@@ -11,33 +11,47 @@ An input string is valid if:
 - Open brackets are closed by the same type of brackets.
 - Open brackets are closed in the correct order.
 - Note that an empty string is also considered valid.
+
+Examples:
+
+>>> is_valid("((()))")
+True
+
+>>> is_valid("[()]{}")
+True
+
+>>> is_valid("({[)]")
+False
 """
 
 import unittest
 
 
-class Solution:
-    def is_valid(self, s: str) -> bool:
-        brackets: list[str] = []
-        for char in s:
-            check: str
-            match char:
-                case ")":
-                    check = "("
-                case "]":
-                    check = "["
-                case "}":
-                    check = "{"
-                case "(" | "[" | "{":
-                    brackets.append(char)
-                    continue
-                case _:
-                    continue
+def is_valid(s: str) -> bool:
+    """
+    Determine whether all parentheses in a string made up of the characters
+    '()[]{}' are properly balanced.
+    """
+    brackets: list[str] = []
+    for char in s:
+        check: str
+        match char:
+            case ")":
+                check = "("
+            case "]":
+                check = "["
+            case "}":
+                check = "{"
+            case "(" | "[" | "{":
+                brackets.append(char)
+                continue
+            case _:
+                continue
 
-            if len(brackets) == 0 or brackets.pop() != check:
-                return False
+        if len(brackets) == 0 or brackets.pop() != check:
+            return False
 
-        return len(brackets) == 0
+    return len(brackets) == 0
 
 
 class Tests(unittest.TestCase):
@@ -57,8 +71,11 @@ class Tests(unittest.TestCase):
     def test_all(self):
         for s, expected in self.cases:
             with self.subTest(s=s, expected=expected):
-                self.assertEqual(expected, Solution().is_valid(s))
+                self.assertEqual(expected, is_valid(s))
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

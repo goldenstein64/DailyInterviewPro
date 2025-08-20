@@ -3,14 +3,13 @@ You are given a 2D array of integers. Print out the clockwise spiral traversal o
 
 Example:
 
-    grid = [[1,  2,  3,  4,  5 ],
-            [6,  7,  8,  9,  10],
-            [11, 12, 13, 14, 15],
-            [16, 17, 18, 19, 20]]
-
-    The clockwise spiral traversal of this array is:
-
-    1, 2, 3, 4, 5, 10, 15, 20, 19, 18, 17, 16, 11, 6, 7, 8, 9, 14, 13, 12
+>>> matrix_spiral(
+...     [[1,  2,  3,  4,  5 ],
+...      [6,  7,  8,  9,  10],
+...      [11, 12, 13, 14, 15],
+...      [16, 17, 18, 19, 20]]
+... )
+[1, 2, 3, 4, 5, 10, 15, 20, 19, 18, 17, 16, 11, 6, 7, 8, 9, 14, 13, 12]
 """
 
 from __future__ import annotations
@@ -83,9 +82,7 @@ def matrix(w: int, h: int) -> list[list[int]]:
     Example:
 
     >>> matrix(2, 3)
-    [[1, 2],
-     [3, 4],
-     [5, 6]]
+    [[1, 2], [3, 4], [5, 6]]
     """
     nums = count(1)
     return [[next(nums) for _ in range(w)] for _ in range(h)]
@@ -116,4 +113,8 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
+
     unittest.main()
