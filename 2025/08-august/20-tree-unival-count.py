@@ -23,7 +23,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 
-type TupleTree = tuple[int, TupleTree, TupleTree] | tuple[int, TupleTree] | int
+type TupleNode = tuple[int, TupleNode, TupleNode] | tuple[int, TupleNode] | int
 
 
 @dataclass
