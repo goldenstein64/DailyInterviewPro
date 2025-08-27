@@ -5,8 +5,11 @@ O(n) time.
 Challenge: Try sorting the list using constant space.
 
 Example:
-    Input: [3, 3, 2, 1, 3, 2, 1]
-    Output: [1, 1, 2, 2, 3, 3, 3]
+
+>>> nums = [3, 3, 2, 1, 3, 2, 1]
+>>> sort_nums(nums)
+>>> nums
+[1, 1, 2, 2, 3, 3, 3]
 """
 
 import unittest
@@ -52,4 +55,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()
