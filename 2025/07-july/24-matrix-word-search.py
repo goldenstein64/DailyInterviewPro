@@ -5,13 +5,14 @@ the word must be either going left-to-right, or top-to-bottom in the matrix.
 
 Example:
 
-    [['F', 'A', 'C', 'I'],
-     ['O', 'B', 'Q', 'P'],
-     ['A', 'N', 'O', 'B'],
-     ['M', 'A', 'S', 'S']]
-
-    Given this matrix, and the target word `FOAM`, you should return true, as it
-    can be found going up-to-down in the first column.
+>>> matrix = [
+...     ['F', 'A', 'C', 'I'],
+...     ['O', 'B', 'Q', 'P'],
+...     ['A', 'N', 'O', 'B'],
+...     ['M', 'A', 'S', 'S'],
+... ]
+>>> word_search(matrix, 'FOAM')
+True
 """
 
 import unittest
@@ -102,4 +103,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

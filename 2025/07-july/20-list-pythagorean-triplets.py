@@ -4,10 +4,10 @@ list. A pythagorean triplet is 3 variables a, b, c where a**2 + b**2 = c**2
 
 Example:
 
-    Input: [3, 5, 12, 5, 13]
-    Output: True
+>>> find_pythagorean_triplets([3, 5, 12, 5, 13])
+True
 
-    Here, 5**2 + 12**2 = 13**2
+Here, 5**2 + 12**2 = 13**2
 """
 
 import unittest
@@ -71,6 +71,7 @@ def find_pythagorean_triplets_all(nums: list[int]) -> bool:
 
 class Tests(unittest.TestCase):
     cases: list[tuple[list[int], bool]] = [
+        ([], False),
         ([10], False),
         ([3, 4], False),
         ([1, 1, 1], False),
@@ -88,4 +89,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

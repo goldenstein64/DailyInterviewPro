@@ -9,99 +9,107 @@ Figure out the final position of the dominoes. If there are dominoes that get
 pushed on both ends, the force cancels out and that domino remains upright.
 
 Example:
-Input:  ..R...L..R.
-Output: ..RR.LL..RR
+
+>>> push_dominoes_loop("..R...L..R.")
+'..RR.LL..RR'
 """
 
 import re
 import unittest
 from itertools import product
+from typing import Callable
 
 
-class Solution:
-    push_left_once = re.compile(r"([^R])\.L")
-    push_right_once = re.compile(r"R\.([^L])")
+push_left_once = re.compile(r"([^R])\.L")
+push_right_once = re.compile(r"R\.([^L])")
 
-    def push_dominoes_once(self, dominoes: str) -> str:
-        if dominoes.startswith(".L"):
-            dominoes = "LL" + dominoes[2:]
 
-        if dominoes.endswith("R."):
-            dominoes = dominoes[:-2] + "RR"
+def push_dominoes_once(dominoes: str) -> str:
+    if dominoes.startswith(".L"):
+        dominoes = "LL" + dominoes[2:]
 
-        dominoes = dominoes.replace("R..L", "RRLL")
-        dominoes = self.push_left_once.sub(r"\1LL", dominoes)
-        dominoes = self.push_right_once.sub(r"RR\1", dominoes)
-        return dominoes
+    if dominoes.endswith("R."):
+        dominoes = dominoes[:-2] + "RR"
 
-    def push_dominoes_loop(self, dominoes: str) -> str:
-        """
-        Determine the final position of a row of dominoes by simulating time
-        steps.
-        """
-        old_dominoes = None
-        while old_dominoes != dominoes:
-            old_dominoes = dominoes
-            dominoes = self.push_dominoes_once(dominoes)
+    dominoes = dominoes.replace("R..L", "RRLL")
+    dominoes = push_left_once.sub(r"\1LL", dominoes)
+    dominoes = push_right_once.sub(r"RR\1", dominoes)
+    return dominoes
 
-        return dominoes
 
-    push_pairs = re.compile(r"R\.+L")
-    push_left_end = re.compile(r"^\.+L")
-    push_right_end = re.compile(r"R\.+$")
-    push_left = re.compile(r"L\.+L")
-    push_right = re.compile(r"R\.+R")
+def push_dominoes_loop(dominoes: str) -> str:
+    """
+    Determine the final position of a row of dominoes by simulating time
+    steps.
+    """
+    old_dominoes = None
+    while old_dominoes != dominoes:
+        old_dominoes = dominoes
+        dominoes = push_dominoes_once(dominoes)
 
-    @staticmethod
-    def replace_pairs(match: re.Match[str]) -> str:
-        old_str: str = match[0]
-        push_len = len(old_str) // 2
-        return "R" * push_len + "." * (len(old_str) % 2) + "L" * push_len
+    return dominoes
 
-    def push_dominoes_pairs(self, dominoes: str) -> str:
-        """
-        Determine the final position of a row of dominoes by applying a few
-        rules in the form of RegEx replacements
-        """
-        dominoes = self.push_pairs.sub(self.replace_pairs, dominoes)
-        dominoes = self.push_left_end.sub(lambda m: "L" * len(m[0]), dominoes)
-        dominoes = self.push_right_end.sub(lambda m: "R" * len(m[0]), dominoes)
-        dominoes = self.push_left.sub(lambda m: "L" * len(m[0]), dominoes)
-        dominoes = self.push_right.sub(lambda m: "R" * len(m[0]), dominoes)
-        return dominoes
 
-    def push_dominoes_force_accum(self, dominoes: str) -> str:
-        """An implementation given to me by ChatGPT."""
-        n = len(dominoes)
-        forces: list[int] = [0] * n
+push_pairs = re.compile(r"R\.+L")
+push_left_end = re.compile(r"^\.+L")
+push_right_end = re.compile(r"R\.+$")
+push_left = re.compile(r"L\.+L")
+push_right = re.compile(r"R\.+R")
 
-        # rightward forces
-        force: int = 0
-        for i, c in enumerate(dominoes):
-            force = n if c == "R" else 0 if c == "L" else max(force - 1, 0)
-            forces[i] += force
 
-        # leftward forces
-        force: int = 0
-        for i, c in reversed([*enumerate(dominoes)]):
-            force = n if c == "L" else 0 if c == "R" else max(force - 1, 0)
-            forces[i] -= force
+@staticmethod
+def replace_pairs(match: re.Match[str]) -> str:
+    old_str: str = match[0]
+    push_len = len(old_str) // 2
+    return "R" * push_len + "." * (len(old_str) % 2) + "L" * push_len
 
-        return "".join("R" if f > 0 else "L" if f < 0 else "." for f in forces)
+
+def push_dominoes_pairs(dominoes: str) -> str:
+    """
+    Determine the final position of a row of dominoes by applying a few
+    rules in the form of RegEx replacements
+    """
+    dominoes = push_pairs.sub(replace_pairs, dominoes)
+    dominoes = push_left_end.sub(lambda m: "L" * len(m[0]), dominoes)
+    dominoes = push_right_end.sub(lambda m: "R" * len(m[0]), dominoes)
+    dominoes = push_left.sub(lambda m: "L" * len(m[0]), dominoes)
+    dominoes = push_right.sub(lambda m: "R" * len(m[0]), dominoes)
+    return dominoes
+
+
+def push_dominoes_force_accum(dominoes: str) -> str:
+    """An implementation given to me by ChatGPT."""
+    n = len(dominoes)
+    forces: list[int] = [0] * n
+
+    # rightward forces
+    force: int = 0
+    for i, c in enumerate(dominoes):
+        force = n if c == "R" else 0 if c == "L" else max(force - 1, 0)
+        forces[i] += force
+
+    # leftward forces
+    force: int = 0
+    for i, c in reversed([*enumerate(dominoes)]):
+        force = n if c == "L" else 0 if c == "R" else max(force - 1, 0)
+        forces[i] -= force
+
+    return "".join("R" if f > 0 else "L" if f < 0 else "." for f in forces)
 
 
 class Tests(unittest.TestCase):
-    solutions: list[str] = [
-        "push_dominoes_loop",
-        "push_dominoes_pairs",
-        "push_dominoes_force_accum",
+    solutions: list[Callable[[str], str]] = [
+        push_dominoes_loop,
+        push_dominoes_pairs,
+        push_dominoes_force_accum,
     ]
 
     cases: list[tuple[str, str]] = [
         (".", "."),
         ("...", "..."),
         ("L.", "L."),
-        (".R", ".R"),
+        (".L", "LL"),
+        ("R.", "RR"),
         (".L.", "LL."),
         (".R.", ".RR"),
         ("RL", "RL"),
@@ -120,9 +128,13 @@ class Tests(unittest.TestCase):
 
     def test_all(self):
         for solution, (dominoes, expected) in product(self.solutions, self.cases):
-            with self.subTest(solution=solution, dominoes=dominoes, expected=expected):
-                self.assertEqual(expected, getattr(Solution(), solution)(dominoes))
+            sol = solution.__name__
+            with self.subTest(solution=sol, dominoes=dominoes, expected=expected):
+                self.assertEqual(expected, solution(dominoes))
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

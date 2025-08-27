@@ -39,6 +39,7 @@ class Tests(unittest.TestCase):
         s.push(2)
         self.assertEqual(3, s.max())
         s.pop()
+        self.assertEqual(3, s.max())
         s.pop()
         self.assertEqual(2, s.max())
 

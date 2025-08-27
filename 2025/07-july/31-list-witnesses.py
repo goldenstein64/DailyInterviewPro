@@ -5,17 +5,18 @@ everyone in front of them are able to see what has happened. How many witnesses
 are there?
 
 Example:
-    Input: [3, 6, 3, 4, 1]
-    Output: 3
-    Explanation: Only [6, 4, 1] were able to see in front of them.
 
-     #
-     #
-     # #
-    ####
-    ####
-    #####
-    36341                                 x (murder scene)
+>>> witnesses([3, 6, 3, 4, 1])
+[6, 4, 1]
+
+Explanation: Only [6, 4, 1] were able to see in front of them.
+ #
+ #
+ # #
+####
+####
+#####
+36341                                 x (murder scene)
 """
 
 import unittest
@@ -41,7 +42,7 @@ def witnesses_func(heights: list[int]) -> list[int]:
         reversed(heights),
         WitnessState(),
     )
-    return [*reversed(new_state.result)]
+    return list(reversed(new_state.result))
 
 
 def witnesses(heights: list[int]) -> list[int]:
@@ -52,7 +53,7 @@ def witnesses(heights: list[int]) -> list[int]:
             result.append(height)
             rolling_max = height
 
-    return [*reversed(result)]
+    return list(reversed(result))
 
 
 class Tests(unittest.TestCase):
@@ -77,4 +78,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

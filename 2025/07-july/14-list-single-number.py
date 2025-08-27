@@ -1,11 +1,13 @@
 """
 Given a list of numbers, where every number shows up twice except for one number, find that one number.
 
-Example:
-    Input: [4, 3, 2, 4, 1, 3, 2]
-    Output: 1
-
 Challenge: Find a way to do this using O(1) memory.
+
+Example:
+
+>>> single_number([4, 3, 2, 4, 1, 3, 2])
+1
+
 """
 
 import unittest
@@ -38,7 +40,7 @@ def single_number_const_space(nums: list[int]) -> int:
     """
 
     # Every input list must have an odd length
-    # Otherwise, it doesn't have an odd number of unique elements
+    # Otherwise, it doesn't have one unique element
     if len(nums) % 2 == 0:
         raise Exception("list does not have exactly one unique element")
 
@@ -97,4 +99,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

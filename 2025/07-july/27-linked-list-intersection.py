@@ -4,11 +4,11 @@ and return the node. Note: the lists are acyclic.
 
 Example:
 
-A = 1 -> 2 -> 3 -> 4
-B = 6 -> 3 -> 4
-
-This should return 3 (you may assume that any nodes with the same value are the
-same node).
+>>> shared = Node(3, Node(4))
+>>> A = Node(1, Node(2, shared))
+>>> B = Node(6, shared)
+>>> intersection(A, B)
+Node(val=3, next=Node(val=4, next=None))
 """
 
 from __future__ import annotations
@@ -31,7 +31,7 @@ class Node:
 
 
 def intersection(a: Node, b: Node) -> Node:
-    shared_nodes = set(id(node) for node in a)
+    shared_nodes = set(map(id, a))
     return next(node for node in b if id(node) in shared_nodes)
 
 
@@ -52,4 +52,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

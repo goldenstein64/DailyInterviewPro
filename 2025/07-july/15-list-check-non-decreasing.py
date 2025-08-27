@@ -6,15 +6,17 @@ to any value.
 We define an array is non-decreasing if array[i] <= array[i + 1] holds for every
 i (1 <= i < n).
 
-Example:
-
-    [13, 4, 7] should return true, since we can modify 13 to any value 4 or
-    less, to make it non-decreasing.
-
-    [13, 4, 1] however, should return false, since there is no way to modify
-    just one element to make the array non-decreasing.
-
 Can you find a solution in O(n) time?
+
+Examples:
+
+>>> # True, since we can modify 13 to any value 4 or less
+>>> check_gpt([13, 4, 7])
+True
+
+>>> # False, since there is no single element to fix
+>>> check_gpt([13, 4, 1])
+False
 """
 
 import unittest
@@ -42,7 +44,7 @@ def check(ls: list[int]) -> bool:
     return True
 
 
-def check_sim(ls: list[int]) -> bool:
+def check_gpt(ls: list[int]) -> bool:
     """An implementation provided to me by ChatGPT."""
     changed = False
     for i in range(len(ls) - 1):
@@ -82,7 +84,7 @@ class Tests(unittest.TestCase):
         ]
 
     def test_all(self):
-        for solution in [check, check_sim]:
+        for solution in [check, check_gpt]:
             for ls, expected in self.cases():
                 with self.subTest(solution=solution.__name__, ls=ls, expected=expected):
                     self.assertEqual(expected, solution(ls))
@@ -90,7 +92,7 @@ class Tests(unittest.TestCase):
     def test_fuzz(self):
         for a, b, c, d in product(range(4), range(4), range(4), range(4)):
             with self.subTest(ls=[a, b, c, d]):
-                self.assertEqual(check([a, b, c, d]), check_sim([a, b, c, d]))
+                self.assertEqual(check([a, b, c, d]), check_gpt([a, b, c, d]))
 
 
 if __name__ == "__main__":

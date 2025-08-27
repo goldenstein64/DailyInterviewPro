@@ -2,11 +2,13 @@
 Given a linked list of integers, remove all consecutive nodes that sum up to 0.
 
 Example:
-    Input: 10 -> 5 -> -3 -> -3 -> 1 -> 4 -> -4
-    Output: 10
 
-The consecutive nodes 5 -> -3 -> -3 -> 1 sums up to 0 so that sequence should be
-removed. 4 -> -4 also sums up to 0 too so that sequence should also be removed.
+>>> remove_consecutive_zero_sum(Node.from_values([10, 5, -3, -3, 1, 4, -4]))
+Node(value=10, next=None)
+
+Explanation: The consecutive nodes 5 -> -3 -> -3 -> 1 sums up to 0 so that
+sequence should be removed. 4 -> -4 also sums up to 0 so that sequence should
+also be removed.
 """
 
 from __future__ import annotations
@@ -48,7 +50,7 @@ class Node:
         return [*node.values()] if node else None
 
 
-def remove_consecutive_sum_to_0(node: Node) -> Node | None:
+def remove_consecutive_zero_sum(node: Node) -> Node | None:
     first_node: Node | None = node
     prev_node: Node | None = None
     rolling_node: Node | None = node
@@ -96,17 +98,20 @@ class Tests(unittest.TestCase):
     def test_values(self):
         expected = [10, 5, -3, -3, 1, 4, -4]
         self.assertEqual(
-            expected, [*Node.from_values([10, 5, -3, -3, 1, 4, -4]).values()]
+            expected, list(Node.from_values([10, 5, -3, -3, 1, 4, -4]).values())
         )
 
     def test_all(self):
         for values, expected in self.cases:
             with self.subTest(node=values, expected=expected):
                 node = Node.from_values(values)
-                actual_node = remove_consecutive_sum_to_0(node)
+                actual_node = remove_consecutive_zero_sum(node)
                 actual = None if actual_node is None else [*actual_node.values()]
                 self.assertEqual(expected, actual)
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

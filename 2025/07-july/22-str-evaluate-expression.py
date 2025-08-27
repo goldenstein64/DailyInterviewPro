@@ -4,8 +4,9 @@ signs, and brackets, evaluate the expression. Assume the expression is properly
 formed.
 
 Example:
-    Input: - ( 3 + ( 2 - 1 ) )
-    Output: -4
+
+>>> eval("- ( 3 + ( 2 - 1 ) )")
+-4
 """
 
 import unittest
@@ -100,4 +101,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

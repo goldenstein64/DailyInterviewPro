@@ -1,14 +1,14 @@
 """
 You [have] 2 integers n and m representing an n by m grid, determine the number
-of ways you can get from the top-left to the bottom-right of the matrix y going
-only right or down.
+of ways you can get from the top-left to the bottom-right of the matrix [by]
+going only right or down.
 
 Example:
-    n = 2, m = 2
 
-    This should return 2, since the only possible routes are:
-    Right, down
-    Down, right.
+>>> num_ways(2, 2)
+2
+
+Explanation: the only possible routes are [right, down] and [down, right]
 """
 
 import math
@@ -65,4 +65,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()
