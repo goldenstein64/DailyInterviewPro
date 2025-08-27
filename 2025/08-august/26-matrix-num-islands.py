@@ -52,10 +52,14 @@ def num_islands(grid: list[list[Block]]) -> int:
     if not grid:
         return 0
 
-    labels = count(start=1)
-    above: list[int] = []
-    left_label: int = 0
     result: int = 0
+    # Labels are used to keep track of separate islands and detect when they are
+    # merged. Generally, 0 is reserved for water, and positives for separate
+    # land masses.
+
+    labels = count(start=1)
+    left_label: int = 0
+    above: list[int] = []
     for block in grid[0]:
         match block:
             case Block.WATER:
@@ -71,23 +75,23 @@ def num_islands(grid: list[list[Block]]) -> int:
         for i, block in enumerate(row):
             match block:
                 case Block.WATER:
-                    above[i] = left_label = 0
+                    left_label = 0
                 case Block.LAND:
                     match (left_label, above[i]):
                         case (0, 0):
-                            above[i] = left_label = next(labels)
                             result += 1
+                            left_label = next(labels)
                         case (0, top_label):
-                            above[i] = left_label = top_label
-                        case (left_label, 0):
-                            above[i] = left_label
+                            left_label = top_label
+                        case (_, 0):
+                            pass
                         case (left_label, top_label):
                             if left_label != top_label:
                                 # merge two masses together
                                 result -= 1
-                                above[i] = left_label = min(left_label, top_label)
-                            else:
-                                above[i] = left_label
+                                left_label = min(left_label, top_label)
+
+            above[i] = left_label
 
     return result
 
@@ -106,6 +110,9 @@ class Tests(unittest.TestCase):
         (["101", "010", "101"], 5),
         (["101", "111"], 1),
         (["110", "011"], 1),
+        (["0101", "1111"], 1),
+        (["0101", "1111", "0101"], 1),
+        (["111", "101", "111"], 1),
         (
             [
                 "11",
@@ -116,7 +123,6 @@ class Tests(unittest.TestCase):
             ],
             1,
         ),
-        (["0101", "1111"], 1),
         (
             [
                 "10001",
