@@ -4,10 +4,10 @@ by multiplying any 3 integers in the array.
 
 Example:
 
-    Input: [-4, -4, 2, 8]
-    Output: 128
+>>> maximum_product_of_three([-4, -4, 2, 8])
+128
 
-    the largest product can be made by multiplying -4 * -4 * 8 = 128.
+the largest product can be made by multiplying -4 * -4 * 8 = 128.
 """
 
 import unittest
@@ -74,46 +74,48 @@ def maximum_product_of_three_sorted_list(nums: list[int]) -> int:
     smallest_2: list[int] = []
     largest_3: list[int] = []
     for num in nums:
-        if len(smallest_2) == 2:
-            if num < smallest_2[1]:
-                if num < smallest_2[0]:
-                    smallest_2[0], smallest_2[1] = num, smallest_2[0]
+        match smallest_2:
+            case [num0, num1]:
+                if num < num1:
+                    if num < num0:
+                        smallest_2[0], smallest_2[1] = num, num0
+                    else:
+                        smallest_2[1] = num
+            case [num0]:
+                if num < num0:
+                    smallest_2.insert(0, num)
                 else:
-                    smallest_2[1] = num
-        elif len(smallest_2) == 1:
-            if num < smallest_2[0]:
-                smallest_2.insert(0, num)
-            else:
+                    smallest_2.append(num)
+            case []:
                 smallest_2.append(num)
-        else:
-            smallest_2.append(num)
+            case _:
+                raise ValueError
 
-        if len(largest_3) == 3:
-            if num > largest_3[2]:
-                if num <= largest_3[1]:
-                    largest_3[2] = num
-                elif num > largest_3[0]:
-                    largest_3[0], largest_3[1], largest_3[2] = (
-                        num,
-                        largest_3[0],
-                        largest_3[1],
-                    )
+        match largest_3:
+            case [num0, num1, num2]:
+                if num > num2:
+                    if num <= num1:
+                        largest_3[2] = num
+                    elif num > num0:
+                        largest_3[:] = num, num0, num1
+                    else:
+                        largest_3[1:] = num, num1
+            case [num0, num1]:
+                if num <= num1:
+                    largest_3.append(num)
+                elif num > num0:
+                    largest_3.insert(0, num)
                 else:
-                    largest_3[1], largest_3[2] = num, largest_3[1]
-        elif len(largest_3) == 2:
-            if num <= largest_3[1]:
+                    largest_3.insert(1, num)
+            case [num0]:
+                if num > num0:
+                    largest_3.insert(0, num)
+                else:
+                    largest_3.append(num)
+            case []:
                 largest_3.append(num)
-            elif num > largest_3[0]:
-                largest_3.insert(0, num)
-            else:
-                largest_3.insert(1, num)
-        elif len(largest_3) == 1:
-            if num > largest_3[0]:
-                largest_3.insert(0, num)
-            else:
-                largest_3.append(num)
-        else:
-            largest_3.append(num)
+            case _:
+                raise ValueError
 
     return max(prod(smallest_2) * largest_3[0], prod(largest_3))
 
@@ -158,4 +160,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

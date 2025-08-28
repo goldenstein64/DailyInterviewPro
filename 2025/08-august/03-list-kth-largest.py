@@ -2,8 +2,9 @@
 Given a list, find the k-th largest element in the list.
 
 Example:
-    Input: list = [3, 5, 2, 4, 6, 8], k = 3
-    Output: 5
+
+>>> find_kth_largest([3, 5, 2, 4, 6, 8], 3)
+5
 """
 
 import unittest
@@ -91,4 +92,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

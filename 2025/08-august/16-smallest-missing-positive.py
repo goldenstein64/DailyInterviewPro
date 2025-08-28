@@ -2,12 +2,12 @@
 You are given an array of integers. Return the smallest positive integer that is
 not present in the array. The array may contain duplicate entries.
 
-Example:
-    Input: [3, 4, -1, 1]
-    Output: 2
-    Because it is the smallest positive integer that doesn't exist in the array
-
 Your solution should run in linear time and use constant space.
+
+Example:
+
+>>> smallest_missing_positive([3, 4, -1, 1])
+2
 """
 
 import unittest

@@ -5,14 +5,13 @@ ordering in which we can complete the courses. If no such ordering exists,
 return None.
 
 Example:
-    {
-        'CSC300': ['CSC100', 'CSC200'],
-        'CSC200': ['CSC100'],
-        'CSC100': []
-    }
 
-    This input should return the order that we need to take the courses:
-    ['CSC100', 'CSC200', 'CSC300']
+>>> courses_to_take({
+...     'CSC300': ['CSC100', 'CSC200'],
+...     'CSC200': ['CSC100'],
+...     'CSC100': [],
+... })
+['CSC100', 'CSC200', 'CSC300']
 """
 
 import unittest
@@ -99,4 +98,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

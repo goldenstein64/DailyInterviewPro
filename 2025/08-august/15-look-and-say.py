@@ -5,11 +5,24 @@ An example is easier to understand:
 
 Each consecutive value describes the prior value.
 
-1      # one 1
-11     # two 1s
-21     # one 2 and one 1
-1211   # one 1, one 2, and two 1s
-111221 #
+>>> look_and_say(1)
+'1'
+>>> # one 1
+
+>>> look_and_say(2)
+'11'
+>>> # two 1s
+
+>>> look_and_say(3)
+'21'
+>>> # one 2, one 1
+
+>>> look_and_say(4)
+'1211'
+>>> # one 1, one 2, two 1s
+
+>>> look_and_say(5)
+'111221'
 """
 
 from itertools import islice, chain, product

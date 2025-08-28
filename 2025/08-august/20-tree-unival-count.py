@@ -5,13 +5,15 @@ tree, return the number of unival subtrees in the tree.
 Example:
 
 >>> count_unival_subtrees(
-...     Node(
-...         val=0,
-...         left=Node(1),
-...         right=Node(
-...             val=0,
-...             left=Node(1, Node(1), Node(1)),
-...             right=Node(0),
+...     Node.from_tuples(
+...         (
+...             (1,),  # 1
+...             0,
+...             (
+...                 ((1,), 1, (1,)),  # 2, 3, 4
+...                 0,
+...                 (0,),  # 5
+...             ),
 ...         ),
 ...     ),
 ... )
@@ -23,7 +25,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 
-type TupleNode = tuple[int, TupleNode, TupleNode] | tuple[int, TupleNode] | int
+type TupleNode = (
+    tuple[int]
+    | tuple[TupleNode, int]
+    | tuple[int, TupleNode]
+    | tuple[TupleNode, int, TupleNode]
+)
 
 
 @dataclass
@@ -32,24 +39,30 @@ class Node:
     left: Node | None = None
     right: Node | None = None
 
-    def str_buffer(self, buffer: list[str], depth: int) -> None:
-        indent = "  " * depth
-        if self.right:
-            self.right.str_buffer(buffer, depth + 1)
-            buffer.append(f"{indent} /")
+    @staticmethod
+    def from_tuples(tuples: TupleNode) -> Node:
+        match tuples:
+            case (int(val),):
+                return Node(val, None, None)
+            case (tuple(left), int(val)):
+                return Node(val, Node.from_tuples(left), None)
+            case (int(val), tuple(right)):
+                return Node(val, None, Node.from_tuples(right))
+            case (tuple(left), int(val), tuple(right)):
+                return Node(val, Node.from_tuples(left), Node.from_tuples(right))
 
-        buffer.append(f"{indent}{self.val}")
-
-        if self.left:
-            buffer.append(f"{indent} \\")
-            self.left.str_buffer(buffer, depth + 1)
-
-    def __str__(self) -> str:
-        buffer: list[str] = []
-
-        self.str_buffer(buffer, 0)
-
-        return "\n".join(buffer)
+    def as_tuples(self) -> TupleNode:
+        match self:
+            case Node(val, None, None):
+                return (val,)
+            case Node(val, Node() as left, None):
+                return (left.as_tuples(), val)
+            case Node(val, None, Node() as right):
+                return (val, right.as_tuples())
+            case Node(val, Node() as left, Node() as right):
+                return (left.as_tuples(), val, right.as_tuples())
+            case _:
+                raise ValueError("unknown Node structure")
 
 
 @dataclass

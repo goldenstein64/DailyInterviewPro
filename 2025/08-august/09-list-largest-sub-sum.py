@@ -2,13 +2,14 @@
 You are given an array of integers. Find the maximum sum of all possible
 contiguous subarrays of the array.
 
-Example:
-    Input: [34, -50, 42, 14, -5, 86]
-    Output: 137
-
-    The contiguous subarray with the largest sum is [42, 14, -5, 86].
-
 Your solution should run in linear time.
+
+Example:
+
+>>> max_subarray_sum([34, -50, 42, 14, -5, 86])
+137
+
+Explanation: The contiguous subarray with the largest sum is [42, 14, -5, 86].
 """
 
 import unittest
@@ -68,4 +69,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

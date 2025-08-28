@@ -3,10 +3,14 @@ You are given an array of k sorted singly linked lists. Merge the linked lists
 into a single sorted linked list and return it.
 
 Example:
-    Input:
-        - 1 -> 3 -> 5
-        - 2 -> 4 -> 6
-    Output: 1 -> 2 -> 3 -> 4 -> 5 -> 6
+
+>>> solution = SolutionPure()
+>>> merged = solution.merge([
+...     Node.from_values([1, 3, 5]),
+...     Node.from_values([2, 4, 6]),
+... ])
+>>> list(merged.values())
+[1, 2, 3, 4, 5, 6]
 """
 
 from __future__ import annotations
@@ -15,12 +19,24 @@ import unittest
 from dataclasses import dataclass
 from itertools import product
 from operator import lt
-from typing import (TYPE_CHECKING, Any, Generator, Iterable, Iterator,
-                    Protocol, cast, override)
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Generator,
+    Iterable,
+    Iterator,
+    Protocol,
+    cast,
+    override,
+)
 
 if TYPE_CHECKING:
-    from _typeshed import (SupportsDunderGE, SupportsDunderGT,
-                           SupportsDunderLE, SupportsDunderLT)
+    from _typeshed import (
+        SupportsDunderGE,
+        SupportsDunderGT,
+        SupportsDunderLE,
+        SupportsDunderLT,
+    )
 
     type Comparable = (
         SupportsDunderLT[Any]
@@ -160,4 +176,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

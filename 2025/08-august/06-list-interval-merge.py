@@ -4,18 +4,21 @@ The array may not be sorted, and could contain overlapping intervals. Return
 another array where the overlapping intervals are merged.
 
 Example:
-    Input: [(1, 3), (5, 8), (4, 10), (20, 25)]
-    Output: [(1, 3), (4, 10), (20, 25)]
 
-    since (5, 8) and (4, 10) can be merged into (4, 10).
+>>> # (5, 8) and (4, 10) can be merged into (4, 10).
+>>> merged = merge([(1, 3), (5, 8), (4, 10), (20, 25)])
+>>> sorted(merged)
+[(1, 3), (4, 10), (20, 25)]
 """
 
 import unittest
 from itertools import islice, product
 from typing import Callable
 
+type Interval = tuple[int, int]
 
-def is_overlapping(a: tuple[int, int], b: tuple[int, int]) -> bool:
+
+def is_overlapping(a: Interval, b: Interval) -> bool:
     """Check whether two intervals overlap."""
     return (
         a[0] <= b[0] <= a[1]
@@ -25,7 +28,7 @@ def is_overlapping(a: tuple[int, int], b: tuple[int, int]) -> bool:
     )
 
 
-def merge(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
+def merge(intervals: list[Interval]) -> list[Interval]:
     """
     Brute force solution: try every combination of tuples and merge the ones
     that overlap.
@@ -33,8 +36,8 @@ def merge(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
     if len(intervals) <= 1:
         return intervals
 
-    last: set[tuple[int, int]] = set()
-    result: set[tuple[int, int]] = {*intervals}
+    last: set[Interval] = set()
+    result: set[Interval] = {*intervals}
 
     if len(result) <= 1:
         return intervals
@@ -45,7 +48,7 @@ def merge(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
 
         last = result
         result = set()
-        removed: set[tuple[int, int]] = set()
+        removed: set[Interval] = set()
 
         for i, a in enumerate(last):
             if a in removed:
@@ -63,7 +66,7 @@ def merge(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
     return list(result)
 
 
-def merge_naive_g4g(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
+def merge_naive_g4g(intervals: list[Interval]) -> list[Interval]:
     """
     A solution I found on GeeksForGeeks: sort all intervals and merge those that
     overlap with previous intervals. This was marked as the "naive solution."
@@ -78,7 +81,7 @@ def merge_naive_g4g(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
         return intervals
 
     sorted_intervals = sorted(intervals)
-    result: list[tuple[int, int]] = []
+    result: list[Interval] = []
 
     # check for all possible overlaps
     for i, a in enumerate(sorted_intervals):
@@ -98,7 +101,7 @@ def merge_naive_g4g(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
     return result
 
 
-def merge_involved_g4g(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
+def merge_g4g(intervals: list[Interval]) -> list[Interval]:
     """
     A solution I found on GeeksForGeeks: sort the intervals and merge those that
     overlap with the last included interval.
@@ -111,7 +114,7 @@ def merge_involved_g4g(intervals: list[tuple[int, int]]) -> list[tuple[int, int]
     sorted_i = sorted(intervals)
 
     last = sorted_i[0]
-    result: list[tuple[int, int]] = [last]
+    result: list[Interval] = [last]
 
     for interval in islice(sorted_i, 1, len(sorted_i)):
         if interval[0] <= last[1]:
@@ -124,13 +127,13 @@ def merge_involved_g4g(intervals: list[tuple[int, int]]) -> list[tuple[int, int]
 
 
 class Tests(unittest.TestCase):
-    solutions: list[Callable[[list[tuple[int, int]]], list[tuple[int, int]]]] = [
+    solutions: list[Callable[[list[Interval]], list[Interval]]] = [
         merge,
         merge_naive_g4g,
-        merge_involved_g4g,
+        merge_g4g,
     ]
 
-    cases: list[tuple[list[tuple[int, int]], set[tuple[int, int]]]] = [
+    cases: list[tuple[list[Interval], set[Interval]]] = [
         ([], set()),
         ([(1, 5)], {(1, 5)}),
         ([(1, 5), (1, 5)], {(1, 5)}),
@@ -155,4 +158,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

@@ -19,6 +19,13 @@ from dataclasses import dataclass
 from collections.abc import Callable
 from itertools import product
 
+type TupleNode = (
+    tuple[int]
+    | tuple[TupleNode, int]
+    | tuple[int, TupleNode]
+    | tuple[TupleNode, int, TupleNode]
+)
+
 
 @dataclass
 class Node:
@@ -26,24 +33,30 @@ class Node:
     left: Node | None = None
     right: Node | None = None
 
-    def str_buffer(self, buffer: list[str], depth: int) -> None:
-        indent = "  " * depth
-        if self.right:
-            self.right.str_buffer(buffer, depth + 1)
-            buffer.append(f"{indent} /")
+    @staticmethod
+    def from_tuples(tuples: TupleNode) -> Node:
+        match tuples:
+            case (int(val),):
+                return Node(val, None, None)
+            case (tuple(left), int(val)):
+                return Node(val, Node.from_tuples(left), None)
+            case (int(val), tuple(right)):
+                return Node(val, None, Node.from_tuples(right))
+            case (tuple(left), int(val), tuple(right)):
+                return Node(val, Node.from_tuples(left), Node.from_tuples(right))
 
-        buffer.append(f"{indent}{self.val}")
-
-        if self.left:
-            buffer.append(f"{indent} \\")
-            self.left.str_buffer(buffer, depth + 1)
-
-    def __str__(self) -> str:
-        buffer: list[str] = []
-
-        self.str_buffer(buffer, 0)
-
-        return "\n".join(buffer)
+    def as_tuples(self) -> TupleNode:
+        match self:
+            case Node(val, None, None):
+                return (val,)
+            case Node(val, Node() as left, None):
+                return (left.as_tuples(), val)
+            case Node(val, None, Node() as right):
+                return (val, right.as_tuples())
+            case Node(val, Node() as left, Node() as right):
+                return (left.as_tuples(), val, right.as_tuples())
+            case _:
+                raise ValueError("unknown Node structure")
 
 
 def values_at_height(root: Node | None, height: int) -> list[int]:
@@ -81,17 +94,14 @@ class Tests(unittest.TestCase):
         values_at_height_gpt,
     ]
 
-    cases: list[tuple[Node | None, int, list[int]]] = [
+    cases: list[tuple[TupleNode | None, int, list[int]]] = [
         (None, 1, []),
-        (Node(1), 1, [1]),
-        (Node(1), 2, []),
-        (Node(1), 0, []),
+        ((1,), 1, [1]),
+        ((1,), 2, []),
+        ((1,), 0, []),
+        (((1,), 2, (3,)), 2, [1, 3]),
         (
-            Node(
-                val=1,
-                left=Node(2, left=Node(4), right=Node(5)),
-                right=Node(3, right=Node(7)),
-            ),
+            (((4,), 2, (5,)), 1, (3, (7,))),
             3,
             [4, 5, 7],
         ),
@@ -103,7 +113,10 @@ class Tests(unittest.TestCase):
             with self.subTest(
                 solution=sol, root=root, height=height, expected=expected
             ):
-                self.assertEqual(expected, solution(root, height))
+                if root is None:
+                    self.assertEqual(expected, solution(None, height))
+                else:
+                    self.assertEqual(expected, solution(Node.from_tuples(root), height))
 
 
 if __name__ == "__main__":

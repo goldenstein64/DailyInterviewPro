@@ -4,13 +4,14 @@ non-negative integers representing the elevation at each location. Return the
 amount of water that would accumulate if it rains.
 
 Example:
-    Input:
-                   +
-           + W W W + + W +
-       + W + + W + + + + + +
-    [0,1,0,2,1,0,1,3,2,1,2,1]
 
-    Output: 6, because 6 Ws were counted
+>>> #                              +
+>>> #                  +  W  W  W  +  +  W  +
+>>> #            +  W  +  +  W  +  +  +  +  +  +
+>>> capacity([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])
+6
+
+Explanation: 6 Ws were counted
 """
 
 import unittest
@@ -133,4 +134,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

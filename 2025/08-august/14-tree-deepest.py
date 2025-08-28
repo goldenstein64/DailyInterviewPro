@@ -1,15 +1,18 @@
-"""
+r"""
 You are given the root of a binary tree. Return the deepest node (the furthest node from the root).
 
 Example:
-    Input:
-        a
-       / \
-      b   c
-     /
-    d
-    Output: d
-    Because d is the farthest, at depth 3.
+
+>>> #     a
+>>> #    / \
+>>> #   b   c
+>>> #  /
+>>> # d
+>>> tuples = ((("d",), "b"), "a", ("c",))
+>>> deepest(Node.from_tuples(tuples))
+Node(val='d', left=None, right=None)
+
+Explanation: d is the farthest, at depth 3.
 """
 
 from __future__ import annotations
@@ -17,12 +20,44 @@ from __future__ import annotations
 import unittest
 from dataclasses import dataclass
 
+type TupleNode = (
+    tuple[str]
+    | tuple[TupleNode, str]
+    | tuple[str, TupleNode]
+    | tuple[TupleNode, str, TupleNode]
+)
+
 
 @dataclass
 class Node:
     val: str
     left: Node | None = None
     right: Node | None = None
+
+    @staticmethod
+    def from_tuples(tuples: TupleNode) -> Node:
+        match tuples:
+            case (str(val),):
+                return Node(val, None, None)
+            case (tuple(left), str(val)):
+                return Node(val, Node.from_tuples(left), None)
+            case (str(val), tuple(right)):
+                return Node(val, None, Node.from_tuples(right))
+            case (tuple(left), str(val), tuple(right)):
+                return Node(val, Node.from_tuples(left), Node.from_tuples(right))
+
+    def as_tuples(self) -> TupleNode:
+        match self:
+            case Node(val, None, None):
+                return (val,)
+            case Node(val, Node() as left, None):
+                return (left.as_tuples(), val)
+            case Node(val, None, Node() as right):
+                return (val, right.as_tuples())
+            case Node(val, Node() as left, Node() as right):
+                return (left.as_tuples(), val, right.as_tuples())
+            case _:
+                raise ValueError("unknown Node structure")
 
 
 def deepest_depth(node: Node) -> tuple[int, Node]:
@@ -69,4 +104,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

@@ -17,70 +17,82 @@ from __future__ import annotations
 import unittest
 from dataclasses import dataclass
 
+type TupleNode = (
+    tuple[int]
+    | tuple[TupleNode, int]
+    | tuple[int, TupleNode]
+    | tuple[TupleNode, int, TupleNode]
+)
+
 
 @dataclass
-class Tree:
+class Node:
     val: int
-    left: Tree | None = None
-    right: Tree | None = None
+    left: Node | None = None
+    right: Node | None = None
 
-    def str_buffer(self, buffer: list[str], depth: int) -> None:
-        indent = "  " * depth
-        if self.right:
-            self.right.str_buffer(buffer, depth + 1)
-            buffer.append(f"{indent} /")
+    @staticmethod
+    def from_tuples(tuples: TupleNode) -> Node:
+        match tuples:
+            case (int(val),):
+                return Node(val, None, None)
+            case (tuple(left), int(val)):
+                return Node(val, Node.from_tuples(left), None)
+            case (int(val), tuple(right)):
+                return Node(val, None, Node.from_tuples(right))
+            case (tuple(left), int(val), tuple(right)):
+                return Node(val, Node.from_tuples(left), Node.from_tuples(right))
 
-        buffer.append(f"{indent}{self.val}")
+    def as_tuples(self) -> TupleNode:
+        match self:
+            case Node(val, None, None):
+                return (val,)
+            case Node(val, Node() as left, None):
+                return (left.as_tuples(), val)
+            case Node(val, None, Node() as right):
+                return (val, right.as_tuples())
+            case Node(val, Node() as left, Node() as right):
+                return (left.as_tuples(), val, right.as_tuples())
+            case _:
+                raise ValueError("unknown Node structure")
 
-        if self.left:
-            buffer.append(f"{indent} \\")
-            self.left.str_buffer(buffer, depth + 1)
 
-    def __str__(self) -> str:
-        buffer: list[str] = []
-
-        self.str_buffer(buffer, 0)
-
-        return "\n".join(buffer)
-
-
-def create_bst_slice(values: list[int], i: int, j: int) -> Tree | None:
+def create_bst_slice(values: list[int], i: int, j: int) -> Node | None:
     """Create a binary search tree from values[i:j]."""
     if i >= j:
         return None
 
     mid = (i + j) // 2
-    return Tree(
+    return Node(
         val=values[mid],
         left=create_bst_slice(values, i, mid),
         right=create_bst_slice(values, mid + 1, j),
     )
 
 
-def create_bst(values: list[int]) -> Tree | None:
+def create_bst(values: list[int]) -> Node | None:
     """Create a binary search tree from a sorted list of values."""
     return create_bst_slice(values, 0, len(values))
 
 
 class Tests(unittest.TestCase):
-    cases: list[tuple[list[int], Tree | None]] = [
+    cases: list[tuple[list[int], TupleNode | None]] = [
         ([], None),
-        ([1], Tree(1)),
-        ([1, 2, 3], Tree(2, left=Tree(1), right=Tree(3))),
+        ([1], (1,)),
+        ([1, 2, 3], ((1,), 2, (3,))),
         (
             [1, 2, 3, 4, 5, 6, 7],
-            Tree(
-                val=4,
-                left=Tree(2, left=Tree(1), right=Tree(3)),
-                right=Tree(6, left=Tree(5), right=Tree(7)),
-            ),
+            (((1,), 2, (3,)), 4, ((5,), 6, (7,))),
         ),
     ]
 
     def test_all(self):
         for values, expected in self.cases:
             with self.subTest(values=values, expected=expected):
-                self.assertEqual(expected, create_bst(values))
+                if expected is None:
+                    self.assertIsNone(create_bst(values))
+                else:
+                    self.assertEqual(Node.from_tuples(expected), create_bst(values))
 
 
 if __name__ == "__main__":

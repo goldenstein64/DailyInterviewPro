@@ -21,6 +21,9 @@ class MyQueue[T](Queue[T]):
     An implementation of a queue using two stacks. This implementation is O(n)
     worst-case in both cases, although it is O(1) for repeated enqueues or
     repeated dequeues.
+
+    Moving everything from the dequeue stack to the enqueue stack is unnecessary
+    since the user doesn't receive any information when calling enqueue.
     """
 
     def __init__(self, iterable: Iterable[T] | None = None):

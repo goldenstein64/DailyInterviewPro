@@ -3,11 +3,21 @@ Given two strings A and B of lowercase letters, return true if and only if we
 can swap two letters in A so that the result equals B.
 
 Examples:
-    ("ab", "ba") -> True
-    ("ab", "ab") -> False
-    ("aa", "aa") -> True
-    ("aaaaaaabc", "aaaaaaacb") -> True
-    ("", "aa") -> False
+
+>>> buddy_strings("ab", "ba")
+True
+
+>>> buddy_strings("ab", "ab")
+False
+
+>>> buddy_strings("aa", "aa")
+True
+
+>>> buddy_strings("aaaaaaabc", "aaaaaaacb")
+True
+
+>>> buddy_strings("", "aa")
+False
 """
 
 import unittest
@@ -74,4 +84,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
     unittest.main()

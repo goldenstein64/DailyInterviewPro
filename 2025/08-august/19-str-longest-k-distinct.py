@@ -3,9 +3,11 @@ You are given a string s, and an integer k. Return the length of the longest
 substring in s that contains at most k distinct characters.
 
 Example:
-    Input: ("aabcdefff", 3)
-    Output: 5
-    Because the longest substring with 3 distinct characters is "defff"
+
+>>> longest_k_distinct("aabcdefff", 3)
+5
+
+Explanation: The longest substring with 3 distinct characters is "defff".
 """
 
 import unittest
