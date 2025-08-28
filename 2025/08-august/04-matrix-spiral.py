@@ -106,7 +106,7 @@ class Tests(unittest.TestCase):
         ),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for m, expected in self.cases:
             with self.subTest(m=m, expected=expected):
                 self.assertEqual(expected, matrix_spiral(m))

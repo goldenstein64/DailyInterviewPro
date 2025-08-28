@@ -86,7 +86,7 @@ class Tests(unittest.TestCase):
         ),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for values, expected in self.cases:
             with self.subTest(values=values, expected=expected):
                 if expected is None:

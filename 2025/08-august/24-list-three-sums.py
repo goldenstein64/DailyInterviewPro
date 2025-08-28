@@ -89,7 +89,7 @@ class Tests(unittest.TestCase):
         ([1, -2, 1, 0, 5], {frozenset({-2, 1})}),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for solution, (nums, expected) in product(self.solutions, self.cases):
             sol = solution.__name__
             with self.subTest(solution=sol, nums=nums, expected=expected):

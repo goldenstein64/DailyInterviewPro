@@ -69,7 +69,7 @@ class Tests(unittest.TestCase):
         ([], 5, [-1, -1]),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for arr, target, expected in self.cases:
             with self.subTest(arr=arr, target=target, expected=expected):
                 self.assertEqual(expected, get_range(arr, target))

@@ -104,7 +104,7 @@ class Tests(unittest.TestCase):
         )
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for node, expected in self.cases:
             with self.subTest(node=node, expected=expected):
                 self.assertEqual(

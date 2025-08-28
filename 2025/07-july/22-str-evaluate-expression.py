@@ -94,7 +94,7 @@ class Tests(unittest.TestCase):
         ("- ( 3 + ( 2 - 1 ) )", -4),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for expression, expected in self.cases:
             with self.subTest(expression=expression, expected=expected):
                 self.assertEqual(expected, eval(expression))

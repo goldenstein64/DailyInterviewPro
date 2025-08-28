@@ -127,7 +127,7 @@ class Tests(unittest.TestCase):
         ([1, 2, 3, 4, 5], 6, Exception("k must be at most the length of the list")),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for solution, (values, k, expected) in product(self.solutions, self.cases):
             name = solution.__name__
             with self.subTest(solution=name, head=values, k=k, expected=expected):

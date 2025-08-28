@@ -62,7 +62,7 @@ class Tests(unittest.TestCase):
         ("oivanmklsmnmsoracecar", "racecar"),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for s, expected in self.cases:
             with self.subTest(s=s, expected=expected):
                 self.assertEqual(expected, longest_palindrome(s))

@@ -77,7 +77,7 @@ class Tests(unittest.TestCase):
         ("", "aa", False),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for a, b, expected in self.cases:
             with self.subTest(a=a, b=b, expected=expected):
                 self.assertIs(expected, buddy_strings(a, b))

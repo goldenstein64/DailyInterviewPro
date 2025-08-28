@@ -39,7 +39,7 @@ class Tests(unittest.TestCase):
         ([4, 7, 1, -3, 2], 5, True),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for ls, k, expected in self.cases:
             with self.subTest(ls=ls, k=k, expected=expected):
                 self.assertEqual(expected, two_sum(ls, k))

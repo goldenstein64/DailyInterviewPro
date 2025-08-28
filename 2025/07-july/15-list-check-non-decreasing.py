@@ -83,7 +83,7 @@ class Tests(unittest.TestCase):
             ([2, 3, 0, 1], False),
         ]
 
-    def test_all(self):
+    def test_cases(self):
         for solution in [check, check_gpt]:
             for ls, expected in self.cases():
                 with self.subTest(solution=solution.__name__, ls=ls, expected=expected):

@@ -165,7 +165,7 @@ class Tests(unittest.TestCase):
         ([[4, 8], [3, 7], [2, 6], [1, 5]], [1, 2, 3, 4, 5, 6, 7, 8]),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for solution, (lists_values, expected) in product(self.solutions, self.cases):
             with self.subTest(lists=lists_values, expected=expected):
                 lists: list[Node[int]] = list(

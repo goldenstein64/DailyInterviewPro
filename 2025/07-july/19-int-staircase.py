@@ -79,7 +79,7 @@ class Tests(unittest.TestCase):
         (10, 89),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for n, expected in self.cases:
             with self.subTest(n=n, expected=expected):
                 self.assertEqual(expected, staircase(n))

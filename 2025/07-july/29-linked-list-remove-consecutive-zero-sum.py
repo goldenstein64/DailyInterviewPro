@@ -101,7 +101,7 @@ class Tests(unittest.TestCase):
             expected, list(Node.from_values([10, 5, -3, -3, 1, 4, -4]).values())
         )
 
-    def test_all(self):
+    def test_cases(self):
         for values, expected in self.cases:
             with self.subTest(node=values, expected=expected):
                 node = Node.from_values(values)

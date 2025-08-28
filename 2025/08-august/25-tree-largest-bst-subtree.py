@@ -144,7 +144,7 @@ class Tests(unittest.TestCase):
         ((((2,), 4), 5, ((6,), 7, (9,))), (((2,), 4), 5, ((6,), 7, (9,)))),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for root, expected in self.cases:
             with self.subTest(root=root, expected=expected):
                 self.assertEqual(

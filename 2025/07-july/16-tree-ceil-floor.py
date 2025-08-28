@@ -113,7 +113,7 @@ class Tests(unittest.TestCase):
         (15, (14, None)),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for solution, (k, expected) in product(self.solutions, self.cases):
             tree = self.tree()
             sol = solution.__name__

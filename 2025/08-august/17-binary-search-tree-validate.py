@@ -82,7 +82,7 @@ class Tests(unittest.TestCase):
         ),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for root, expected in self.cases:
             with self.subTest(root=root, expected=expected):
                 if root is None:

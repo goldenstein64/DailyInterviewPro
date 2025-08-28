@@ -58,7 +58,7 @@ class Tests(unittest.TestCase):
         (3, 5, 15),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for solution, (n, m, expected) in product(self.solutions, self.cases):
             with self.subTest(solution=solution.__name__, n=n, m=m, expected=expected):
                 self.assertEqual(expected, solution(n, m))

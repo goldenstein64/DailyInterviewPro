@@ -92,7 +92,7 @@ class Tests(unittest.TestCase):
         ("matrix", "FACIT", False),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for solution in (word_search, word_search_gpt):
             for mat_key, word, expected in self.cases:
                 with self.subTest(

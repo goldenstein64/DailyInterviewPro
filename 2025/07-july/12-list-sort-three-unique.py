@@ -34,7 +34,7 @@ class Tests(unittest.TestCase):
         ([3, 3, 2, 1, 3, 2, 1], [1, 1, 2, 2, 3, 3, 3]),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for original, expected in self.cases:
             nums = original.copy()
             with self.subTest(nums=nums):

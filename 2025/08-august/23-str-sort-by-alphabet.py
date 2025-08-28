@@ -82,7 +82,7 @@ class Tests(unittest.TestCase):
         (["zyx", "zyxw", "zyxwy"], "zyxwvutsrqponmlkjihgfedcba", True),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for solution, (words, order, expected) in product(self.solutions, self.cases):
             sol = solution.__name__
             with self.subTest(

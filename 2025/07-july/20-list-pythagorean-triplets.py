@@ -82,7 +82,7 @@ class Tests(unittest.TestCase):
         ([7, 24, 25], True),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for nums, expected in self.cases:
             with self.subTest(nums=nums, expected=expected):
                 self.assertEqual(expected, find_pythagorean_triplets(nums))

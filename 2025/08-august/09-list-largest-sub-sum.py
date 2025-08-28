@@ -61,7 +61,7 @@ class Tests(unittest.TestCase):
         ([34, -50, 42, 14, -5, 86], 137),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for solution, (arr, expected) in product(self.solutions, self.cases):
             sol = solution.__name__
             with self.subTest(solution=sol, arr=arr, expected=expected):

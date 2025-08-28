@@ -68,7 +68,7 @@ class Tests(unittest.TestCase):
         ("([{}])()", True),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for s, expected in self.cases:
             with self.subTest(s=s, expected=expected):
                 self.assertEqual(expected, is_valid(s))

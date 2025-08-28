@@ -164,7 +164,7 @@ class Tests(unittest.TestCase):
         (6, "312211"),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for solution, (n, expected) in product(self.solutions, self.cases):
             sol = solution.__name__
             with self.subTest(solution=sol, n=n, expected=expected):

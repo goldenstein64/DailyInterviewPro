@@ -143,7 +143,7 @@ class Tests(unittest.TestCase):
         ),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for grid, expected in self.cases:
             with self.subTest(grid=grid, expected=expected):
                 self.assertEqual(expected, num_islands(matrix_of(grid)))

@@ -71,7 +71,7 @@ class Tests(unittest.TestCase):
         ([0, 0, 0, 2, 0, 1, 3, 4, 0, 0], [2, 1, 3, 4, 0, 0, 0, 0, 0, 0]),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for solution, (original, expected) in product(self.solutions, self.cases):
             nums = original.copy()
             sol = solution.__name__

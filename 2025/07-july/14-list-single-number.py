@@ -89,7 +89,7 @@ class Tests(unittest.TestCase):
             ([4, 3, 2, 4, 1, 3, 2], 1),
         ]
 
-    def test_all(self):
+    def test_cases(self):
         for solution in self.solutions:
             for nums, expected in self.cases():
                 with self.subTest(

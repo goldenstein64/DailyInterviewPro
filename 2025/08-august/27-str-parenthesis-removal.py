@@ -47,7 +47,7 @@ class Tests(unittest.TestCase):
         ("()())()", 1),
     ]
 
-    def test_all(self):
+    def test_cases(self):
         for string, expected in self.cases:
             with self.subTest(string=string, expected=expected):
                 self.assertEqual(expected, count_invalid_parentheses(string))
