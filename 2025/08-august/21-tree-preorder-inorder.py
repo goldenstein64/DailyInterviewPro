@@ -149,7 +149,7 @@ class ListView[T](Sequence[T]):
     @overload
     def __getitem__(self, index: slice) -> ListView[T]: ...
     def __getitem__(self, index: int | slice) -> T | ListView[T]:
-        if type(index) == slice:
+        if type(index) is slice:
             return ListView(self.data, self.view[index])
         else:
             return self.data[self.view[index]]
