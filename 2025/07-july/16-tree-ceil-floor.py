@@ -8,8 +8,8 @@ from __future__ import annotations
 
 import unittest
 from dataclasses import dataclass
-from typing import Callable
 from itertools import product
+from typing import Callable
 
 type TupleNode = (
     tuple[int]

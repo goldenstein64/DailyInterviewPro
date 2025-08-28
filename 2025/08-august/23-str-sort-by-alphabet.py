@@ -12,10 +12,10 @@ True
 """
 
 import unittest
-from typing import cast
 from collections.abc import Callable
-from itertools import pairwise, dropwhile, product
 from functools import partial
+from itertools import dropwhile, pairwise, product
+from typing import cast
 
 
 def are_words_ordered(order_map: dict[str, int], pair: tuple[str, str]) -> bool:

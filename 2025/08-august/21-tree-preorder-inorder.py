@@ -21,11 +21,11 @@ Example:
 from __future__ import annotations
 
 import unittest
+from collections.abc import Callable, Generator, Sequence
 from dataclasses import dataclass
-from collections.abc import Sequence, Callable, Generator
-from typing import overload, Literal
-from itertools import product, count
+from itertools import count, product
 from random import randint
+from typing import Literal, overload
 
 type TupleNode = (
     tuple[str]

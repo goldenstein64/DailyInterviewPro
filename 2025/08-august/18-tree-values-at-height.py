@@ -15,8 +15,8 @@ from __future__ import annotations
 
 import unittest
 from collections import deque
-from dataclasses import dataclass
 from collections.abc import Callable
+from dataclasses import dataclass
 from itertools import product
 
 type TupleNode = (

@@ -25,9 +25,9 @@ Each consecutive value describes the prior value.
 '111221'
 """
 
-from itertools import islice, chain, product
-import unittest
 import re
+import unittest
+from itertools import chain, islice, product
 from typing import Callable
 
 _repeating = re.compile(r"(.)\1*")

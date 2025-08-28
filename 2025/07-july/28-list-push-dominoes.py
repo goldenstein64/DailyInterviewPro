@@ -19,7 +19,6 @@ import unittest
 from itertools import product
 from typing import Callable
 
-
 push_left_once = re.compile(r"([^R])\.L")
 push_right_once = re.compile(r"R\.([^L])")
 

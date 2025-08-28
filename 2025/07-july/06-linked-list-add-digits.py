@@ -17,10 +17,10 @@ Examples:
 from __future__ import annotations
 
 import unittest
-from dataclasses import dataclass
-from typing import Generator
 from collections.abc import Callable
+from dataclasses import dataclass
 from itertools import product
+from typing import Generator
 
 
 @dataclass

@@ -14,8 +14,8 @@ constraint.
 
 import unittest
 from collections import deque
-from typing import Iterable, Callable
 from itertools import product
+from typing import Callable, Iterable
 
 
 def min_sub_array_len_gen(nums: Iterable[int], s: int) -> int:

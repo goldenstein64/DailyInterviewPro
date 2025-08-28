@@ -29,8 +29,9 @@ Examples:
 """
 
 from __future__ import annotations
-from dataclasses import dataclass
+
 import unittest
+from dataclasses import dataclass
 
 type TupleNode = (
     tuple[int]

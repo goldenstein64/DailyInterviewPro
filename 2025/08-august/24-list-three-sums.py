@@ -12,8 +12,8 @@ True
 True
 """
 
-from itertools import combinations, product
 import unittest
+from itertools import combinations, product
 from typing import Callable
 
 

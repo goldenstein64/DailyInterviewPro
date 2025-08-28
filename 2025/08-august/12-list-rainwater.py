@@ -15,8 +15,8 @@ Explanation: 6 Ws were counted
 """
 
 import unittest
+from itertools import accumulate, islice, product
 from typing import Callable
-from itertools import product, islice, accumulate
 
 
 def capacity(heights: list[int]) -> int:

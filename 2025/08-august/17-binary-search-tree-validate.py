@@ -7,7 +7,6 @@ root, and all values in the right subtree are greater than or equal to the root.
 
 from __future__ import annotations
 
-
 import unittest
 from dataclasses import dataclass
 

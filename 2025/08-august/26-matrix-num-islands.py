@@ -29,9 +29,9 @@ Examples:
 3
 """
 
-from itertools import count, islice
-from enum import Enum
 import unittest
+from enum import Enum
+from itertools import count, islice
 
 
 class Block(Enum):
