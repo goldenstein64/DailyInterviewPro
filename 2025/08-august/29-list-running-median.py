@@ -78,15 +78,45 @@ def running_median_2heap(stream: Iterable[int]) -> Generator[int | float]:
             yield median
 
 
+def running_median_2heap_gpt(stream: Iterable[int]) -> Generator[int | float]:
+    """
+    A 2-heap implementation given to me by ChatGPT.
+
+    This has O(n log n) time complexity and O(n) space.
+    """
+    low: list[int] = []
+    high: list[int] = []
+
+    for value in stream:
+        if not low or value <= -low[0]:
+            heapq.heappush(low, -value)
+        else:
+            heapq.heappush(high, value)
+
+        # rebalance
+        if len(low) > len(high) + 1:
+            heapq.heappush(high, -heapq.heappop(low))
+        elif len(high) > len(low):
+            heapq.heappush(low, -heapq.heappop(high))
+
+        # median
+        if len(low) == len(high):
+            yield (-low[0] + high[0]) / 2
+        else:
+            yield -low[0]
+
+
 class Tests(unittest.TestCase):
     solutions: list[Callable[[Iterable[int]], Generator[int | float]]] = [
         running_median_naive,
         running_median_2heap,
+        running_median_2heap_gpt,
     ]
 
     cases: list[tuple[list[int], list[int | float]]] = [
         ([], []),
         ([4], [4]),
+        ([1, 1, 1], [1, 1.0, 1]),
         ([2, 3], [2, 2.5]),
         ([4, 3, 5], [4, 3.5, 4]),
         ([-4, 2, -3], [-4, -1.0, -3]),
