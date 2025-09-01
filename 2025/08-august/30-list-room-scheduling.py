@@ -9,10 +9,10 @@ Example:
 2
 """
 
+import unittest
+from heapq import heappop, heappush
 from itertools import islice, product
 from sys import maxsize
-from heapq import heappush, heappop
-import unittest
 from typing import Callable
 
 

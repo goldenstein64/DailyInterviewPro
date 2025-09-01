@@ -13,10 +13,10 @@ True
 [['abc', 'cba'], ['bcd', 'cbd'], ['efg']]
 """
 
-from collections import defaultdict, Counter
+import unittest
+from collections import Counter, defaultdict
 from collections.abc import Callable
 from itertools import product
-import unittest
 
 _alphabet = "".join(map(chr, range(97, 123)))
 

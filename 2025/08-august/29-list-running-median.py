@@ -12,12 +12,12 @@ Example:
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Generator
+import heapq
 import unittest
 from bisect import bisect
-from typing import Callable
-import heapq
+from collections.abc import Generator, Iterable
 from itertools import product
+from typing import Callable
 
 
 def running_median_naive(stream: Iterable[int]) -> Generator[int | float]:
