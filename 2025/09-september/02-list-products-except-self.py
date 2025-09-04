@@ -23,7 +23,7 @@ def products_naive(nums: list[int]) -> list[int]:
     elements in `nums` except for `nums[i]`. This uses a simple algorithm that
     filters by index and computes `n` products.
 
-    This algorithm has O(n^2) time complexity and O(n) space.
+    This has O(n^2) time complexity and O(n) space.
     """
 
     result: list[int] = []
@@ -40,6 +40,8 @@ def products_prefix_suffix(nums: list[int]) -> list[int]:
     Produce a list of numbers such that each index `i` contains a product of all
     elements in `nums` except for `nums[i]`. This produces a prefix list and
     suffix product list whose elements are multiplied element-wise.
+
+    This has O(n) time complexity and O(n) space.
     """
     prefix: int = 1
     prefixes: list[int] = []
