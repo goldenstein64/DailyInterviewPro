@@ -11,8 +11,8 @@ Example:
 [(0, 2), (5, 5), (7, 11), (15, 15)]
 """
 
-from itertools import islice, groupby, count
 import unittest
+from itertools import count, groupby, islice
 
 
 def find_ranges(nums: list[int]) -> list[tuple[int, int]]:
