@@ -38,8 +38,8 @@ def products_naive(nums: list[int]) -> list[int]:
 def products_prefix_suffix(nums: list[int]) -> list[int]:
     """
     Produce a list of numbers such that each index `i` contains a product of all
-    elements in `nums` except for `nums[i]`. This uses a simple algorithm that
-    filters by index and computes `n` products.
+    elements in `nums` except for `nums[i]`. This produces a prefix list and
+    suffix product list whose elements are multiplied element-wise.
     """
     prefix: int = 1
     prefixes: list[int] = []
