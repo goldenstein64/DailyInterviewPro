@@ -28,6 +28,8 @@ def intersection(nums1: list[int], nums2: list[int]) -> list[int]:
     """
     Return all numbers that belong to both lists. This uses a simple
     algorithm that turns both lists into sets and creates an intersection.
+
+    This probably has O(m + n) time and O(m + n) space complexity.
     """
     return list(set(nums1) & set(nums2))
 
@@ -37,6 +39,8 @@ def intersection_sorted(nums1: list[int], nums2: list[int]) -> list[int]:
     Return all numbers that belong to both lists. This sorts both lists and
     tries to keep their indexes "balanced" by incrementing their independent
     pointers until one reaches the end of the list
+
+    This has O(m log m + n log n) time and O(m + n) space complexity.
     """
     if not nums1 or not nums2:
         return []
