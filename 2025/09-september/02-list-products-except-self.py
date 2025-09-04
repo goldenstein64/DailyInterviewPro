@@ -27,8 +27,9 @@ def products_naive(nums: list[int]) -> list[int]:
     """
 
     result: list[int] = []
-    for i in range(len(nums)):
-        result.append(prod(nums[j] for j in range(len(nums)) if j != i))
+    n: int = len(nums)
+    for i in range(n):
+        result.append(prod(nums[j] for j in range(n) if j != i))
 
     return result
 
