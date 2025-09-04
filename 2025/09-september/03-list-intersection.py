@@ -21,7 +21,7 @@ The result can be in any order.
 
 from itertools import product
 import unittest
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 
 
 def intersection(nums1: list[int], nums2: list[int]) -> list[int]:
@@ -53,21 +53,53 @@ def intersection_sorted(nums1: list[int], nums2: list[int]) -> list[int]:
     while i < len(nums1) and j < len(nums2):
         num1: int = nums1[i]
         num2: int = nums2[j]
-        if num1 > num2:
+        if num1 < num2:
+            i += 1
+        elif num1 > num2:
             j += 1
         else:
             i += 1
-
-        if num1 == num2 and (not result or result[-1] != num1):
-            result.append(num1)
+            j += 1
+            if not result or result[-1] != num1:
+                result.append(num1)
 
     return result
+
+
+def intersection_sorted_iter_gpt(nums1: list[int], nums2: list[int]) -> list[int]:
+    """
+    An implementation given to me by ChatGPT
+
+    Iterator-based version: walk two sorted iterables in lockstep to find
+    unique elements in both.
+    """
+    it1: Iterator[int] = iter(sorted(nums1))
+    it2: Iterator[int] = iter(sorted(nums2))
+    result: list[int] = []
+
+    try:
+        n1 = next(it1)
+        n2 = next(it2)
+        while True:
+            if n1 < n2:
+                n1 = next(it1)
+            elif n1 > n2:
+                n2 = next(it2)
+            else:
+                if not result or result[-1] != n1:
+                    result.append(n1)
+                n1 = next(it1)
+                n2 = next(it2)
+    except StopIteration:
+        # One of the iterators ran out — we're done
+        return result
 
 
 class Tests(unittest.TestCase):
     solutions: list[Callable[[list[int], list[int]], list[int]]] = [
         intersection,
         intersection_sorted,
+        intersection_sorted_iter_gpt,
     ]
 
     cases: list[tuple[list[int], list[int], list[int]]] = [
