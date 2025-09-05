@@ -5,30 +5,30 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Node[T]:
+class LinkedList[T]:
     """A container for a particular value in a linked list."""
 
     val: T
-    next: Node[T] | None = None
+    next: LinkedList[T] | None = None
     """A pointer to the next Node."""
 
     @staticmethod
-    def from_values[S](iterable: Iterable[S]) -> Node[S] | None:
+    def from_values[S](iterable: Iterable[S]) -> LinkedList[S] | None:
         """Generate a linked list from an iterable."""
         iterator: Iterator[S] = iter(iterable)
         try:
-            head: Node[S] = Node(next(iterator))
+            head: LinkedList[S] = LinkedList(next(iterator))
         except StopIteration:
             return None
 
-        node: Node[S] = head
+        node: LinkedList[S] = head
         for val in iterator:
-            node.next = Node(val)
+            node.next = LinkedList(val)
             node = node.next
 
         return head
 
-    def __iter__(self) -> Generator[Node[T]]:
+    def __iter__(self) -> Generator[LinkedList[T]]:
         node = self
         while node:
             yield node
