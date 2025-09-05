@@ -19,7 +19,6 @@ Examples:
 
 import unittest
 
-# renamed from '_H_MULTIPLIER', etc.
 _DEGREES_PER_HOUR: float = 360 / 12  # 30
 _DEGREES_PER_MINUTE_ON_HOUR: float = 360 / (60 * 12)  # 0.5
 _DEGREES_PER_MINUTE: float = 360 / 60  # 6
