@@ -39,9 +39,11 @@ def max_subarray_sum(arr: list[int]) -> int:
 
 def max_subarray_sum_accum(arr: list[int]) -> int:
     """
-    A shorter implementation that uses accumulate to create an iterator of sums.
+    Find the contiguous sequence of numbers that give the greatest sum. This
+    uses a shorter version of Kadane's algorithm that uses `accumulate` to
+    create an iterator of sums.
     """
-    return 0 if not arr else max(accumulate(arr, lambda s, v: max(s + v, v)))
+    return max(accumulate(arr, lambda s, v: max(s + v, v)), default=0)
 
 
 class Tests(unittest.TestCase):
