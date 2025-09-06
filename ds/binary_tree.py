@@ -18,6 +18,42 @@ class BinaryTree[T]:
     left: BinaryTree[T] | None = None
     right: BinaryTree[T] | None = None
 
+    @staticmethod
+    def from_tuples[U](tuples: TupleBinaryTree[U]) -> BinaryTree[U]:
+        match tuples:
+            case (val,):
+                return BinaryTree(val, None, None)
+            case (left, right):
+                if type(left) == tuple:
+                    return BinaryTree(
+                        cast(U, right),
+                        BinaryTree.from_tuples(cast(TupleBinaryTree[U], left)),
+                        None,
+                    )
+                else:
+                    return BinaryTree(
+                        cast(U, left),
+                        None,
+                        BinaryTree.from_tuples(cast(TupleBinaryTree[U], right)),
+                    )
+            case (tuple(left), val, tuple(right)):
+                return BinaryTree(
+                    val, BinaryTree.from_tuples(left), BinaryTree.from_tuples(right)
+                )
+
+    def as_tuples(self) -> TupleBinaryTree[T]:
+        match self:
+            case BinaryTree(val, None, None):
+                return (val,)
+            case BinaryTree(val, BinaryTree() as left, None):
+                return (left.as_tuples(), val)
+            case BinaryTree(val, None, BinaryTree() as right):
+                return (val, right.as_tuples())
+            case BinaryTree(val, BinaryTree() as left, BinaryTree() as right):
+                return (left.as_tuples(), val, right.as_tuples())
+            case _:
+                raise ValueError("unknown Node structure")
+
     def preorder(self) -> Generator[T]:
         yield self.val
 
@@ -89,39 +125,3 @@ class BinaryTree[T]:
                 else:
                     yield last.val
                     last_visited = stack.pop()
-
-    @staticmethod
-    def from_tuples[U](tuples: TupleBinaryTree[U]) -> BinaryTree[U]:
-        match tuples:
-            case (val,):
-                return BinaryTree(val, None, None)
-            case (left, right):
-                if type(left) == tuple:
-                    return BinaryTree(
-                        cast(U, right),
-                        BinaryTree.from_tuples(cast(TupleBinaryTree[U], left)),
-                        None,
-                    )
-                else:
-                    return BinaryTree(
-                        cast(U, left),
-                        None,
-                        BinaryTree.from_tuples(cast(TupleBinaryTree[U], right)),
-                    )
-            case (tuple(left), val, tuple(right)):
-                return BinaryTree(
-                    val, BinaryTree.from_tuples(left), BinaryTree.from_tuples(right)
-                )
-
-    def as_tuples(self) -> TupleBinaryTree[T]:
-        match self:
-            case BinaryTree(val, None, None):
-                return (val,)
-            case BinaryTree(val, BinaryTree() as left, None):
-                return (left.as_tuples(), val)
-            case BinaryTree(val, None, BinaryTree() as right):
-                return (val, right.as_tuples())
-            case BinaryTree(val, BinaryTree() as left, BinaryTree() as right):
-                return (left.as_tuples(), val, right.as_tuples())
-            case _:
-                raise ValueError("unknown Node structure")

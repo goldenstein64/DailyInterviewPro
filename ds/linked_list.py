@@ -13,15 +13,15 @@ class LinkedList[T]:
     """A pointer to the next Node."""
 
     @staticmethod
-    def from_values[S](iterable: Iterable[S]) -> LinkedList[S] | None:
+    def from_values[U](iterable: Iterable[U]) -> LinkedList[U] | None:
         """Generate a linked list from an iterable."""
-        iterator: Iterator[S] = iter(iterable)
+        iterator: Iterator[U] = iter(iterable)
         try:
-            head: LinkedList[S] = LinkedList(next(iterator))
+            head: LinkedList[U] = LinkedList(next(iterator))
         except StopIteration:
             return None
 
-        node: LinkedList[S] = head
+        node: LinkedList[U] = head
         for val in iterator:
             node.next = LinkedList(val)
             node = node.next
