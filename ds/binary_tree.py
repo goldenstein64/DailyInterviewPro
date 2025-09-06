@@ -4,11 +4,11 @@ from collections.abc import Generator
 from dataclasses import dataclass
 from typing import cast
 
-type TupleNode[T] = (
+type TupleBinaryTree[T] = (
     tuple[T]
-    | tuple[TupleNode[T], T]
-    | tuple[T, TupleNode[T]]
-    | tuple[TupleNode[T], T, TupleNode[T]]
+    | tuple[TupleBinaryTree[T], T]
+    | tuple[T, TupleBinaryTree[T]]
+    | tuple[TupleBinaryTree[T], T, TupleBinaryTree[T]]
 )
 
 
@@ -91,7 +91,7 @@ class BinaryTree[T]:
                     last_visited = stack.pop()
 
     @staticmethod
-    def from_tuples[U](tuples: TupleNode[U]) -> BinaryTree[U]:
+    def from_tuples[U](tuples: TupleBinaryTree[U]) -> BinaryTree[U]:
         match tuples:
             case (val,):
                 return BinaryTree(val, None, None)
@@ -99,21 +99,21 @@ class BinaryTree[T]:
                 if type(left) == tuple:
                     return BinaryTree(
                         cast(U, right),
-                        BinaryTree.from_tuples(cast(TupleNode[U], left)),
+                        BinaryTree.from_tuples(cast(TupleBinaryTree[U], left)),
                         None,
                     )
                 else:
                     return BinaryTree(
                         cast(U, left),
                         None,
-                        BinaryTree.from_tuples(cast(TupleNode[U], right)),
+                        BinaryTree.from_tuples(cast(TupleBinaryTree[U], right)),
                     )
             case (tuple(left), val, tuple(right)):
                 return BinaryTree(
                     val, BinaryTree.from_tuples(left), BinaryTree.from_tuples(right)
                 )
 
-    def as_tuples(self) -> TupleNode[T]:
+    def as_tuples(self) -> TupleBinaryTree[T]:
         match self:
             case BinaryTree(val, None, None):
                 return (val,)
