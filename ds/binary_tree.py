@@ -14,12 +14,25 @@ type TupleBinaryTree[T] = (
 
 @dataclass
 class BinaryTree[T]:
+    """a container for a binary tree"""
+
     val: T
     left: BinaryTree[T] | None = None
     right: BinaryTree[T] | None = None
 
     @staticmethod
     def from_tuples[U](tuples: TupleBinaryTree[U]) -> BinaryTree[U]:
+        """
+        Produce a tree from a tuple tree. This can be used to produce trees from
+        a short-form representation.
+
+        Examples:
+
+        >>> BinaryTree.from_tuples((3,))
+        BinaryTree(val=3, left=None, right=None)
+        >>> BinaryTree.from_tuples(((1,), 2, (3,)))
+        BinaryTree(val=2, left=BinaryTree(val=1, left=None, right=None), right=BinaryTree(val=3, left=None, right=None))
+        """
         match tuples:
             case (val,):
                 return BinaryTree(val, None, None)
@@ -42,6 +55,21 @@ class BinaryTree[T]:
                 )
 
     def as_tuples(self) -> TupleBinaryTree[T]:
+        """
+        Produce a tuple tree from this tree. This can be used to produce a
+        short-form representation of a tree.
+
+        Examples:
+
+        >>> BinaryTree(val=3).as_tuples()
+        (3,)
+        >>> BinaryTree(left=BinaryTree(1), val=2).as_tuples()
+        ((1,), 2)
+        >>> BinaryTree(val=1, right=BinaryTree(2)).as_tuples()
+        (1, (2,))
+        >>> BinaryTree(left=BinaryTree(1), val=2, right=BinaryTree(3)).as_tuples()
+        ((1,), 2, (3,))
+        """
         match self:
             case BinaryTree(val, None, None):
                 return (val,)
@@ -55,6 +83,7 @@ class BinaryTree[T]:
                 raise ValueError("unknown Node structure")
 
     def preorder(self) -> Generator[T]:
+        """Perform a recursive preorder traversal of this tree."""
         yield self.val
 
         if self.left:
@@ -64,6 +93,7 @@ class BinaryTree[T]:
             yield from self.right.preorder()
 
     def inorder(self) -> Generator[T]:
+        """Perform a recursive inorder traversal of this tree."""
         if self.left:
             yield from self.left.inorder()
 
@@ -73,6 +103,7 @@ class BinaryTree[T]:
             yield from self.right.inorder()
 
     def postorder(self) -> Generator[T]:
+        """Perform a recursive postorder traversal of this tree."""
         if self.left:
             yield from self.left.postorder()
 
@@ -82,6 +113,7 @@ class BinaryTree[T]:
         yield self.val
 
     def preorder_iter(self) -> Generator[T]:
+        """Perform an iterative preorder traversal of this tree."""
         stack: list[BinaryTree[T]] = []
         current: BinaryTree[T] | None = self
 
@@ -96,6 +128,7 @@ class BinaryTree[T]:
                 current = stack.pop()
 
     def inorder_iter(self) -> Generator[T]:
+        """Perform an iterative inorder traversal of this tree."""
         stack: list[BinaryTree[T]] = []
         current: BinaryTree[T] | None = self
 
@@ -110,6 +143,7 @@ class BinaryTree[T]:
             current = current.right
 
     def postorder_iter(self) -> Generator[T]:
+        """Perform an iterative postorder traversal of this tree."""
         stack: list[BinaryTree[T]] = []
         current: BinaryTree[T] | None = self
         last_visited: BinaryTree[T] | None = None

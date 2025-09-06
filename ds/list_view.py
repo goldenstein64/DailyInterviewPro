@@ -5,6 +5,13 @@ from typing import overload
 
 
 class ListView[T](Sequence[T]):
+    """
+    a read-only view of a sequence such that slicing into it produces another
+    view by slicing an internal sequence representing effective indices. This is
+    a low-cost operation when the internal sequence has a low-cost slicing
+    algorithm, such as a `range`, which is used by default.
+    """
+
     def __init__(self, data: Sequence[T], view: Sequence[int] | None = None):
         self.data: Sequence[T] = data
         self.view: Sequence[int] = range(len(data)) if view is None else view

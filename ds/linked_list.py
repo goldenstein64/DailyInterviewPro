@@ -6,11 +6,11 @@ from dataclasses import dataclass
 
 @dataclass
 class LinkedList[T]:
-    """A container for a particular value in a linked list."""
+    """a container for a particular value in a linked list"""
 
     val: T
     next: LinkedList[T] | None = None
-    """A pointer to the next Node."""
+    """a pointer to the next linked list node"""
 
     @staticmethod
     def from_values[U](iterable: Iterable[U]) -> LinkedList[U] | None:
@@ -29,12 +29,14 @@ class LinkedList[T]:
         return head
 
     def __iter__(self) -> Generator[LinkedList[T]]:
+        """Iterate through every node in this linked list."""
         node = self
         while node:
             yield node
             node = node.next
 
     def values(self) -> Generator[T]:
+        """Iterate through every value in this linked list."""
         return (node.val for node in self)
 
     def __str__(self) -> str:
