@@ -78,9 +78,9 @@ class Tests(unittest.TestCase):
         s.push(-3)
         s.push(-2)
         self.assertEqual(-3, s.min())
-        s.pop()
+        self.assertEqual(-2, s.pop())
         self.assertEqual(-3, s.min())
-        s.pop()
+        self.assertEqual(-3, s.pop())
         self.assertEqual(-2, s.min())
 
     def test_empty_pop(self):
