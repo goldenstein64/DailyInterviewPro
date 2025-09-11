@@ -1,5 +1,6 @@
 {
   "python.analysis.typeCheckingMode": "strict",
+  "python.useEnvironmentsExtension": true,
   "editor.formatOnSave": true,
   "black-formatter.importStrategy": "fromEnvironment",
   "cSpell.words": ["unival"]
