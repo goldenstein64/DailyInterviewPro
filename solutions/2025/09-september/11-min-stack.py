@@ -8,38 +8,65 @@ Example:
 >>> stack.push(-2)
 >>> stack.push(0)
 >>> stack.push(-3)
->>> stack.get_min()
+>>> stack.min()
 -3
 >>> stack.pop()
 -3
->>> stack.top()
+>>> stack.peek()
 0
->>> stack.get_min()
+>>> stack.min()
 -2
 """
 
+from __future__ import annotations
+from collections.abc import Sequence, Iterable
+from typing import overload
+from itertools import accumulate
 
-class MinStack:
-    def __init__(self):
-        self.data: list[int] = []
-        self.min_data: list[int] = []
+
+class MinStack(Sequence[int]):
+    def __init__(self, iterable: Iterable[int] | None = None):
+        self.stack: list[int]
+        self.min_stack: list[int]
+
+        if iterable is None:
+            self.stack = []
+            self.min_stack = []
+        else:
+            stack: list[int] = list(iterable)
+            self.stack = stack
+            self.min_stack = list(accumulate(stack, min))
 
     def push(self, v: int) -> None:
-        self.data.append(v)
-        if self.min_data:
-            self.min_data.append(min(self.min_data[-1], v))
+        self.stack.append(v)
+        if self.min_stack:
+            self.min_stack.append(min(self.min_stack[-1], v))
         else:
-            self.min_data.append(v)
+            self.min_stack.append(v)
 
     def pop(self) -> int | None:
-        self.min_data.pop()
-        return self.data.pop()
+        self.min_stack.pop()
+        return self.stack.pop()
 
-    def top(self) -> int:
-        return self.data[-1]
+    def peek(self) -> int | None:
+        return self.stack[-1] if self.stack else None
 
-    def get_min(self) -> int:
-        return self.min_data[-1]
+    def min(self) -> int | None:
+        return self.min_stack[-1] if self.min_stack else None
+
+    def __len__(self):
+        return len(self.stack)
+
+    @overload
+    def __getitem__(self, index: int) -> int: ...
+    @overload
+    def __getitem__(self, index: slice) -> MinStack: ...
+
+    def __getitem__(self, index: int | slice) -> int | MinStack:
+        if type(index) is slice:
+            return MinStack(self.stack[index])
+        else:
+            return self.stack[index]
 
 
 if __name__ == "__main__":
