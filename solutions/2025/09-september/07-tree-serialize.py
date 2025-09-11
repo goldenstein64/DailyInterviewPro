@@ -16,10 +16,11 @@ Example:
 True
 """
 
-from ds.binary_tree import BinaryTree, TupleBinaryTree
-from collections.abc import Generator, Iterator, Callable
-from itertools import islice, product
 import unittest
+from collections.abc import Callable, Generator, Iterator
+from itertools import islice, product
+
+from ds.binary_tree import BinaryTree, TupleBinaryTree
 
 
 def serialize_part(root: BinaryTree[int] | None) -> Generator[str]:

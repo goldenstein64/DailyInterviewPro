@@ -19,9 +19,9 @@ The result can be in any order.
 [4, 9]
 """
 
-from itertools import product
 import unittest
 from collections.abc import Callable, Iterator
+from itertools import product
 
 
 def intersection(nums1: list[int], nums2: list[int]) -> list[int]:

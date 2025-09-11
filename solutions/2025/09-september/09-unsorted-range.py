@@ -8,9 +8,9 @@ Example:
 (1, 5)
 """
 
-from collections.abc import Callable, Sequence, Generator
-from itertools import islice, product
 import unittest
+from collections.abc import Callable, Generator, Sequence
+from itertools import islice, product
 from math import inf
 
 

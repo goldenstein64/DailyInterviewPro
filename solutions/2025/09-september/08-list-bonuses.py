@@ -19,8 +19,8 @@ Example:
 """
 
 import unittest
-from itertools import pairwise, product
 from collections.abc import Callable
+from itertools import pairwise, product
 
 
 def get_bonuses_build(performance: list[int]) -> list[int]:

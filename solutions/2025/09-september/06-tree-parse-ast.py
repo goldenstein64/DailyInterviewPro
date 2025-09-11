@@ -13,9 +13,9 @@ Example:
 
 from __future__ import annotations
 
-from operator import add, sub, mul, truediv, floordiv
-from typing import Callable, Literal
 import unittest
+from operator import add, floordiv, mul, sub, truediv
+from typing import Callable, Literal
 
 type Op = Literal["+", "-", "*", "/", "//"]
 type SyntaxTuple = float | tuple[SyntaxTuple, Op, SyntaxTuple]
