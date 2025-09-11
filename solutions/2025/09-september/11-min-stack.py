@@ -22,6 +22,7 @@ from __future__ import annotations
 from collections.abc import Sequence, Iterable
 from typing import overload
 from itertools import accumulate
+import unittest
 
 
 class MinStack(Sequence[int]):
@@ -69,7 +70,31 @@ class MinStack(Sequence[int]):
             return self.stack[index]
 
 
+class Tests(unittest.TestCase):
+    def test_smoke(self):
+        s = MinStack()
+        s.push(-1)
+        s.push(-2)
+        s.push(-3)
+        s.push(-2)
+        self.assertEqual(-3, s.min())
+        s.pop()
+        self.assertEqual(-3, s.min())
+        s.pop()
+        self.assertEqual(-2, s.min())
+
+    def test_empty_pop(self):
+        s = MinStack()
+        with self.assertRaises(IndexError):
+            s.pop()
+
+    def test_empty_max(self):
+        s = MinStack()
+        self.assertIsNone(s.min())
+
+
 if __name__ == "__main__":
     import doctest
 
     doctest.testmod()
+    unittest.main()
