@@ -2,13 +2,15 @@ r"""
 Given a binary tree, return all values given a certain height h.
 
 Example:
-    Input:
-            1
-           / \
-          2   3
-         / \   \
-        4   5   7
-    Output: [4, 5, 7]
+
+    1
+   / \
+  2   3
+ / \   \
+4   5   7
+>>> tree = BinaryTree.from_tuples((((4,), 2, (5,)), 1, (3, (7,))))
+>>> values_at_height(tree).as_tuples()
+[4, 5, 7]
 """
 
 from __future__ import annotations
@@ -16,50 +18,12 @@ from __future__ import annotations
 import unittest
 from collections import deque
 from collections.abc import Callable
-from dataclasses import dataclass
 from itertools import product
 
-type TupleNode = (
-    tuple[int]
-    | tuple[TupleNode, int]
-    | tuple[int, TupleNode]
-    | tuple[TupleNode, int, TupleNode]
-)
+from ds.binary_tree import BinaryTree, TupleBinaryTree
 
 
-@dataclass
-class Node:
-    val: int
-    left: Node | None = None
-    right: Node | None = None
-
-    @staticmethod
-    def from_tuples(tuples: TupleNode) -> Node:
-        match tuples:
-            case (int(val),):
-                return Node(val, None, None)
-            case (tuple(left), int(val)):
-                return Node(val, Node.from_tuples(left), None)
-            case (int(val), tuple(right)):
-                return Node(val, None, Node.from_tuples(right))
-            case (tuple(left), int(val), tuple(right)):
-                return Node(val, Node.from_tuples(left), Node.from_tuples(right))
-
-    def as_tuples(self) -> TupleNode:
-        match self:
-            case Node(val, None, None):
-                return (val,)
-            case Node(val, Node() as left, None):
-                return (left.as_tuples(), val)
-            case Node(val, None, Node() as right):
-                return (val, right.as_tuples())
-            case Node(val, Node() as left, Node() as right):
-                return (left.as_tuples(), val, right.as_tuples())
-            case _:
-                raise ValueError("unknown Node structure")
-
-
-def values_at_height(root: Node | None, height: int) -> list[int]:
+def values_at_height(root: BinaryTree[int] | None, height: int) -> list[int]:
     if not root or height < 1:
         return []
     elif height == 1:
@@ -70,7 +34,7 @@ def values_at_height(root: Node | None, height: int) -> list[int]:
         return left_values + right_values
 
 
-def values_at_height_gpt(root: Node | None, height: int) -> list[int]:
+def values_at_height_gpt(root: BinaryTree[int] | None, height: int) -> list[int]:
     if not root or height < 1:
         return []
 
@@ -89,12 +53,12 @@ def values_at_height_gpt(root: Node | None, height: int) -> list[int]:
 
 
 class Tests(unittest.TestCase):
-    solutions: list[Callable[[Node | None, int], list[int]]] = [
+    solutions: list[Callable[[BinaryTree[int] | None, int], list[int]]] = [
         values_at_height,
         values_at_height_gpt,
     ]
 
-    cases: list[tuple[TupleNode | None, int, list[int]]] = [
+    cases: list[tuple[TupleBinaryTree[int] | None, int, list[int]]] = [
         (None, 1, []),
         ((1,), 1, [1]),
         ((1,), 2, []),
@@ -116,7 +80,9 @@ class Tests(unittest.TestCase):
                 if root is None:
                     self.assertEqual(expected, solution(None, height))
                 else:
-                    self.assertEqual(expected, solution(Node.from_tuples(root), height))
+                    self.assertEqual(
+                        expected, solution(BinaryTree.from_tuples(root), height)
+                    )
 
 
 if __name__ == "__main__":

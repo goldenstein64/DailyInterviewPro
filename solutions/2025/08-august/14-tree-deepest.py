@@ -19,6 +19,7 @@ Explanation: d is the farthest, at depth 3.
 from __future__ import annotations
 
 import unittest
+
 from ds.binary_tree import BinaryTree, TupleBinaryTree
 
 

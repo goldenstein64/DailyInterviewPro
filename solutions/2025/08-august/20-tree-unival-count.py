@@ -5,7 +5,7 @@ tree, return the number of unival subtrees in the tree.
 Example:
 
 >>> count_unival_subtrees(
-...     Node.from_tuples(
+...     BinaryTree.from_tuples(
 ...         (
 ...             (1,),  # 1
 ...             0,
@@ -24,44 +24,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-type TupleNode = (
-    tuple[int]
-    | tuple[TupleNode, int]
-    | tuple[int, TupleNode]
-    | tuple[TupleNode, int, TupleNode]
-)
-
-
-@dataclass
-class Node:
-    val: int
-    left: Node | None = None
-    right: Node | None = None
-
-    @staticmethod
-    def from_tuples(tuples: TupleNode) -> Node:
-        match tuples:
-            case (int(val),):
-                return Node(val, None, None)
-            case (tuple(left), int(val)):
-                return Node(val, Node.from_tuples(left), None)
-            case (int(val), tuple(right)):
-                return Node(val, None, Node.from_tuples(right))
-            case (tuple(left), int(val), tuple(right)):
-                return Node(val, Node.from_tuples(left), Node.from_tuples(right))
-
-    def as_tuples(self) -> TupleNode:
-        match self:
-            case Node(val, None, None):
-                return (val,)
-            case Node(val, Node() as left, None):
-                return (left.as_tuples(), val)
-            case Node(val, None, Node() as right):
-                return (val, right.as_tuples())
-            case Node(val, Node() as left, Node() as right):
-                return (left.as_tuples(), val, right.as_tuples())
-            case _:
-                raise ValueError("unknown Node structure")
+from ds.binary_tree import BinaryTree
 
 
 @dataclass
@@ -70,7 +33,7 @@ class UnivalProperties:
     count: int
 
 
-def collect_unival(root: Node) -> UnivalProperties:
+def collect_unival(root: BinaryTree[int]) -> UnivalProperties:
     val: int | None = root.val
     count: int = 0
     self_count: int = 1
@@ -91,7 +54,7 @@ def collect_unival(root: Node) -> UnivalProperties:
     return UnivalProperties(val, count + self_count)
 
 
-def count_unival_subtrees(root: Node) -> int:
+def count_unival_subtrees(root: BinaryTree[int]) -> int:
     return collect_unival(root).count
 
 

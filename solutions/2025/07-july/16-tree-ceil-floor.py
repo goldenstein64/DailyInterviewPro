@@ -11,6 +11,8 @@ from dataclasses import dataclass
 from itertools import product
 from typing import Callable
 
+from ds.binary_tree import BinaryTree
+
 type TupleNode = (
     tuple[int]
     | tuple[TupleNode, int]
@@ -53,16 +55,16 @@ class Node:
                 raise ValueError("unknown Node structure")
 
 
-def find_ceiling_floor_loop(root_node: Node, k: int) -> Bounds:
+def find_ceiling_floor_loop(root: BinaryTree[int], k: int) -> Bounds:
     floor: int | None = None
     ceil: int | None = None
-    node: Node | None = root_node
+    node: BinaryTree[int] | None = root
     while node is not None:
-        if k < node.value:
-            ceil = root_node.value if ceil is None else min(root_node.value, ceil)
+        if k < node.val:
+            ceil = root.val if ceil is None else min(root.val, ceil)
             node = node.left
-        elif node.value < k:
-            floor = root_node.value if floor is None else max(root_node.value, floor)
+        elif node.val < k:
+            floor = root.val if floor is None else max(root.val, floor)
             node = node.right
         else:
             return (k, k)
@@ -71,21 +73,21 @@ def find_ceiling_floor_loop(root_node: Node, k: int) -> Bounds:
 
 
 def find_ceiling_floor(
-    root_node: Node, k: int, floor: int | None = None, ceil: int | None = None
+    root: BinaryTree[int], k: int, floor: int | None = None, ceil: int | None = None
 ) -> Bounds:
     """
     Return (k, k) if k is in the tree. Otherwise, return the leaves closest to it.
     """
-    if k < root_node.value:  # it's on the left
-        new_ceil = root_node.value if ceil is None else min(root_node.value, ceil)
-        if root_node.left:
-            return find_ceiling_floor(root_node.left, k, floor, new_ceil)
+    if k < root.val:  # it's on the left
+        new_ceil = root.val if ceil is None else min(root.val, ceil)
+        if root.left:
+            return find_ceiling_floor(root.left, k, floor, new_ceil)
         else:
             return (floor, new_ceil)
-    elif root_node.value < k:  # it's on the right
-        new_floor = root_node.value if floor is None else max(root_node.value, floor)
-        if root_node.right:
-            return find_ceiling_floor(root_node.right, k, new_floor, ceil)
+    elif root.val < k:  # it's on the right
+        new_floor = root.val if floor is None else max(root.val, floor)
+        if root.right:
+            return find_ceiling_floor(root.right, k, new_floor, ceil)
         else:
             return (new_floor, ceil)
     else:
@@ -94,10 +96,10 @@ def find_ceiling_floor(
 
 class Tests(unittest.TestCase):
     @staticmethod
-    def tree() -> Node:
-        return Node.from_tuples((((2,), 4, (6,)), 8, ((10,), 12, (14,))))
+    def tree() -> BinaryTree[int]:
+        return BinaryTree.from_tuples((((2,), 4, (6,)), 8, ((10,), 12, (14,))))
 
-    solutions: list[Callable[[Node, int], Bounds]] = [
+    solutions: list[Callable[[BinaryTree[int], int], Bounds]] = [
         find_ceiling_floor,
         find_ceiling_floor_loop,
     ]

@@ -33,6 +33,8 @@ from __future__ import annotations
 import unittest
 from dataclasses import dataclass
 
+from ds.binary_tree import BinaryTree, TupleBinaryTree
+
 type TupleNode = (
     tuple[int]
     | tuple[TupleNode, int]
@@ -77,15 +79,15 @@ class Node:
 class BSTSubtreeResult:
     """an internal data structure for the largest_bst_subtree algorithm"""
 
-    node: Node
+    node: BinaryTree[int]
     size: int
     min: int
     max: int
 
 
-def largest_bst_subtree_inner(root: Node) -> BSTSubtreeResult:
+def largest_bst_subtree_inner(root: BinaryTree[int]) -> BSTSubtreeResult:
     match (root.left, root.right):
-        case (Node() as left, Node() as right):
+        case (BinaryTree() as left, BinaryTree() as right):
             subtree_left = largest_bst_subtree_inner(left)
             subtree_right = largest_bst_subtree_inner(right)
             # try to expand the tree
@@ -103,7 +105,7 @@ def largest_bst_subtree_inner(root: Node) -> BSTSubtreeResult:
                 )
 
             return max(subtree_left, subtree_right, key=lambda st: st.size)
-        case (Node() as left, None):
+        case (BinaryTree() as left, None):
             subtree = largest_bst_subtree_inner(left)
             # try to expand the tree
             if subtree.node == left and root.val > subtree.max:
@@ -115,7 +117,7 @@ def largest_bst_subtree_inner(root: Node) -> BSTSubtreeResult:
                 )
 
             return subtree
-        case (None, Node() as right):
+        case (None, BinaryTree() as right):
             subtree = largest_bst_subtree_inner(right)
             # try to expand the tree
             if subtree.node == right and root.val < subtree.min:
@@ -131,8 +133,19 @@ def largest_bst_subtree_inner(root: Node) -> BSTSubtreeResult:
             return BSTSubtreeResult(node=root, size=1, min=root.val, max=root.val)
 
 
+def largest_bst_subtree(root: BinaryTree[int]) -> BinaryTree[int]:
+    """
+    Return the largest binary search tree subtree of `root`.
+
+    Generally, we can start at a leaf node, move up to its parent, and if the
+    parent and other branch is on the correct side of the search tree, then the
+    entire thing can be a binary search tree
+    """
+    return largest_bst_subtree_inner(root).node
+
+
 class Tests(unittest.TestCase):
-    cases: list[tuple[TupleNode, TupleNode]] = [
+    cases: list[tuple[TupleBinaryTree[int], TupleBinaryTree[int]]] = [
         ((1,), (1,)),
         (((1,), 1), (1,)),
         ((1, (1,)), (1,)),
@@ -148,20 +161,9 @@ class Tests(unittest.TestCase):
         for root, expected in self.cases:
             with self.subTest(root=root, expected=expected):
                 self.assertEqual(
-                    Node.from_tuples(expected),
-                    largest_bst_subtree(Node.from_tuples(root)),
+                    BinaryTree.from_tuples(expected),
+                    largest_bst_subtree(BinaryTree.from_tuples(root)),
                 )
-
-
-def largest_bst_subtree(root: Node) -> Node:
-    """
-    Return the largest binary search tree subtree of `root`.
-
-    Generally, we can start at a leaf node, move up to its parent, and if the
-    parent and other branch is on the correct side of the search tree, then the
-    entire thing can be a binary search tree
-    """
-    return largest_bst_subtree_inner(root).node
 
 
 if __name__ == "__main__":
