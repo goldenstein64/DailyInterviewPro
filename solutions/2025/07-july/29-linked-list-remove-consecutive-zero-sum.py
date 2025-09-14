@@ -14,48 +14,16 @@ also be removed.
 from __future__ import annotations
 
 import unittest
-from dataclasses import dataclass
-from typing import Iterable, Iterator
+
+from ds.linked_list import LinkedList
 
 
-@dataclass
-class Node:
-    value: int
-    next: Node | None = None
-
-    @staticmethod
-    def from_values(values: Iterable[int]) -> Node:
-        it = iter(values)
-
-        first_node: Node = Node(next(it))
-        last_node: Node = first_node
-        for val in it:
-            node = Node(val)
-            last_node.next = node
-            last_node = node
-
-        return first_node
-
-    def __iter__(self) -> Iterator[Node]:
-        node = self
-        while node:
-            yield node
-            node = node.next
-
-    def values(self) -> Iterator[int]:
-        return (node.value for node in self)
-
-    @staticmethod
-    def repr(node: Node | None) -> list[int] | None:
-        return [*node.values()] if node else None
-
-
-def remove_consecutive_zero_sum(node: Node) -> Node | None:
-    first_node: Node | None = node
-    prev_node: Node | None = None
-    rolling_node: Node | None = node
+def remove_consecutive_zero_sum(node: LinkedList[int]) -> LinkedList[int] | None:
+    first_node: LinkedList[int] | None = node
+    prev_node: LinkedList[int] | None = None
+    rolling_node: LinkedList[int] | None = node
     rolling_sum: int = 0
-    sum_history: dict[int, Node | None] = {}
+    sum_history: dict[int, LinkedList[int] | None] = {}
     while rolling_node:
         if rolling_sum in sum_history:
             found_node = sum_history[rolling_sum]
@@ -66,7 +34,7 @@ def remove_consecutive_zero_sum(node: Node) -> Node | None:
         else:
             sum_history[rolling_sum] = prev_node
 
-        rolling_sum += rolling_node.value
+        rolling_sum += rolling_node.val
         prev_node, rolling_node = rolling_node, rolling_node.next
 
     if rolling_sum in sum_history:
@@ -91,20 +59,10 @@ class Tests(unittest.TestCase):
         ([10, 5, -3, -3, 1, 4, -4], [10]),
     ]
 
-    def test_from_values(self):
-        expected = Node(10, Node(5, Node(-3, Node(-3, Node(1, Node(4, Node(-4)))))))
-        self.assertEqual(expected, Node.from_values([10, 5, -3, -3, 1, 4, -4]))
-
-    def test_values(self):
-        expected = [10, 5, -3, -3, 1, 4, -4]
-        self.assertEqual(
-            expected, list(Node.from_values([10, 5, -3, -3, 1, 4, -4]).values())
-        )
-
     def test_cases(self):
         for values, expected in self.cases:
             with self.subTest(node=values, expected=expected):
-                node = Node.from_values(values)
+                node = LinkedList.from_values(values, allow_empty=False)
                 actual_node = remove_consecutive_zero_sum(node)
                 actual = None if actual_node is None else [*actual_node.values()]
                 self.assertEqual(expected, actual)

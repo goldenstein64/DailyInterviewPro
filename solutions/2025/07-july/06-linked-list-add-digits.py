@@ -18,62 +18,15 @@ from __future__ import annotations
 
 import unittest
 from collections.abc import Callable
-from dataclasses import dataclass
 from itertools import product
-from typing import Generator
+
+from ds.linked_list import LinkedList
 
 
-@dataclass
-class ListNode:
-    """Definition for singly-linked list."""
-
-    val: int
-    next: ListNode | None = None
-
-    def __iter__(self) -> Generator[int]:
-        """
-        Iterate through this ListNode and its subsequent values.
-
-        >>> list(ListNode.from_values(1, 2, 3))
-        [1, 2, 3]
-        """
-        node = self
-        while node is not None:
-            yield node.val
-            node = node.next
-
-    def __len__(self) -> int:
-        """
-        Retrieve the length of this list.
-
-        >>> len(ListNode.from_values(1, 2, 3))
-        3
-        """
-        node: ListNode | None = self
-        result: int = 0
-        while node is not None:
-            result += 1
-            node = node.next
-        return result
-
-    @staticmethod
-    def from_values(first: int, *values: int) -> ListNode:
-        """
-        Create a ListNode from a sequence of values.
-
-        >>> ListNode.from_values(1, 2, 3)
-        ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3, next=None)))
-        """
-        rolling = result = ListNode(val=first)
-        for value in values:
-            rolling.next = ListNode(val=value)
-            rolling = rolling.next
-
-        return result
-
-
-def sum_rec(l1: ListNode, l2: ListNode, carry: int = 0) -> ListNode:
-    result = ListNode(val=l1.val + l2.val + carry)
+def sum_rec(
+    l1: LinkedList[int], l2: LinkedList[int], carry: int = 0
+) -> LinkedList[int]:
+    result = LinkedList[int](val=l1.val + l2.val + carry)
     carry = result.val // 10
     result.val %= 10
     if l1.next and l2.next:
@@ -85,20 +38,20 @@ def sum_rec(l1: ListNode, l2: ListNode, carry: int = 0) -> ListNode:
         result.next = l2.next
         result.next.val += carry
     elif carry > 0:
-        result.next = ListNode(carry)
+        result.next = LinkedList(carry)
 
     return result
 
 
-def sum_loop(l1: ListNode, l2: ListNode) -> ListNode:
-    rolling = result = ListNode(l1.val + l2.val)
+def sum_loop(l1: LinkedList[int], l2: LinkedList[int]) -> LinkedList[int]:
+    rolling = result = LinkedList(l1.val + l2.val)
     carry = rolling.val // 10
     rolling.val %= 10
-    rolling1: ListNode | None = l1.next
-    rolling2: ListNode | None = l2.next
+    rolling1: LinkedList[int] | None = l1.next
+    rolling2: LinkedList[int] | None = l2.next
     while rolling1 or rolling2:
         if rolling1 and rolling2:
-            rolling.next = ListNode(rolling1.val + rolling2.val + carry)
+            rolling.next = LinkedList(rolling1.val + rolling2.val + carry)
             rolling = rolling.next
             rolling1 = rolling1.next
             rolling2 = rolling2.next
@@ -112,28 +65,28 @@ def sum_loop(l1: ListNode, l2: ListNode) -> ListNode:
             break
 
     if carry == 1:
-        rolling.next = ListNode(1)
+        rolling.next = LinkedList(1)
 
     return result
 
 
 class Tests(unittest.TestCase):
-    solutions: list[Callable[[ListNode, ListNode], ListNode]] = [
+    solutions: list[Callable[[LinkedList[int], LinkedList[int]], LinkedList[int]]] = [
         sum_rec,
         sum_loop,
     ]
 
-    cases: list[tuple[ListNode, ListNode, ListNode]] = [
-        (ListNode(0), ListNode(0), ListNode(0)),
+    cases: list[tuple[LinkedList[int], LinkedList[int], LinkedList[int]]] = [
+        (LinkedList(0), LinkedList(0), LinkedList(0)),
         (
-            ListNode.from_values(2, 4, 3),
-            ListNode.from_values(5, 6, 4),
-            ListNode.from_values(7, 0, 8),
+            LinkedList.from_values([2, 4, 3], allow_empty=False),
+            LinkedList.from_values([5, 6, 4], allow_empty=False),
+            LinkedList.from_values([7, 0, 8], allow_empty=False),
         ),
         (
-            ListNode.from_values(4, 4, 4),
-            ListNode.from_values(6, 5, 5),
-            ListNode.from_values(0, 0, 0, 1),
+            LinkedList.from_values([4, 4, 4], allow_empty=False),
+            LinkedList.from_values([6, 5, 5], allow_empty=False),
+            LinkedList.from_values([0, 0, 0, 1], allow_empty=False),
         ),
     ]
 

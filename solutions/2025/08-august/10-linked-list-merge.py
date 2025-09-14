@@ -46,6 +46,9 @@ if TYPE_CHECKING:
     )
 
 
+from ds.linked_list import LinkedList
+
+
 @dataclass
 class Node[T]:
     """A container for a particular value in a linked list."""
@@ -84,23 +87,25 @@ class Node[T]:
 
 
 class Solution(Protocol):
-    def merge[T: Comparable](self, lists: list[Node[T]]) -> Node[T] | None: ...
+    def merge[T: Comparable](
+        self, lists: list[LinkedList[T]]
+    ) -> LinkedList[T] | None: ...
 
 
 class SolutionPure(Solution):
     """My pure implementation of the solution."""
 
     def merge_two[T: Comparable](
-        self, a: Node[T] | None, b: Node[T] | None
-    ) -> Node[T] | None:
-        dummy: Node[T] = Node(cast(T, None))
-        last: Node[T] = dummy
+        self, a: LinkedList[T] | None, b: LinkedList[T] | None
+    ) -> LinkedList[T] | None:
+        dummy: LinkedList[T] = LinkedList(cast(T, None))
+        last: LinkedList[T] = dummy
         while a and b:
             if lt(a.val, b.val):
-                last.next = Node(a.val)
+                last.next = LinkedList(a.val)
                 a = a.next
             else:
-                last.next = Node(b.val)
+                last.next = LinkedList(b.val)
                 b = b.next
             last = last.next
 
@@ -109,8 +114,8 @@ class SolutionPure(Solution):
         return dummy.next
 
     def merge_multiple[T: Comparable](
-        self, lists: list[Node[T]], i: int, j: int
-    ) -> Node[T] | None:
+        self, lists: list[LinkedList[T]], i: int, j: int
+    ) -> LinkedList[T] | None:
         if j - i == 1:
             return lists[i]
 
@@ -120,7 +125,7 @@ class SolutionPure(Solution):
             self.merge_multiple(lists, mid, j),
         )
 
-    def merge[T: Comparable](self, lists: list[Node[T]]) -> Node[T] | None:
+    def merge[T: Comparable](self, lists: list[LinkedList[T]]) -> LinkedList[T] | None:
         """
         Merge a list of sorted linked lists. This uses an algorithm similar to merge
         sort, recursively splitting the list in half and merging each half into the
@@ -134,10 +139,10 @@ class SolutionInPlace(SolutionPure, Solution):
 
     @override
     def merge_two[T: Comparable](
-        self, a: Node[T] | None, b: Node[T] | None
-    ) -> Node[T] | None:
-        dummy: Node[T] = Node(cast(T, None))
-        last: Node[T] = dummy
+        self, a: LinkedList[T] | None, b: LinkedList[T] | None
+    ) -> LinkedList[T] | None:
+        dummy: LinkedList[T] = LinkedList(cast(T, None))
+        last: LinkedList[T] = dummy
         while a and b:
             if lt(a.val, b.val):
                 last.next = a
@@ -168,10 +173,10 @@ class Tests(unittest.TestCase):
     def test_cases(self):
         for solution, (lists_values, expected) in product(self.solutions, self.cases):
             with self.subTest(lists=lists_values, expected=expected):
-                lists: list[Node[int]] = list(
-                    filter(None, map(Node.from_values, lists_values))
+                lists: list[LinkedList[int]] = list(
+                    filter(None, map(LinkedList.from_values, lists_values))
                 )
-                actual: Node[int] | None = solution().merge(lists)
+                actual: LinkedList[int] | None = solution().merge(lists)
                 self.assertEqual(expected, actual and list(actual.values()))
 
 

@@ -4,129 +4,72 @@ recursively. Can you get both solutions?
 
 Example:
 
->>> ls = ListNode.from_values(4, 3, 2, 1, 0)
+>>> ls = LinkedList.from_values(4, 3, 2, 1, 0)
 >>> list(ls)
 [4, 3, 2, 1, 0]
+>>> reverse_rec(ls)
+>>> list(ls)
+[0, 1, 2, 3, 4]
 """
 
 from __future__ import annotations
 
 import unittest
-from dataclasses import dataclass
-from typing import Any
+
+from ds.linked_list import LinkedList
 
 
-@dataclass
-class ListNode:
-    val: Any
-    next: ListNode | None = None
+def last(node: LinkedList[int]) -> LinkedList[int]:
+    while node.next:
+        node = node.next
 
-    @staticmethod
-    def from_values(val: Any, *rest: Any) -> ListNode:
-        """
-        Create a ListNode from a sequence of values
+    return node
 
-        >>> ls = ListNode.from_values(1, 2, 3)
-        >>> list(ls)
-        [1, 2, 3]
-        """
-        head = ListNode(val)
-        node = head
-        for value in rest:
-            node.next = ListNode(value)
-            node = node.next
 
-        return head
+def reverse_loop(node: LinkedList[int]) -> None:
+    prev_node = node
+    next_node: LinkedList[int] | None = node.next
+    node.next = None
+    while next_node is not None:  # B, C
+        next_node.next, prev_node, next_node = prev_node, next_node, next_node.next
 
-    def copy(self):
-        return ListNode(val=self.val, next=self.next.copy() if self.next else None)
 
-    def __iter__(self):
-        """
-        Iterate through the values of this ListNode.
-
-        >>> ls = ListNode(1, ListNode(2, ListNode(3)))
-        >>> list(ls)
-        [1, 2, 3]
-        """
-        node: ListNode | None = self
-        while node is not None:
-            yield node.val
-            node = node.next
-
-    def __str__(self) -> str:
-        """
-        Return a string representation of this ListNode.
-
-        >>> ls = ListNode.from_values(1, 2, 3)
-        >>> str(ls)
-        '1 -> 2 -> 3'
-        """
-        return " -> ".join(map(str, self))
-
-    def last(self) -> ListNode:
-        node: ListNode = self
-        while node.next:
-            node = node.next
-
-        return node
-
-    def reverse_loop(self) -> None:
-        prev_node = self
-        next_node: ListNode | None = self.next
-        self.next = None
-        while next_node is not None:  # B, C
-            next_node.next, prev_node, next_node = prev_node, next_node, next_node.next
-
-    def reverse_rec(self, prev_node: ListNode | None = None) -> None:
-        next_node, self.next = self.next, prev_node
-        if next_node:
-            next_node.reverse_rec(self)
+def reverse_rec(
+    node: LinkedList[int], prev_node: LinkedList[int] | None = None
+) -> None:
+    next_node, node.next = node.next, prev_node
+    if next_node:
+        reverse_rec(next_node, node)
 
 
 class Tests(unittest.TestCase):
     @staticmethod
-    def cases() -> list[tuple[ListNode, ListNode]]:
+    def cases() -> list[tuple[LinkedList[int], LinkedList[int]]]:
         return [
-            (ListNode.from_values(1), ListNode.from_values(1)),
-            (ListNode.from_values(4, 3, 2, 1, 0), ListNode.from_values(0, 1, 2, 3, 4)),
+            (LinkedList(1), LinkedList(1)),
+            (
+                LinkedList.from_values([4, 3, 2, 1, 0], allow_empty=False),
+                LinkedList.from_values([0, 1, 2, 3, 4], allow_empty=False),
+            ),
         ]
-
-    def test_clone(self):
-        value = ListNode(
-            val=4,
-            next=ListNode(
-                val=3,
-                next=ListNode(val=2, next=ListNode(val=1, next=ListNode(val=0))),
-            ),
-        )
-        self.assertEqual(value, value.copy())
-
-    def test_from_values(self):
-        self.assertEqual(
-            ListNode(
-                val=4,
-                next=ListNode(
-                    val=3,
-                    next=ListNode(val=2, next=ListNode(val=1, next=ListNode(val=0))),
-                ),
-            ),
-            ListNode.from_values(4, 3, 2, 1, 0),
-        )
 
     def test_loop(self):
         for head, expected in self.cases():
-            with self.subTest(head=head.copy()):
-                last = head.last()
-                head.reverse_loop()
-                self.assertEqual(expected, last)
+            assert head != None
+
+            with self.subTest(head=list(head)):
+                last_node = last(head)
+                reverse_loop(head)
+                self.assertEqual(expected, last_node)
 
     def test_rec(self):
         for head, expected in self.cases():
-            with self.subTest(head=head.copy()):
-                last = head.last()
-                head.reverse_rec()
-                self.assertEqual(expected, last)
+            assert head != None
+
+            with self.subTest(head=list(head)):
+                last_node = last(head)
+                reverse_rec(head)
+                self.assertEqual(expected, last_node)
 
 
 if __name__ == "__main__":

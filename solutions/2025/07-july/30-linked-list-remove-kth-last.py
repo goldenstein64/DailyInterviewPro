@@ -8,38 +8,15 @@ Try to do it in a single pass and using constant space.
 from __future__ import annotations
 
 import unittest
-from dataclasses import dataclass
 from itertools import product
-from typing import Callable, Iterable, Iterator, cast
+from typing import Callable, cast
+
+from ds.linked_list import LinkedList
 
 
-@dataclass
-class Node:
-    val: int
-    next: Node | None = None
-
-    def __iter__(self) -> Iterator[Node]:
-        node = self
-        while node:
-            yield node
-            node = node.next
-
-    def values(self) -> Iterator[int]:
-        return (node.val for node in self)
-
-    @staticmethod
-    def from_values(values: Iterable[int]) -> Node:
-        it = iter(values)
-        head: Node = Node(next(it))
-        node: Node = head
-        for val in it:
-            node.next = Node(val)
-            node = node.next
-
-        return head
-
-
-def remove_kth_from_linked_list(head: Node, k: int) -> Node | None:
+def remove_kth_from_linked_list(
+    head: LinkedList[int], k: int
+) -> LinkedList[int] | None:
     """
     Remove the kth element from the end of head. This implementation uses two
     passes: one to find the length and another to find the element that
@@ -49,7 +26,7 @@ def remove_kth_from_linked_list(head: Node, k: int) -> Node | None:
         raise Exception("k must be greater than 0")
 
     length: int = 0
-    node: Node | None = head
+    node: LinkedList[int] | None = head
     while node:
         length += 1
         node = node.next
@@ -62,8 +39,8 @@ def remove_kth_from_linked_list(head: Node, k: int) -> Node | None:
     if rev_k == 1:
         return head.next
 
-    prev_node: Node = head
-    node: Node | None = head
+    prev_node: LinkedList[int] = head
+    node: LinkedList[int] | None = head
     while node and rev_k > 1:
         prev_node = node
         node = node.next
@@ -77,7 +54,9 @@ def remove_kth_from_linked_list(head: Node, k: int) -> Node | None:
     return head
 
 
-def remove_kth_from_linked_list_gpt(head: Node, k: int) -> Node | None:
+def remove_kth_from_linked_list_gpt(
+    head: LinkedList[int], k: int
+) -> LinkedList[int] | None:
     """
     An implementation given to me by ChatGPT. It's known as the "two-pointer
     technique". It effectively uses between one and two passes if we're counting
@@ -87,9 +66,9 @@ def remove_kth_from_linked_list_gpt(head: Node, k: int) -> Node | None:
     if k < 1:
         raise Exception("k must be greater than 0")
 
-    dummy = Node(-1, head)
-    front: Node | None = dummy
-    back: Node | None = dummy
+    dummy = LinkedList(-1, head)
+    front: LinkedList[int] | None = dummy
+    back: LinkedList[int] | None = dummy
 
     for _ in range(k + 1):
         if not front:
@@ -98,15 +77,15 @@ def remove_kth_from_linked_list_gpt(head: Node, k: int) -> Node | None:
 
     while front:
         front = front.next
-        back = cast(Node, back.next)
+        back = cast(LinkedList[int], back.next)
 
-    back.next = cast(Node, back.next).next
+    back.next = cast(LinkedList[int], back.next).next
 
     return dummy.next
 
 
 class Tests(unittest.TestCase):
-    solutions: list[Callable[[Node, int], Node | None]] = [
+    solutions: list[Callable[[LinkedList[int], int], LinkedList[int] | None]] = [
         remove_kth_from_linked_list,
         remove_kth_from_linked_list_gpt,
     ]
@@ -133,12 +112,12 @@ class Tests(unittest.TestCase):
             with self.subTest(solution=name, head=values, k=k, expected=expected):
                 if isinstance(expected, Exception):
                     with self.assertRaises(Exception) as e:
-                        node = Node.from_values(values)
+                        node = LinkedList.from_values(values, allow_empty=False)
                         actual_node = solution(node, k)
 
                     self.assertEqual(expected.args, e.exception.args)
                 else:
-                    node = Node.from_values(values)
+                    node = LinkedList.from_values(values, allow_empty=False)
                     actual_node = solution(node, k)
                     actual = [*actual_node.values()] if actual_node else None
                     self.assertEqual(expected, actual)
