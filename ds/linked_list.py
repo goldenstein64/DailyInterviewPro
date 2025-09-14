@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Generator, Iterable, Iterator
 from dataclasses import dataclass
 from typing import Literal, overload
+import unittest
 
 
 @dataclass
@@ -57,3 +58,42 @@ class LinkedList[T]:
 
     def __str__(self) -> str:
         return " -> ".join(map(str, self.values()))
+
+
+class Tests(unittest.TestCase):
+    def test_clone(self):
+        value: LinkedList[int] = LinkedList(
+            val=4,
+            next=LinkedList(
+                val=3,
+                next=LinkedList(val=2, next=LinkedList(val=1, next=LinkedList(val=0))),
+            ),
+        )
+        self.assertEqual(value, LinkedList.from_values(value))
+
+    def test_from_values(self):
+        expected = LinkedList(
+            10,
+            LinkedList(
+                5,
+                LinkedList(
+                    -3, LinkedList(-3, LinkedList(1, LinkedList(4, LinkedList(-4))))
+                ),
+            ),
+        )
+        self.assertEqual(expected, LinkedList.from_values([10, 5, -3, -3, 1, 4, -4]))
+
+    def test_values(self):
+        expected = [10, 5, -3, -3, 1, 4, -4]
+        self.assertEqual(
+            expected,
+            list(
+                LinkedList.from_values(
+                    [10, 5, -3, -3, 1, 4, -4], allow_empty=False
+                ).values()
+            ),
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()
