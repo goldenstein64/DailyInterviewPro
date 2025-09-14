@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Generator, Iterable, Iterator
 from dataclasses import dataclass
+from typing import Literal, overload
 
 
 @dataclass
@@ -12,14 +13,29 @@ class LinkedList[T]:
     next: LinkedList[T] | None = None
     """a pointer to the next linked list node"""
 
+    @overload
     @staticmethod
-    def from_values[U](iterable: Iterable[U]) -> LinkedList[U] | None:
+    def from_values[U](
+        iterable: Iterable[U], *, allow_empty: Literal[False]
+    ) -> LinkedList[U]: ...
+    @overload
+    @staticmethod
+    def from_values[U](
+        iterable: Iterable[U], *, allow_empty: Literal[True] = True
+    ) -> LinkedList[U] | None: ...
+    @staticmethod
+    def from_values[U](
+        iterable: Iterable[U], *, allow_empty: bool = True
+    ) -> LinkedList[U] | None:
         """Generate a linked list from an iterable."""
         iterator: Iterator[U] = iter(iterable)
         try:
             head: LinkedList[U] = LinkedList(next(iterator))
         except StopIteration:
-            return None
+            if allow_empty:
+                return None
+            else:
+                raise ValueError
 
         node: LinkedList[U] = head
         for val in iterator:
