@@ -32,6 +32,18 @@ def reverse_int32(x: int) -> int:
     return result if _MIN <= result <= _MAX else 0
 
 
+def reverse_int32_divmod(x: int) -> int:
+    sign: int = -1 if x < 0 else 1
+    abs_x: int = abs(x)
+    result: int = 0
+    while abs_x > 0:
+        abs_x, mod = divmod(abs_x, 10)
+        result = result * 10 + mod
+
+    result *= sign
+    return result if _MIN <= result <= _MAX else 0
+
+
 class Tests(unittest.TestCase):
     cases: list[tuple[int, int]] = [
         (0, 0),
