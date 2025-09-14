@@ -159,3 +159,9 @@ class BinaryTree[T]:
                 else:
                     yield last.val
                     last_visited = stack.pop()
+
+
+if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
