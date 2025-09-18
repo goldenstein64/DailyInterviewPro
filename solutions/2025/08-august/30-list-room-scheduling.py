@@ -14,6 +14,7 @@ from heapq import heappop, heappush
 from itertools import islice, product
 from sys import maxsize
 from typing import Callable
+from operator import itemgetter
 
 
 def min_rooms(schedule: list[tuple[int, int]]) -> int:
@@ -52,7 +53,7 @@ def min_rooms_gpt(schedule: list[tuple[int, int]]) -> int:
     if not schedule:
         return 0
 
-    start_times: list[tuple[int, int]] = sorted(schedule, key=lambda i: i[0])
+    start_times: list[tuple[int, int]] = sorted(schedule, key=itemgetter(0))
     end_times: list[int] = []
 
     for start, end in start_times:

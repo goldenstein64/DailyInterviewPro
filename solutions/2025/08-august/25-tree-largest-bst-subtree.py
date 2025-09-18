@@ -32,6 +32,7 @@ from __future__ import annotations
 
 import unittest
 from dataclasses import dataclass
+from operator import attrgetter
 
 from ds.binary_tree import BinaryTree, TupleBinaryTree
 
@@ -104,7 +105,7 @@ def largest_bst_subtree_inner(root: BinaryTree[int]) -> BSTSubtreeResult:
                     max=subtree_right.max,
                 )
 
-            return max(subtree_left, subtree_right, key=lambda st: st.size)
+            return max(subtree_left, subtree_right, key=attrgetter("size"))
         case (BinaryTree() as left, None):
             subtree = largest_bst_subtree_inner(left)
             # try to expand the tree
