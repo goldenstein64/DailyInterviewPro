@@ -87,6 +87,7 @@ class Tests(unittest.TestCase):
             ([3, 4, 3], 4),
             ([4, 3, 3], 4),
             ([4, 3, 2, 4, 1, 3, 2], 1),
+            ([7, 3, 5, 5, 4, 3, 4, 8, 8], 7),
         ]
 
     def test_cases(self):
