@@ -22,6 +22,17 @@ import unittest
 
 
 def find_smallest(nums: list[int]) -> int:
+    """
+    Find the smallest positive integer that cannot be represented as a sum of a
+    subset of the input list, which is a sorted list of positive integers. This
+    was adapted from a Geeks for Geeks tutorial.
+
+    This has O(n) time complexity and O(1) space.
+
+    See:
+    https://www.geeksforgeeks.org/dsa/find-smallest-value-represented-sum-subset-given-array/
+    https://www.youtube.com/watch?v=0fo1GoekyaY
+    """
     result: int = 1
     for num in nums:
         if result < num:
