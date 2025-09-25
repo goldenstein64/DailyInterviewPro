@@ -4,24 +4,24 @@ that tree, which is a valid binary search tree.
 
 Examples:
 
->>> largest_bst_subtree(Node(1)).as_tuples()
+>>> largest_bst_subtree(BinaryTree(1)).as_tuples()
 (1,)
 
->>> node = Node.from_tuples(((1,), 1))
+>>> node = BinaryTree.from_tuples(((1,), 1))
 >>> largest_bst_subtree(node).as_tuples()
 (1,)
 
->>> node = Node.from_tuples(((1,), 2, (3,)))
+>>> node = BinaryTree.from_tuples(((1,), 2, (3,)))
 >>> largest_bst_subtree(node).as_tuples()
 ((1,), 2, (3,))
 
->>> node = Node.from_tuples(
+>>> node = BinaryTree.from_tuples(
 ...     (((2,), 6), 5, ((4,), 7, (9,)))
 ... )
 >>> largest_bst_subtree(node).as_tuples()
 ((4,), 7, (9,))
 
->>> node = Node.from_tuples(
+>>> node = BinaryTree.from_tuples(
 ...     (((2,), 4), 5, ((6,), 7, (9,)))
 ... )
 >>> largest_bst_subtree(node).as_tuples()
@@ -35,45 +35,6 @@ from dataclasses import dataclass
 from operator import attrgetter
 
 from ds.binary_tree import BinaryTree, TupleBinaryTree
-
-type TupleNode = (
-    tuple[int]
-    | tuple[TupleNode, int]
-    | tuple[int, TupleNode]
-    | tuple[TupleNode, int, TupleNode]
-)
-
-
-@dataclass
-class Node:
-    val: int
-    left: Node | None = None
-    right: Node | None = None
-
-    @staticmethod
-    def from_tuples(tuples: TupleNode) -> Node:
-        match tuples:
-            case (int(val),):
-                return Node(val, None, None)
-            case (tuple(left), int(val)):
-                return Node(val, Node.from_tuples(left), None)
-            case (int(val), tuple(right)):
-                return Node(val, None, Node.from_tuples(right))
-            case (tuple(left), int(val), tuple(right)):
-                return Node(val, Node.from_tuples(left), Node.from_tuples(right))
-
-    def as_tuples(self) -> TupleNode:
-        match self:
-            case Node(val, None, None):
-                return (val,)
-            case Node(val, Node() as left, None):
-                return (left.as_tuples(), val)
-            case Node(val, None, Node() as right):
-                return (val, right.as_tuples())
-            case Node(val, Node() as left, Node() as right):
-                return (left.as_tuples(), val, right.as_tuples())
-            case _:
-                raise ValueError("unknown Node structure")
 
 
 @dataclass
