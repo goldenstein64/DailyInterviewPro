@@ -20,6 +20,8 @@ True
 False
 """
 
+from itertools import islice
+from collections.abc import Iterable
 import unittest
 
 
@@ -44,24 +46,22 @@ def buddy_strings(a: str, b: str) -> bool:
 
     In the worst case, this has O(n) time complexity and O(n) space.
     """
-    if len(a) != len(b):
+    n: int = len(a)
+    if n != len(b):
         return False
 
-    swap_indexes: list[int] = []
-    for i, (ca, cb) in enumerate(zip(a, b)):
-        if ca != cb:
-            swap_indexes.append(i)
-            if len(swap_indexes) > 2:
-                return False
+    indexes: Iterable[int] = range(n)
+    filtered: Iterable[int] = filter(lambda i: a[i] != b[i], indexes)
+    first3: Iterable[int] = islice(filtered, 3)
+    swap_indexes: list[int] = list(first3)
 
-    if not swap_indexes:  # a and b are identical
-        return has_duplicates(a)
-
-    return (
-        len(swap_indexes) == 2
-        and a[swap_indexes[0]] == b[swap_indexes[1]]
-        and a[swap_indexes[1]] == b[swap_indexes[0]]
-    )
+    match swap_indexes:
+        case []:  # a and b are identical
+            return has_duplicates(a)
+        case [i, j]:
+            return a[i] == b[j] and a[j] == b[i]
+        case _:
+            return False
 
 
 class Tests(unittest.TestCase):
