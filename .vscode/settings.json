@@ -3,7 +3,14 @@
   "python.useEnvironmentsExtension": true,
   "editor.formatOnSave": true,
   "black-formatter.importStrategy": "fromEnvironment",
-  "cSpell.words": ["Dunder", "typeshed", "unival"],
+  "cSpell.words": [
+    "Dunder",
+    "inorder",
+    "postorder",
+    "preorder",
+    "typeshed",
+    "unival"
+  ],
   "python-envs.defaultEnvManager": "ms-python.python:venv",
   "python-envs.pythonProjects": []
 }
