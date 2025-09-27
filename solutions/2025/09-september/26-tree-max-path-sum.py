@@ -86,10 +86,27 @@ def max_path_sum_gpt(root: BinaryTree[int]) -> int:
     return max_sum
 
 
+def max_path_sum_iter_gpt(root: BinaryTree[int]) -> int:
+    results: dict[int, tuple[int, int]] = {}
+    for node in root.postorder_nodes_iter():
+        val: int = node.val
+        left_joint, left_disjoint = results.get(id(node.left), (0, -maxsize))
+        right_joint, right_disjoint = results.get(id(node.right), (0, -maxsize))
+
+        joint_max: int = val + max(0, left_joint, right_joint)
+        disjoint_max: int = max(
+            joint_max, val + left_joint + right_joint, left_disjoint, right_disjoint
+        )
+        results[id(node)] = (joint_max, disjoint_max)
+
+    return results[id(root)][1]
+
+
 class Tests(unittest.TestCase):
     solutions: list[Callable[[BinaryTree[int]], int]] = [
         max_path_sum,
         max_path_sum_gpt,
+        max_path_sum_iter_gpt,
     ]
 
     cases: list[tuple[TupleBinaryTree[int], int]] = [
@@ -110,14 +127,7 @@ class Tests(unittest.TestCase):
         (((-1,), -2, (3,)), 3),
         (((1,), -2, (-3,)), 1),
         (((-1,), -2, (-3,)), -1),
-        (
-            (
-                ((20,), 2, (1,)),
-                10,
-                (10, ((3,), -25, (4,))),
-            ),
-            42,
-        ),
+        ((((20,), 2, (1,)), 10, (10, ((3,), -25, (4,)))), 42),
     ]
 
     def test_cases(self):
