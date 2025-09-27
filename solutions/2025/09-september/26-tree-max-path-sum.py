@@ -88,7 +88,7 @@ def max_path_sum_gpt(root: BinaryTree[int]) -> int:
 
 def max_path_sum_iter_gpt(root: BinaryTree[int]) -> int:
     results: dict[int, tuple[int, int]] = {}
-    for node in root.postorder_nodes_iter():
+    for node in root.postorder():
         val: int = node.val
         left_joint, left_disjoint = results.get(id(node.left), (0, -maxsize))
         right_joint, right_disjoint = results.get(id(node.right), (0, -maxsize))

@@ -216,8 +216,8 @@ class Tests(unittest.TestCase):
         for _ in range(100):
             root: BinaryTree[str] = Fuzz.gen_rand_node(size=randint(1, 100))
 
-            preorder: list[str] = list(root.preorder())
-            inorder: list[str] = list(root.inorder())
+            preorder: list[str] = list(root.preorder_values())
+            inorder: list[str] = list(root.inorder_values())
             expected: BinaryTree[str] = root
             for solution in self.solutions:
                 sol = solution.__name__
@@ -228,29 +228,31 @@ class Tests(unittest.TestCase):
 
     def test_preorder(self):
         node = Fuzz.gen_rand_node(size=10_000)
-        preorder1 = list(node.preorder())
-        preorder2 = list(node.preorder_iter())
+        preorder1 = list(node.preorder_values_rec())
+        preorder2 = list(node.preorder_values())
         self.assertEqual(preorder1, preorder2)
 
     def test_inorder(self):
         node = Fuzz.gen_rand_node(size=10_000)
-        inorder1 = list(node.inorder())
-        inorder2 = list(node.inorder_iter())
+        inorder1 = list(node.inorder_values_rec())
+        inorder2 = list(node.inorder_values())
         self.assertEqual(inorder1, inorder2)
 
     def test_postorder(self):
         node = Fuzz.gen_rand_node(size=10_000)
-        postorder1 = list(node.postorder())
-        postorder2 = list(node.postorder_iter())
+        postorder1 = list(node.postorder_values_rec())
+        postorder2 = list(node.postorder_values())
         self.assertEqual(postorder1, postorder2)
 
 
-if __name__ == "__main__":
-    # import doctest
+def test():
+    import doctest
 
-    # doctest.testmod()
-    # unittest.main()
+    doctest.testmod()
+    unittest.main()
 
+
+def benchmark():
     from timeit import timeit
 
     def time_reconstruct(
@@ -261,8 +263,8 @@ if __name__ == "__main__":
         node = gen(size)
 
         print("  creating traversals...", end="\r")
-        preorder = list(node.preorder_iter())
-        inorder = list(node.inorder_iter())
+        preorder = list(node.preorder_values())
+        inorder = list(node.inorder_values())
 
         print("  timing reconstruct_view...", end="\r")
         print(
@@ -279,3 +281,8 @@ if __name__ == "__main__":
     time_reconstruct(gen=Fuzz.gen_rand_node, size=1_000, trials=1_000)
     time_reconstruct(gen=Fuzz.gen_rand_node, size=10_000, trials=100)
     time_reconstruct(gen=Fuzz.gen_rand_node, size=100_000, trials=10)
+
+
+if __name__ == "__main__":
+    test()
+    # benchmark()
