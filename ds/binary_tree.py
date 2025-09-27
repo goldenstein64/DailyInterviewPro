@@ -144,6 +144,10 @@ class BinaryTree[T]:
 
     def postorder_iter(self) -> Generator[T]:
         """Perform an iterative postorder traversal of this tree."""
+        return (node.val for node in self.postorder_nodes_iter())
+
+    def postorder_nodes_iter(self) -> Generator[BinaryTree[T]]:
+        """Perform an iterative postorder traversal of this tree's nodes."""
         stack: list[BinaryTree[T]] = []
         current: BinaryTree[T] | None = self
         last_visited: BinaryTree[T] | None = None
@@ -157,7 +161,7 @@ class BinaryTree[T]:
                 if last.right and last_visited != last.right:
                     current = last.right
                 else:
-                    yield last.val
+                    yield last
                     last_visited = stack.pop()
 
 
