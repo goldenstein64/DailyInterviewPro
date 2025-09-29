@@ -6,11 +6,13 @@ digit. Add the two numbers and return it as a linked list.
 Examples:
 
 >>> # 342 + 465 = 807
->>> list(sum_loop(ListNode.from_values(2, 4, 3), ListNode.from_values(5, 6, 4)))
+>>> res = sum_loop(LinkedList.from_values([2, 4, 3]), LinkedList.from_values([5, 6, 4]))
+>>> list(res.values())
 [7, 0, 8]
 
 >>> # 444 + 556 = 1000
->>> list(sum_loop(ListNode.from_values(4, 4, 4), ListNode.from_values(6, 5, 5)))
+>>> res = sum_loop(LinkedList.from_values([4, 4, 4]), LinkedList.from_values([6, 5, 5]))
+>>> list(res.values())
 [0, 0, 0, 1]
 """
 
