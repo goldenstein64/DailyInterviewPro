@@ -4,49 +4,37 @@ and return the node. Note: the lists are acyclic.
 
 Example:
 
->>> shared = Node(3, Node(4))
->>> A = Node(1, Node(2, shared))
->>> B = Node(6, shared)
+>>> shared = LinkedList(3, LinkedList(4))
+>>> A = LinkedList(1, LinkedList(2, shared))
+>>> B = LinkedList(6, shared)
 >>> intersection(A, B)
-Node(val=3, next=Node(val=4, next=None))
+LinkedList(val=3, next=LinkedList(val=4, next=None))
 """
 
 from __future__ import annotations
 
 import unittest
-from dataclasses import dataclass
-from typing import Generator
+
+from ds.linked_list import LinkedList
 
 
-@dataclass
-class Node:
-    val: int
-    next: Node | None = None
-
-    def __iter__(self) -> Generator[Node]:
-        node = self
-        while node:
-            yield node
-            node = node.next
-
-
-def intersection(a: Node, b: Node) -> Node:
-    shared_nodes = set(map(id, a))
+def intersection(a: LinkedList[int], b: LinkedList[int]) -> LinkedList[int]:
+    shared_nodes: set[int] = set(map(id, a))
     return next(node for node in b if id(node) in shared_nodes)
 
 
 class Tests(unittest.TestCase):
     def test_minimal(self):
-        shared = Node(3)
-        a = Node(1, shared)
-        b = Node(2, shared)
+        shared: LinkedList[int] = LinkedList(3)
+        a: LinkedList[int] = LinkedList(1, shared)
+        b: LinkedList[int] = LinkedList(2, shared)
 
         self.assertEqual(shared, intersection(a, b))
 
     def test_smoke(self):
-        shared = Node(3, Node(4))
-        a = Node(1, Node(2, shared))
-        b = Node(6, shared)
+        shared: LinkedList[int] = LinkedList(3, LinkedList(4))
+        a: LinkedList[int] = LinkedList(1, LinkedList(2, shared))
+        b: LinkedList[int] = LinkedList(6, shared)
 
         self.assertEqual(shared, intersection(a, b))
 
