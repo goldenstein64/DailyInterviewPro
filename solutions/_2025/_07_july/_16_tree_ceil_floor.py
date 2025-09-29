@@ -7,52 +7,12 @@ exist, then print them as None.
 from __future__ import annotations
 
 import unittest
-from dataclasses import dataclass
 from itertools import product
 from typing import Callable
 
 from ds.binary_tree import BinaryTree
 
-type TupleNode = (
-    tuple[int]
-    | tuple[TupleNode, int]
-    | tuple[int, TupleNode]
-    | tuple[TupleNode, int, TupleNode]
-)
-
 type Bounds = tuple[int | None, int | None]
-
-
-@dataclass
-class Node:
-    value: int
-    left: Node | None = None
-    right: Node | None = None
-
-    @staticmethod
-    def from_tuples(tuples: TupleNode) -> Node:
-        match tuples:
-            case (int(val),):
-                return Node(val, None, None)
-            case (tuple(left), int(val)):
-                return Node(val, Node.from_tuples(left), None)
-            case (int(val), tuple(right)):
-                return Node(val, None, Node.from_tuples(right))
-            case (tuple(left), int(val), tuple(right)):
-                return Node(val, Node.from_tuples(left), Node.from_tuples(right))
-
-    def as_tuples(self) -> TupleNode:
-        match self:
-            case Node(val, None, None):
-                return (val,)
-            case Node(val, Node() as left, None):
-                return (left.as_tuples(), val)
-            case Node(val, None, Node() as right):
-                return (val, right.as_tuples())
-            case Node(val, Node() as left, Node() as right):
-                return (left.as_tuples(), val, right.as_tuples())
-            case _:
-                raise ValueError("unknown Node structure")
 
 
 def find_ceiling_floor_loop(root: BinaryTree[int], k: int) -> Bounds:
