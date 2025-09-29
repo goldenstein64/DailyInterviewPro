@@ -69,7 +69,7 @@ class Tests(unittest.TestCase):
                 next=LinkedList(val=2, next=LinkedList(val=1, next=LinkedList(val=0))),
             ),
         )
-        self.assertEqual(value, LinkedList.from_values(value))
+        self.assertEqual(value, LinkedList.from_values(value.values()))
 
     def test_from_values(self):
         expected = LinkedList(
