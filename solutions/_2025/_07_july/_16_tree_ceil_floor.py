@@ -61,10 +61,10 @@ def find_ceiling_floor_loop(root: BinaryTree[int], k: int) -> Bounds:
     node: BinaryTree[int] | None = root
     while node is not None:
         if k < node.val:
-            ceil = root.val if ceil is None else min(root.val, ceil)
+            ceil = node.val if ceil is None else min(node.val, ceil)
             node = node.left
         elif node.val < k:
-            floor = root.val if floor is None else max(root.val, floor)
+            floor = node.val if floor is None else max(node.val, floor)
             node = node.right
         else:
             return (k, k)
