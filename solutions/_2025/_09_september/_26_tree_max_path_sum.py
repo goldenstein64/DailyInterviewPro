@@ -24,11 +24,12 @@ Example:
 42
 """
 
-from collections.abc import Callable
-from ds.binary_tree import BinaryTree, TupleBinaryTree
-from itertools import product
 import unittest
+from collections.abc import Callable
+from itertools import product
 from sys import maxsize
+
+from ds.binary_tree import BinaryTree, TupleBinaryTree
 
 
 def max_path_sum_inner(root: BinaryTree[int]) -> tuple[int, int]:

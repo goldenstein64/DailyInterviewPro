@@ -22,8 +22,8 @@ True
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 import unittest
+from dataclasses import dataclass, field
 
 
 @dataclass

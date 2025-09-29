@@ -13,10 +13,10 @@ True
 A valid cycle exists, `['apple', 'eggs', 'snack', 'karat', 'tuna']`
 """
 
-from collections import defaultdict, Counter
+import unittest
+from collections import Counter, defaultdict
 from collections.abc import Callable
 from itertools import product
-import unittest
 
 
 def chained_words(words: list[str]) -> bool:

@@ -19,10 +19,11 @@ Example:
 """
 
 from __future__ import annotations
-from collections.abc import Sequence, Iterable
-from typing import overload
-from itertools import accumulate
+
 import unittest
+from collections.abc import Iterable, Sequence
+from itertools import accumulate
+from typing import overload
 
 
 class MinStack(Sequence[int]):

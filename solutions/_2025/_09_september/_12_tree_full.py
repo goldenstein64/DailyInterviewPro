@@ -12,9 +12,10 @@ Example:
 ((0,), 1, ((9,), 3, (4,)))
 """
 
-from ds.binary_tree import BinaryTree, TupleBinaryTree
-from typing import overload
 import unittest
+from typing import overload
+
+from ds.binary_tree import BinaryTree, TupleBinaryTree
 
 
 @overload

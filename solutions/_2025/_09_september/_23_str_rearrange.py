@@ -9,9 +9,9 @@ Example:
 True
 """
 
-from itertools import pairwise, repeat
-from collections import Counter
 import unittest
+from collections import Counter
+from itertools import pairwise, repeat
 
 
 def no_runs(s: str | None) -> bool:

@@ -7,9 +7,9 @@ Example:
 [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
 """
 
-from itertools import permutations, product
-from collections.abc import Generator, Sequence, Callable
 import unittest
+from collections.abc import Callable, Generator, Sequence
+from itertools import permutations, product
 
 
 def cycles_of(nums: list[int]) -> Generator[list[int]]:

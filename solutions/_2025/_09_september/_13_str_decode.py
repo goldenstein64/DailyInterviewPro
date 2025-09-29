@@ -13,9 +13,9 @@ Examples:
 
 from __future__ import annotations
 
-from enum import Enum, auto
-from dataclasses import dataclass, field
 import unittest
+from dataclasses import dataclass, field
+from enum import Enum, auto
 
 # expr = (ALPHA+ | DIGIT+ "[" expr "]") expr?
 

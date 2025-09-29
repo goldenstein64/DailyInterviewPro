@@ -20,10 +20,10 @@ Example:
 '6054854654'
 """
 
+import unittest
+from collections.abc import Callable
 from functools import cmp_to_key
 from itertools import product
-from collections.abc import Callable
-import unittest
 
 
 def cmp_by_concat(a: str, b: str) -> int:
@@ -84,10 +84,10 @@ class Tests(unittest.TestCase):
 
 
 def benchmark():
-    from timeit import timeit
     import tracemalloc
-    from random import random, randint
     from math import floor
+    from random import randint, random
+    from timeit import timeit
 
     nums: list[int] = []
     for _ in range(randint(8_000, 12_000)):

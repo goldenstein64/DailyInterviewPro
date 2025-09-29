@@ -8,10 +8,10 @@ Example:
 4
 """
 
+import unittest
 from collections.abc import Callable
 from dataclasses import dataclass
 from itertools import product
-import unittest
 
 
 @dataclass(frozen=True)
