@@ -9,8 +9,8 @@ Example:
 """
 
 import unittest
-from collections.abc import Generator
 from collections import deque
+from collections.abc import Generator
 
 from ds.binary_tree import BinaryTree, TupleBinaryTree
 
