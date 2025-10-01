@@ -4,11 +4,12 @@ recursively. Can you get both solutions?
 
 Example:
 
->>> ls = LinkedList.from_values(4, 3, 2, 1, 0)
->>> list(ls)
+>>> ls = LinkedList.from_values([4, 3, 2, 1, 0])
+>>> list(ls.values())
 [4, 3, 2, 1, 0]
+>>> last_node = last(ls)
 >>> reverse_rec(ls)
->>> list(ls)
+>>> list(last_node.values())
 [0, 1, 2, 3, 4]
 """
 
