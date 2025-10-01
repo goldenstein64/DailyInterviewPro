@@ -57,8 +57,6 @@ class Tests(unittest.TestCase):
 
     def test_loop(self):
         for head, expected in self.cases():
-            assert head != None
-
             with self.subTest(head=list(head)):
                 last_node = last(head)
                 reverse_loop(head)
@@ -66,8 +64,6 @@ class Tests(unittest.TestCase):
 
     def test_rec(self):
         for head, expected in self.cases():
-            assert head != None
-
             with self.subTest(head=list(head)):
                 last_node = last(head)
                 reverse_rec(head)
