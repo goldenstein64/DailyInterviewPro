@@ -16,27 +16,28 @@ Example:
 from __future__ import annotations
 
 import unittest
+from typing import Any
 
 from ds.linked_list import LinkedList
 
 
-def last(node: LinkedList[int]) -> LinkedList[int]:
+def last(node: LinkedList[Any]) -> LinkedList[Any]:
     while node.next:
         node = node.next
 
     return node
 
 
-def reverse_loop(node: LinkedList[int]) -> None:
-    prev_node = node
-    next_node: LinkedList[int] | None = node.next
+def reverse_loop(node: LinkedList[Any]) -> None:
+    prev_node: LinkedList[Any] = node
+    next_node: LinkedList[Any] | None = node.next
     node.next = None
     while next_node is not None:  # B, C
         next_node.next, prev_node, next_node = prev_node, next_node, next_node.next
 
 
 def reverse_rec(
-    node: LinkedList[int], prev_node: LinkedList[int] | None = None
+    node: LinkedList[Any], prev_node: LinkedList[Any] | None = None
 ) -> None:
     next_node, node.next = node.next, prev_node
     if next_node:
@@ -45,7 +46,7 @@ def reverse_rec(
 
 class Tests(unittest.TestCase):
     @staticmethod
-    def cases() -> list[tuple[LinkedList[int], LinkedList[int]]]:
+    def cases() -> list[tuple[LinkedList[Any], LinkedList[Any]]]:
         return [
             (LinkedList(1), LinkedList(1)),
             (
