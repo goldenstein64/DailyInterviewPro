@@ -68,7 +68,7 @@ def is_palindrome_iter(root: LinkedList[Any]) -> bool:
     while fast and fast.next:
         mid = cast(LinkedList[Any], mid.next)
         end = fast.next
-        fast = end.next  # note: this gets advanced twice!
+        fast = fast.next.next
 
     if fast:  # odd-length list
         # no need to compare `mid` to itself when computing `result`
