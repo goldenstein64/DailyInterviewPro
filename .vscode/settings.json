@@ -15,5 +15,6 @@
   "python-envs.pythonProjects": [],
   "python.testing.unittestArgs": ["-v", "-s", ".", "-p", "*.py"],
   "python.testing.pytestEnabled": false,
-  "python.testing.unittestEnabled": true
+  "python.testing.unittestEnabled": true,
+  "python.terminal.useEnvFile": false
 }
