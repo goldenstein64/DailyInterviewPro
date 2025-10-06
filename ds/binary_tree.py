@@ -182,6 +182,12 @@ class BinaryTree[T]:
                     yield last
                     last_visited = stack.pop()
 
+    def ancestors(self) -> Generator[BinaryTree[T]]:
+        ancestor: BinaryTree[T] | None = self
+        while ancestor:
+            yield ancestor
+            ancestor = ancestor.parent
+
 
 if __name__ == "__main__":
     import doctest
