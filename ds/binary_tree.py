@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import deque
 from collections.abc import Generator
 from dataclasses import dataclass
 from typing import cast
@@ -181,6 +182,31 @@ class BinaryTree[T]:
                 else:
                     yield last
                     last_visited = stack.pop()
+
+    def depth_walk(self) -> Generator[BinaryTree[T]]:
+        nodes: list[BinaryTree[T]] = [self]
+        while nodes:
+            node = nodes.pop()
+            yield node
+
+            if left := node.left:
+                nodes.append(left)
+
+            if right := node.right:
+                nodes.append(right)
+
+    def breadth_walk(self) -> Generator[BinaryTree[T]]:
+        nodes: deque[BinaryTree[T]] = deque()
+        nodes.append(self)
+        while nodes:
+            node = nodes.popleft()
+            yield node
+
+            if left := node.left:
+                nodes.append(left)
+
+            if right := node.right:
+                nodes.append(right)
 
     def ancestors(self) -> Generator[BinaryTree[T]]:
         ancestor: BinaryTree[T] | None = self
