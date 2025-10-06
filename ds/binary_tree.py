@@ -19,9 +19,12 @@ class BinaryTree[T]:
     val: T
     left: BinaryTree[T] | None = None
     right: BinaryTree[T] | None = None
+    parent: BinaryTree[T] | None = None
 
     @staticmethod
-    def from_tuples[U](tuples: TupleBinaryTree[U]) -> BinaryTree[U]:
+    def from_tuples[U](
+        tuples: TupleBinaryTree[U], parent: BinaryTree[U] | None = None
+    ) -> BinaryTree[U]:
         """
         Produce a tree from a tuple tree. This can be used to produce trees from
         a short-form representation.
@@ -35,24 +38,25 @@ class BinaryTree[T]:
         """
         match tuples:
             case (val,):
-                return BinaryTree(val, None, None)
+                return BinaryTree(val, parent=parent)
             case (left, right):
                 if type(left) == tuple:
-                    return BinaryTree(
-                        cast(U, right),
-                        BinaryTree.from_tuples(cast(TupleBinaryTree[U], left)),
-                        None,
+                    tree = BinaryTree(cast(U, right), parent=parent)
+                    tree.left = BinaryTree.from_tuples(
+                        cast(TupleBinaryTree[U], left), parent=tree
                     )
+                    return tree
                 else:
-                    return BinaryTree(
-                        cast(U, left),
-                        None,
-                        BinaryTree.from_tuples(cast(TupleBinaryTree[U], right)),
+                    tree = BinaryTree(cast(U, left), parent=parent)
+                    tree.right = BinaryTree.from_tuples(
+                        cast(TupleBinaryTree[U], right), parent=tree
                     )
+                    return tree
             case (tuple(left), val, tuple(right)):
-                return BinaryTree(
-                    val, BinaryTree.from_tuples(left), BinaryTree.from_tuples(right)
-                )
+                tree = BinaryTree(val, parent=parent)
+                tree.left = BinaryTree.from_tuples(left, parent=tree)
+                tree.right = BinaryTree.from_tuples(right, parent=tree)
+                return tree
 
     def as_tuples(self) -> TupleBinaryTree[T]:
         """
