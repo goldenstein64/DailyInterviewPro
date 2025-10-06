@@ -28,24 +28,39 @@ from ds.binary_tree import BinaryTree, TupleBinaryTree
 
 
 def lowest_common_ancestor(
-    root: BinaryTree[Any], a: BinaryTree[Any], b: BinaryTree[Any]
-) -> BinaryTree[Any] | None:
+    _: BinaryTree[Any], a: BinaryTree[Any], b: BinaryTree[Any]
+) -> BinaryTree[Any]:
+    """
+    Find the lowest common ancestor of a and b. This creates a set out of a's
+    ancestors and looks for the lowest ancestor in the set.
+
+    This has about O(i + j) time complexity and O(i) space, where i is a's level
+    and j is b's level.
+    """
     if a is b:
         return a
 
     a_ancestors: set[int] = set(map(id, a.ancestors()))
-    return next((n for n in b.ancestors() if id(n) in a_ancestors), None)
+    return next(n for n in b.ancestors() if id(n) in a_ancestors)
 
 
 def lowest_common_ancestor_lists(
     root: BinaryTree[Any], a: BinaryTree[Any], b: BinaryTree[Any]
-) -> BinaryTree[Any] | None:
+) -> BinaryTree[Any]:
+    """
+    Find the lowest common ancestor of a and b. This creates a pair of lists out
+    of a's and b's ancestors and returns the last identical ancestor in both
+    lists when zipped together.
+
+    This has about O(i + j) time complexity and O(i + j) space, where i is a's
+    level and j is b's level.
+    """
     if a is b:
         return a
 
     a_ancestors = list(a.ancestors())
     b_ancestors = list(b.ancestors())
-    last_node: BinaryTree[Any] | None = None
+    last_node: BinaryTree[Any] = root
     for a_node, b_node in zip(reversed(a_ancestors), reversed(b_ancestors)):
         if a_node is b_node:
             last_node = a_node
@@ -55,9 +70,7 @@ def lowest_common_ancestor_lists(
 
 class Tests(unittest.TestCase):
     solutions: list[
-        Callable[
-            [BinaryTree[Any], BinaryTree[Any], BinaryTree[Any]], BinaryTree[Any] | None
-        ]
+        Callable[[BinaryTree[Any], BinaryTree[Any], BinaryTree[Any]], BinaryTree[Any]]
     ] = [
         lowest_common_ancestor,
         lowest_common_ancestor_lists,
