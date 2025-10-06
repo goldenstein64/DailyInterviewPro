@@ -13,17 +13,7 @@ True
 
 import unittest
 from collections.abc import Callable
-from functools import partial
-from itertools import dropwhile, pairwise, product
-from typing import cast
-
-
-def are_words_ordered(order_map: dict[str, int], pair: tuple[str, str]) -> bool:
-    a, b = pair
-    zipped = zip((order_map[c] for c in a), (order_map[c] for c in b))
-    compared = (False if ka > kb else True if ka < kb else None for ka, kb in zipped)
-    dropped_none = dropwhile(lambda cmp: cmp is None, compared)
-    return next(cast("dropwhile[bool]", dropped_none), len(a) <= len(b))
+from itertools import pairwise, product
 
 
 def is_sorted_func(words: list[str], order: str) -> bool:
@@ -32,9 +22,13 @@ def is_sorted_func(words: list[str], order: str) -> bool:
     implementation.
     """
     order_map: dict[str, int] = {v: i for i, v in enumerate(order)}
-    predicate = cast(
-        Callable[[tuple[str, str]], bool], partial(are_words_ordered, order_map)
-    )
+
+    def predicate(pair: tuple[str, str]) -> bool:
+        a, b = pair
+        zipped = zip((order_map[c] for c in a), (order_map[c] for c in b))
+        compared = (ka < kb for ka, kb in zipped if ka != kb)
+        return next(compared, len(a) <= len(b))
+
     return all(map(predicate, pairwise(words)))
 
 
