@@ -188,6 +188,19 @@ class BinaryTree[T]:
             yield ancestor
             ancestor = ancestor.parent
 
+    def path(self, path: str) -> BinaryTree[T]:
+        node: BinaryTree[T] = self
+        for c in path:
+            match c:
+                case "L":
+                    node = cast(BinaryTree[T], node.left)
+                case "R":
+                    node = cast(BinaryTree[T], node.right)
+                case _:
+                    raise ValueError(f"'{c}' is not 'L' or 'R'")
+
+        return node
+
 
 if __name__ == "__main__":
     import doctest
