@@ -24,7 +24,7 @@ def find_missing_numbers_sorted(nums: list[int]) -> list[int]:
     the range of what the number was supposed to be and what number
     was missing.
 
-    This has O(n log n) time complexity and O(n + k) space complexity, where
+    This uses O(n log n) time and O(n + k) space complexity, where
     n = len(nums) and k is the number of missing integers.
     """
     if not nums:
@@ -48,7 +48,7 @@ def find_missing_numbers_set(nums: list[int]) -> list[int]:
     in a set and removes all values in the input list. The resulting set is
     turned into a list and returned.
 
-    This has O(n + k) time complexity and O(n + k) space complexity, where
+    This uses O(n + k) time and O(n + k) space complexity, where
     n = len(nums) and k is the number of missing integers.
     """
     if not nums:
@@ -63,7 +63,7 @@ def find_missing_numbers_set_gpt(nums: list[int]) -> list[int]:
     A version of `find_missing_numbers_set` that tries to avoid materializing
     `val_set`. This change was suggested by ChatGPT.
 
-    This has O(n + k) time complexity and O(n + k) space complexity, where
+    This uses O(n + k) time and O(n + k) space complexity, where
     n = len(nums) and k is the number of missing integers.
     """
     if not nums:

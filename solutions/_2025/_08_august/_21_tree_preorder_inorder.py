@@ -93,7 +93,7 @@ def reconstruct(preorder: Sequence[str], inorder: Sequence[str]) -> BinaryTree[s
     Create a tree from a list of preorder and inorder elements. This
     implementation is not well-optimized!
 
-    I think this has O(n) time complexity and O(n) space.
+    I think this uses O(n) time and O(n) space.
     """
     # return reconstruct_inner_lookup(
     #     preorder, inorder, {v: i for i, v in enumerate(inorder)}
@@ -109,7 +109,7 @@ def reconstruct_view(
     both lists with a more performant view implementation that reduces the
     amount of copying done.
 
-    This has O(n) time complexity (?) and O(log n) space (from the call stack).
+    This uses O(n) time (?) and O(log n) space (from the call stack).
     """
     return reconstruct(ListView(preorder), ListView(inorder))
 

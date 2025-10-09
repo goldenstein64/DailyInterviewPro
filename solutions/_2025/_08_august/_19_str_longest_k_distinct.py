@@ -18,7 +18,7 @@ def longest_k_distinct(s: str, k: int) -> int:
     """
     Find the longest substring in s with at most k distinct characters.
 
-    This has O(len(s)) time complexity and O(k) space. This uses the sliding
+    This uses O(len(s)) time and O(k) space. This uses the sliding
     window method to complete in linear time.
     """
     if k == 0:

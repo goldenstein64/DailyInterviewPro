@@ -22,7 +22,7 @@ def max_subarray_sum(arr: list[int]) -> int:
     Find the contiguous sequence of numbers that give the greatest sum. This
     uses Kadane's algorithm.
 
-    This has O(n) time complexity and O(1) space.
+    This uses O(n) time and O(1) space.
 
     See: https://www.geeksforgeeks.org/dsa/largest-sum-contiguous-subarray
     """

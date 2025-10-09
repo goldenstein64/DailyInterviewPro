@@ -19,7 +19,7 @@ def smallest_missing_positive(nums: list[int]) -> int:
     """
     Return the smallest positive integer missing from the array.
 
-    This has O(n) time complexity and O(n) space.
+    This uses O(n) time and O(n) space.
     """
 
     positives: set[int] = set(num for num in nums if num > 0)
@@ -33,7 +33,7 @@ def smallest_missing_positive_lookup(nums: list[int]) -> int:
     Return the smallest positive integer missing from the array. This mutates
     `nums` in place!
 
-    This has O(n) time complexity and O(1) space.
+    This uses O(n) time and O(1) space.
     """
 
     n: int = len(nums)

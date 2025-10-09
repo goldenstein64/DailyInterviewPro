@@ -44,7 +44,7 @@ def buddy_strings(a: str, b: str) -> bool:
     in 2025/july/21. I just considered the case where only swaps could be made
     and simplified the matrix to a 1D array.
 
-    In the worst case, this has O(n) time complexity and O(n) space.
+    In the worst case, this uses O(n) time and O(n) space.
     """
     n: int = len(a)
     if n != len(b):

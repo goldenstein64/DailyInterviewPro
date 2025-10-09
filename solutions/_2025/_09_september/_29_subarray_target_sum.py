@@ -16,7 +16,7 @@ def find_continuous_k_sliding_window(nums: list[int], k: int) -> list[int]:
     Find a continuous slice of `nums` that adds up to `k`. This only works when
     all integers in `nums` is positive.
 
-    This has O(n) time complexity and O(1) space.
+    This uses O(n) time and O(1) space.
     """
     if k == 0:
         return []
@@ -42,7 +42,7 @@ def find_continuous_k_prefix_sum(nums: list[int], k: int) -> list[int]:
     `i := prefix_sums[rolling - k]` is valid, then `nums[0:j] - nums[0:i] == k`,
     meaning a slice `nums[i:j]` was found.
 
-    This has O(n) time complexity and O(n) space.
+    This uses O(n) time and O(n) space.
     """
     rolling: int = 0
     prefix_sums: dict[int, int] = {0: 0}

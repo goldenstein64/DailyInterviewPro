@@ -28,7 +28,7 @@ def k_most_common(words: list[str], k: int) -> list[str]:
     Find the `k` most common words in `words`. This just leverages the
     `Counter.most_common` method.
 
-    This has O(n log k) time complexity and O(n + k) space, where k = min(n, k)
+    This uses O(n log k) time and O(n + k) space, where k = min(n, k)
     """
     counter: Counter[str] = Counter(words)
     return [k for k, _ in counter.most_common(k)]

@@ -32,7 +32,7 @@ def longest_consecutive(nums: list[int]) -> int:
     simplistic algorithm that creates a set of intervals and tries to create,
     extend, or merge them together each iteration.
 
-    This has O(nk) time complexity and O(nk) space, where n = len(nums) and
+    This uses O(nk) time and O(nk) space, where n = len(nums) and
     k = len(intervals). This has a worst-case time complexity of O(n^2) when
     every element has its own interval, and best-case time complexity of O(n)
     when every element is in one big interval.
@@ -65,7 +65,7 @@ def longest_consecutive_find_start(nums: list[int]) -> int:
     Find the length of the longest consecutive integer sequence. This uses an
     algorithm suggested by Google's Learn About and GeeksForGeeks.
 
-    This has O(n) time complexity and O(n) space.
+    This uses O(n) time and O(n) space.
 
     See: https://www.geeksforgeeks.org/dsa/longest-consecutive-subsequence
     """

@@ -25,7 +25,7 @@ def running_median_naive(stream: Iterable[int]) -> Generator[int | float]:
     Generate running medians from a stream. This maintains a sorted
     list of all numbers so far and looks in the middle for each step.
 
-    This has O(n) time complexity and O(1) space at each step, or O(n^2) time and
+    This uses O(n) time and O(1) space at each step, or O(n^2) time and
     O(n) space total.
     """
     sorted_list: list[int] = []
@@ -44,7 +44,7 @@ def running_median_2heap(stream: Iterable[int]) -> Generator[int | float]:
     Generate running medians from a stream. This maintains a max heap and min
     heap of all numbers lesser and greater than the median, respectively.
 
-    This has O(log n) time complexity and O(1) space at each step, or O(n log n)
+    This uses O(log n) time and O(1) space at each step, or O(n log n)
     time and O(n) space total.
     """
     low: list[int] = []  # max heap, use negative numbers
@@ -82,7 +82,7 @@ def running_median_2heap_gpt(stream: Iterable[int]) -> Generator[int | float]:
     """
     A 2-heap implementation given to me by ChatGPT.
 
-    This has O(n log n) time complexity and O(n) space.
+    This uses O(n log n) time and O(n) space.
     """
     low: list[int] = []
     high: list[int] = []

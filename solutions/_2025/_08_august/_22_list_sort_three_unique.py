@@ -36,7 +36,7 @@ def sort_colors(colors: list[Color]) -> None:
     """
     Sort a list of colors containing only red, white, and blue.
 
-    This has O(n) time complexity and O(1) space.
+    This uses O(n) time and O(1) space.
 
     This follows Dijkstra's three-way partitioning algorithm.
     See: https://en.wikipedia.org/wiki/Dutch_national_flag_problem#Pseudocode

@@ -25,7 +25,7 @@ def group_anagram_words(words: list[str]) -> list[list[str]]:
     """
     First instinct, use sorted(word) as the key and map them to a set.
 
-    This has O(nk log k) time complexity and O(nk) space.
+    This uses O(nk log k) time and O(nk) space.
     """
     groups: defaultdict[str, set[str]] = defaultdict(set)
     for word in words:

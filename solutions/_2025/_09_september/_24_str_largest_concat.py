@@ -36,7 +36,7 @@ def largest_num_cmp(nums: list[int]) -> str:
     similar sorting method to mine, except the key function compares between two
     strings by concatenation directly.
 
-    This has O(n log n) time complexity and O(n) space.
+    This uses O(n log n) time and O(n) space.
     """
     strings: list[str] = list(map(str, nums))
     strings.sort(key=cmp_to_key(cmp_by_concat))
@@ -50,7 +50,7 @@ def largest_num(nums: list[int]) -> str:
     lexicographically and padding with the last digit until all elements are
     equal in length. Once sorted, all the strings are simply concatenated.
 
-    This has O(n log n) time complexity and O(n) space.
+    This uses O(n log n) time and O(n) space.
     """
     strings: list[str] = list(map(str, nums))
     max_len = max(map(len, strings))

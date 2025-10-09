@@ -55,7 +55,7 @@ def matrix_spiral(m: list[list[int]]) -> list[int]:
     Keep track of an open region and carve out lines from it clockwise until
     either dimension collapses to 0.
 
-    This has O(m*n) time complexity and O(m*n) space, where m and n are the
+    This uses O(m*n) time and O(m*n) space, where m and n are the
     width and height of the matrix.
     """
     result: Final[list[int]] = []

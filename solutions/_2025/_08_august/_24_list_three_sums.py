@@ -25,7 +25,7 @@ def three_sum(nums: list[int]) -> set[frozenset[int]]:
     integers. This function just tries every combination of (a, b) and returns
     the ones that satisfy the formula.
 
-    This has O(n^2) time complexity. Space complexity is hard to determine.
+    This uses O(n^2) time. Space complexity is hard to determine.
     """
     if len(nums) < 3:
         return set()

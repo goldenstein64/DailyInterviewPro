@@ -19,7 +19,7 @@ def find_kth_largest(nums: list[int], k: int) -> int:
     """
     Obvious solution, sort the list and get the kth index
 
-    This has O(n log n) time complexity and presumably O(n) space.
+    This uses O(n log n) time and presumably O(n) space.
     """
     if k == 1:
         return max(nums)
@@ -34,7 +34,7 @@ def find_kth_largest_sorted_list(nums: list[int], k: int) -> int:
     Less obvious solution, keep a sorted list of the k largest and update it in
     a loop.
 
-    This has O(k(n - k)) time complexity and O(n + k) space. It approaches O(n) for small k
+    This uses O(k(n - k)) time and O(n + k) space. It approaches O(n) for small k
     """
     if k == 1:
         return max(nums)

@@ -38,7 +38,7 @@ def is_shifted(a: str, b: str) -> bool:
     all possible shifted versions of `b`. If one comparison succeeds, `a` can be
     shifted to match `b`.
 
-    This has O(nk) time complexity and O(n) space, where `n = len(a)` and
+    This uses O(nk) time and O(n) space, where `n = len(a)` and
     `k = b.count(least_common_letter)`.
     """
     if len(a) != len(b):
@@ -127,7 +127,7 @@ def is_shifted_kmp(a: str, b: str) -> bool:
     Determine whether `a` can be shifted to produce `b`. This performs a
     substring search using the KMP algorithm.
 
-    This has O(n) time complexity and O(n) space.
+    This uses O(n) time and O(n) space.
     """
     if len(a) != len(b):
         return False

@@ -106,7 +106,7 @@ def merge_g4g(intervals: list[Interval]) -> list[Interval]:
     A solution I found on GeeksForGeeks: sort the intervals and merge those that
     overlap with the last included interval.
 
-    This has O(n log n) time complexity (due to sorting) and O(n) space.
+    This uses O(n log n) time (due to sorting) and O(n) space.
     """
     if len(intervals) <= 1:
         return intervals

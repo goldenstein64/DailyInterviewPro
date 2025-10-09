@@ -20,7 +20,7 @@ def h_index(publications: list[int]) -> int:
     Determine the h-index of a scholar by how many citations each of their
     papers have received.
 
-    This has O(n log n) time complexity and O(n) space. Space can be O(1) if the
+    This uses O(n log n) time and O(n) space. Space can be O(1) if the
     input list can be modified.
     """
     by_count = sorted(publications, reverse=True)

@@ -21,7 +21,7 @@ def maximum_product_of_three(nums: list[int]) -> int:
     """
     brute force solution, get the max of all combinations.
 
-    This has O(n^3) time complexity and O(1) space
+    This uses O(n^3) time and O(1) space.
     """
     return max(prod(comb) for comb in combinations(nums, 3))
 
@@ -36,7 +36,7 @@ def maximum_product_of_three_extremes(nums: list[int]) -> int:
     two elements and the product of the second-largest and third-largest
     elements, and multiply that with the largest element.
 
-    This has O(n log n) time complexity and O(n) space.
+    This uses O(n log n) time and O(n) space.
     """
 
     sorted_nums = sorted(nums)

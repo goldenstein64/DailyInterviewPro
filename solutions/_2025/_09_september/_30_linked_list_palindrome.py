@@ -47,7 +47,7 @@ def is_palindrome(root: LinkedList[Any]) -> bool:
     to each other. This tries to reduce the number of comparisons by checking
     for equality up to the middle node(s).
 
-    This has O(n) time complexity and O(n) space.
+    This uses O(n) time and O(n) space.
     """
     return is_palindrome_inner(root, root)[0]
 
@@ -57,7 +57,7 @@ def is_palindrome_iter(root: LinkedList[Any]) -> bool:
     Determine whether a linked list is a palindrome, i.e. symmetrical. This uses
     a slow pointer and fast pointer to find the midpoint, compares
 
-    This has O(n) time complexity and O(1) space.
+    This uses O(n) time and O(1) space.
     """
     if not root.next:
         return True

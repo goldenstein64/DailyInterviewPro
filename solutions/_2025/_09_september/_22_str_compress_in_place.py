@@ -18,7 +18,7 @@ def compress_pure(chars: list[str]) -> list[str]:
     Compress a string by encoding repeats. This is a pure implementation that
     doesn't modify the character array in-place.
 
-    This has O(n) time complexity and O(n) space.
+    This uses O(n) time and O(n) space.
 
     Example:
 

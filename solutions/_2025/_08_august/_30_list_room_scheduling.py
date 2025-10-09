@@ -22,7 +22,7 @@ def min_rooms(schedule: list[tuple[int, int]]) -> int:
     Determine the minimum number of rooms required to fit these lectures' time
     intervals without overlapping.
 
-    This has O(nk) time complexity and O(n) space, where n is the number of
+    This uses O(nk) time and O(n) space, where n is the number of
     intervals and k is the resulting number of rooms. In this worst case, k = n,
     making the algorithm O(n^2) time worst case.
     """

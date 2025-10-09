@@ -54,7 +54,7 @@ def minimum_level_sum(root: BinaryTree[float]) -> float:
     of a list of sums grouped by level. The minimum of that list of sums is
     taken at the end.
 
-    This has O(n) time complexity and O(h) space complexity, where
+    This uses O(n) time and O(h) space complexity, where
     n = node count and h = height.
     """
     sums_by_level: list[float] = []
@@ -99,7 +99,7 @@ def minimum_level_sum_rolling_min(root: BinaryTree[float]) -> float:
     Calculate all sums by level and return the smallest one. This uses a series
     of generators to separate the iteration behavior from the function's intent.
 
-    This has O(n) time complexity and about O(n) space. The worst-case space
+    This uses O(n) time and about O(n) space. The worst-case space
     complexity of O(n) occurs when processing a balanced tree, whereas the best
     case would be O(1) with a skewed tree.
     """

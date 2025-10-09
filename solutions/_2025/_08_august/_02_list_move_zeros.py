@@ -22,7 +22,7 @@ def move_zeros(nums: list[int]) -> None:
     """
     Most obvious solution, remove all zeros and append them to the end.
 
-    This has O(n^2) time complexity and O(1) space.
+    This uses O(n^2) time and O(1) space.
     """
     zero_count = 0
     for i in range(len(nums) - 1, -1, -1):
@@ -40,7 +40,7 @@ def move_zeros_swap(nums: list[int]) -> None:
     I used this to implement Tetris' line clear algorithm; swap all
     non-zeros by an offset equal to the current number of zeros.
 
-    This has O(n) time complexity and O(1) space.
+    This uses O(n) time and O(1) space.
     """
     offset = 0
     for i, num in enumerate(nums):

@@ -49,7 +49,7 @@ def rearrange_string_greedy(s: str) -> str | None:
     most common, get a list of all letters sorted by commonality, and alternate
     between the first and second half of the list.
 
-    This has O(n) time complexity and O(n) space.
+    This uses O(n) time and O(n) space.
 
     See: https://www.geeksforgeeks.org/dsa/rearrange-characters-string-no-two-adjacent
     """

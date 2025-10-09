@@ -48,7 +48,7 @@ def is_symmetric(root: KTree) -> bool:
     determine whether a K-ary tree is symmetric. This uses a simple algorithm
     that inverts one side of the tree and compares it to the other.
 
-    This has O(n) time complexity and O(n) space.
+    This uses O(n) time and O(n) space.
     """
     n: int = len(root.children)
     if not root.children:

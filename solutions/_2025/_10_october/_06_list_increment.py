@@ -25,7 +25,7 @@ def increment(number: list[int]) -> list[int]:
     Increment a number represented as a list of digits, returning the new
     number.
 
-    This has O(n) time complexity and O(n) space. If this were to operate on the
+    This uses O(n) time and O(n) space. If this were to operate on the
     input in-place, time complexity would have an average case of O(1).
     """
 
