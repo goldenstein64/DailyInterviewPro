@@ -72,20 +72,29 @@ class TicTacToe:
     ]
 
     def __init__(self, n: int) -> None:
+        """Create a new n-by-n tic-tac-toe board."""
         self.n: int = n
         self.cells: list[Mark | None] = [None] * (n * n)
         self.ended: EndedResult | None = None
 
     def won(self, mark: Mark) -> bool:
+        """Determine whether `mark` won this board."""
         return any(
             all(self.cells[p] == mark for p in pattern)
             for pattern in TicTacToe.WIN_PATTERNS
         )
 
     def full(self) -> bool:
+        """Determine whether the board is full."""
         return all(self.cells)
 
     def move(self, row: int, col: int, mark: Mark) -> Self:
+        """
+        Insert the value `mark` at `(row, col)`, where `row` and `col` are in
+        the interval of `[0, n)`.
+
+        :raises ValueError: if the board has already ended
+        """
         if self.ended:
             raise ValueError("board is finished")
 

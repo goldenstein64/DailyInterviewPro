@@ -11,6 +11,11 @@ Example:
 
 
 def shortest_path(file_path: str) -> str:
+    """
+    Normalize an absolute file path containing '..' and '.'.
+
+    This uses O(n) time and O(n) space, where n is the number of folders.
+    """
     if file_path[0] == "/":
         file_path = file_path[1:]
 
