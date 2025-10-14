@@ -80,7 +80,10 @@ Examples:
 # >>> f(f(f(f(0))))
 # 475254
 
+import unittest
 from typing import Final
+from collections.abc import Callable
+from itertools import product
 
 ORD_A: Final[int] = ord("A")
 
@@ -113,7 +116,52 @@ def convert_to_title(n: int) -> str:
     return "".join(result)
 
 
+def convert_to_title_shorter(n: int) -> str:
+    """
+    Convert a 1-based index into a column title seen in a spreadsheet
+    application. This uses a derived algorithm from a REPL session I was
+    experimenting with, pasted above in the comments.
+
+    This uses roughly O(log26 n) time and O(log26 n) space.
+    """
+
+    result: list[str] = []
+    while n > 0:
+        n -= 1
+        result.append(chr(ORD_A + n % 26))
+        n //= 26
+
+    result.reverse()
+    return "".join(result)
+
+
+class Tests(unittest.TestCase):
+    solutions: list[Callable[[int], str]] = [
+        convert_to_title,
+        convert_to_title_shorter,
+    ]
+
+    cases: list[tuple[int, str]] = [
+        (1, "A"),
+        (2, "B"),
+        (26, "Z"),
+        (51, "AY"),
+        (52, "AZ"),
+        (53, "BA"),
+        (676, "YZ"),
+        (702, "ZZ"),
+        (704, "AAB"),
+    ]
+
+    def test_cases(self):
+        for solution, (n, expected) in product(self.solutions, self.cases):
+            sol = solution.__name__
+            with self.subTest(solution=sol, n=n, expected=expected):
+                self.assertEqual(expected, solution(n))
+
+
 if __name__ == "__main__":
     import doctest
 
     doctest.testmod()
+    unittest.main()
