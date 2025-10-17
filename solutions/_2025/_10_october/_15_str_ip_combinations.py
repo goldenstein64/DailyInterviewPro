@@ -77,6 +77,10 @@ def ip_addresses_inner(s: str, ip_parts: list[str]) -> list[str]:
 
 
 def ip_addresses(s: str) -> list[str]:
+    """
+    Generate all IP addresses that could be interpreted from a
+    the string of digits `s`, where dots can be placed anywhere in the string.
+    """
     if len(s) < 4 or len(s) > 12:
         return []
     else:
