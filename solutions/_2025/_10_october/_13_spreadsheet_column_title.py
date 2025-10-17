@@ -126,10 +126,10 @@ def convert_to_title_shorter(n: int) -> str:
     """
 
     result: list[str] = []
-    while n > 0:
-        n -= 1
+    n -= 1
+    while n >= 0:
         result.append(chr(ORD_A + n % 26))
-        n //= 26
+        n = n // 26 - 1
 
     result.reverse()
     return "".join(result)
