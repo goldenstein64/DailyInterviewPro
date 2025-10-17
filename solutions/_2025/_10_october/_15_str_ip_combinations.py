@@ -85,7 +85,7 @@ class OriginalSolution(Solution):
             case "2":
                 # integer can be between 1 and 3 digits
                 # in the case of 3 digits, only integers up to 255 are allowed
-                if len(s) < 3 or s[1] > "5" or s[2] > "5":
+                if len(s) < 3 or s[:3] > "255":
                     return cls.multi_split(2, s, ip_parts)
                 else:
                     return cls.multi_split(3, s, ip_parts)
@@ -141,7 +141,7 @@ class GeneratorSolution(Solution):
             case "2":
                 # integer can be between 1 and 3 digits
                 # in the case of 3 digits, only integers up to 255 are allowed
-                if len(s) < 3 or s[1] > "5" or s[2] > "5":
+                if len(s) < 3 or s[:3] > "255":
                     yield from cls.multi_split(2, s, ip_parts)
                 else:
                     yield from cls.multi_split(3, s, ip_parts)
