@@ -40,7 +40,7 @@ def multi_split(n: int, s: str, ip_parts: list[str]) -> list[str]:
 
 
 def ip_addresses_inner(s: str, ip_parts: list[str]) -> list[str]:
-    if s == "":
+    if not s:
         return []
     elif len(ip_parts) == 3:
         # there can only be one possibility
