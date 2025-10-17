@@ -32,7 +32,9 @@ Example:
 def multi_split(n: int, s: str, ip_parts: list[str]) -> list[str]:
     result: list[str] = []
     for i in range(1, min(len(s), n) + 1):
-        result.extend(ip_addresses_inner(s[i:], [*ip_parts, s[:i]]))
+        ip_parts.append(s[:i])
+        result.extend(ip_addresses_inner(s[i:], ip_parts))
+        ip_parts.pop()
 
     return result
 
@@ -48,14 +50,19 @@ def ip_addresses_inner(s: str, ip_parts: list[str]) -> list[str]:
             or (len(s) == 3 and s <= "255" and s[0] != "0")
         ):
             ip_parts.append(s)
-            return [".".join(ip_parts)]
+            result_elem: str = ".".join(ip_parts)
+            ip_parts.pop()
+            return [result_elem]
         else:
             return []
 
     match s[0]:
         case "0":
             # a 0 at the beginning can only be interpreted in one way
-            return ip_addresses_inner(s[1:], [*ip_parts, "0"])
+            ip_parts.append("0")
+            result: list[str] = ip_addresses_inner(s[1:], ip_parts)
+            ip_parts.pop()
+            return result
         case "1":
             return multi_split(3, s, ip_parts)
         case "2":
