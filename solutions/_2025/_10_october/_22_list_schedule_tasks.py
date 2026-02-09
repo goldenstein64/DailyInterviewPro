@@ -22,7 +22,7 @@ def get_run_time(tasks: list[int], cooldown: int) -> int:
     Calculate how long it will take to run an ordered list of tasks with a given
     cooldown.
 
-    This uses O
+    This has roughly O(len(tasks)) time and O(min(cooldown, len(unique(tasks)))) space.
     """
     cooldowns: dict[int, int] = {}
     removed_keys: set[int] = set()
