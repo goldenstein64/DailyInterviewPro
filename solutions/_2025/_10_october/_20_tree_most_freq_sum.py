@@ -43,7 +43,7 @@ def most_freq_subtree_sum_inner(root: BinaryTree[int]) -> tuple[int, Counter[int
 
 
 def most_freq_subtree_sum(root: BinaryTree[int]) -> int:
-    counter: Counter[int] = most_freq_subtree_sum_inner(root)[1]
+    _, counter = most_freq_subtree_sum_inner(root)
     [(result_sum, _)] = counter.most_common(1)
     return result_sum
 
