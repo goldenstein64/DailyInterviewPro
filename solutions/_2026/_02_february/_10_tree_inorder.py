@@ -41,7 +41,7 @@ def inorder_iterative[T](tree: BinaryTree[T]) -> Generator[T]:
         stack.append(current)
         current = left
 
-    while current:
+    while True:
         yield current.val
         if right := current.right:
             current = right
