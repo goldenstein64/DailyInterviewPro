@@ -5,11 +5,10 @@ of elements in all pieces is equal.
 
 Example 1:
 
->>> # choosing the numbers 5 and 9 result in three pieces [2, 4], [3, 3] and
->>> # [2, 2, 2]. Sum = 6.
+>>> # choosing the numbers 5 and 9 result in three pieces
+>>> # [2, 4] == [3, 3] == [2, 2, 2] == 6
 >>> can_pick_two([2, 4, 5, 3, 3, 9, 2, 2, 2])
 True
-
 >>> can_pick_two([1, 1, 1, 1])
 False
 >>> can_pick_two([1, 1, 1, 1, 1])
@@ -20,7 +19,7 @@ True
 True
 >>> can_pick_two([1, 5, 9, 50, 3, 5, 7, 50, 2, 5, 8])
 True
->>> # [1] * 10, [2] * 5 and [10]
+>>> # [1] * 10 == [2] * 5 == [10] == 10
 >>> can_pick_two([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 10])
 True
 """
@@ -31,7 +30,8 @@ import unittest
 def can_pick_two(nums: list[int]) -> bool:
     """
     Given a list of positive integers, determine whether there exist two indexes
-    such that the three partitions around them sum up to the same value.
+    such that the three partitions around them sum up to the same value. This
+    uses a very brute-force-like approach that tests every plausible split.
 
     This has worst case O(n^2) time and O(n) space, best case O(n) time and O(n)
     space.
@@ -73,11 +73,13 @@ def can_pick_two(nums: list[int]) -> bool:
 
 class Tests(unittest.TestCase):
     cases: list[tuple[list[int], bool]] = [
+        # trivial cases
         ([], False),
         ([1], False),
         ([1, 1], True),
         ([1, 1, 1], False),
         ([1, 1, 1, 1], False),
+        # non-trivial cases
         ([1, 1, 1, 1, 1], True),
         ([2, 4, 5, 3, 3, 9, 2, 2, 2], True),
         ([1, 200, 1, 400, 1], True),
