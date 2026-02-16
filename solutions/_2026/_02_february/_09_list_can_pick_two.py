@@ -50,8 +50,12 @@ def can_pick_two(nums: list[int]) -> bool:
     left_sum: int = nums[0]  # sum(nums[:i])
     right_starting_sum: int = sum(nums[4:])
     for i in range(1, n - 3):
+        if left_sum > right_starting_sum:
+            break
+
         middle_sum: int = nums[i + 1]  # sum(nums[i+1:j])
         right_sum: int = right_starting_sum  # sum(nums[j+1:])
+
         for j in range(i + 2, n - 1):
             if left_sum == middle_sum == right_sum:
                 return True
