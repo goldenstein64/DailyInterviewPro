@@ -33,6 +33,7 @@ def inorder_recursive[T](tree: BinaryTree[T]) -> Generator[T]:
 def inorder_iterative[T](tree: BinaryTree[T]) -> Generator[T]:
     # alternatively,
     # yield from tree.inorder_values()
+    # this is actually a slightly different implementation.
 
     stack: list[BinaryTree[T]] = []
     current: BinaryTree[T] = tree
@@ -53,6 +54,23 @@ def inorder_iterative[T](tree: BinaryTree[T]) -> Generator[T]:
             current = stack.pop()
         else:
             break
+
+
+def inorder_iterative2[T](tree: BinaryTree[T]) -> Generator[T]:
+    # slightly modified from tree.inorder()
+
+    stack: list[BinaryTree[T]] = []
+    current: BinaryTree[T] | None = tree
+
+    while stack or current:
+        while current:
+            stack.append(current)
+            current = current.left
+
+        current = stack.pop()
+        yield current.val
+
+        current = current.right
 
 
 if __name__ == "__main__":
