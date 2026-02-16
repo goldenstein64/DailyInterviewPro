@@ -81,6 +81,8 @@ class Tests(unittest.TestCase):
         ([1, 1, 1, 1], False),
         # non-trivial cases
         ([1, 1, 1, 1, 1], True),
+        ([1, 1, 11, 1, 1], False),
+        ([1, 100, 1, 11, 1], True),
         ([2, 4, 5, 3, 3, 9, 2, 2, 2], True),
         ([1, 200, 1, 400, 1], True),
         ([1, 5, 9, 50, 3, 5, 7, 50, 2, 5, 8], True),
