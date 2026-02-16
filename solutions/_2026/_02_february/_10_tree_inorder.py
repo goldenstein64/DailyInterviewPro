@@ -13,8 +13,10 @@ Example:
 [2, 6, 3, 12, 7, 4, 8]
 """
 
-from collections.abc import Generator
-from ds.binary_tree import BinaryTree
+import unittest
+from collections.abc import Generator, Callable
+from ds.binary_tree import BinaryTree, TupleBinaryTree
+from itertools import product
 
 
 def inorder_recursive[T](tree: BinaryTree[T]) -> Generator[T]:
@@ -73,7 +75,27 @@ def inorder_iterative2[T](tree: BinaryTree[T]) -> Generator[T]:
         current = current.right
 
 
+class Tests(unittest.TestCase):
+    solutions: list[Callable[[BinaryTree[int]], Generator[int]]] = [
+        inorder_recursive,
+        inorder_iterative,
+        inorder_iterative2,
+    ]
+
+    cases: list[tuple[TupleBinaryTree[int], list[int]]] = [
+        ((((2,), 6, (3,)), 12, ((7,), 4, (8,))), [2, 6, 3, 12, 7, 4, 8])
+    ]
+
+    def test_cases(self):
+        for solution, (tuples, expected) in product(self.solutions, self.cases):
+            sol = solution.__name__
+            with self.subTest(solution=sol, tree=tuples, expected=expected):
+                tree = BinaryTree.from_tuples(tuples)
+                self.assertEqual(expected, list(solution(tree)))
+
+
 if __name__ == "__main__":
     import doctest
 
     doctest.testmod()
+    unittest.main()
