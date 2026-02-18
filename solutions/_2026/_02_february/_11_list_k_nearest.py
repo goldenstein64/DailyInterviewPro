@@ -35,6 +35,8 @@ def k_nearest(points: list[Point], k: int, p: Point) -> list[Point]:
     Given a list of points, return the k nearest points to p.
 
     This has O(n log k) time and O(k) space.
+
+    This solution is from Geeks4Geeks
     """
     if k == 0:
         return []
