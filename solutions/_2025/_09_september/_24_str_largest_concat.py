@@ -32,11 +32,18 @@ def cmp_by_concat(a: str, b: str) -> int:
 
 def largest_num_cmp(nums: list[int]) -> str:
     """
-    A solution given to me by both ChatGPT and GeeksForGeeks. This uses a
+    Create the largest possible integer from concatenating the input list of
+    non-negative integers.
+
+    This solution was given to me by both ChatGPT and GeeksForGeeks. This uses a
     similar sorting method to mine, except the key function compares between two
     strings by concatenation directly.
 
     This uses O(n log n) time and O(n) space.
+
+    Source:
+    https://chatgpt.com/share/699544da-c2f4-8007-904c-b58ab9d70f4d
+    https://www.geeksforgeeks.org/dsa/given-an-array-of-numbers-arrange-the-numbers-to-form-the-biggest-number/
     """
     strings: list[str] = list(map(str, nums))
     strings.sort(key=cmp_to_key(cmp_by_concat))
