@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import unittest
 from collections.abc import Callable, Sequence
-from itertools import count, product
+from itertools import product
 from random import randint
 
 from ds.binary_tree import BinaryTree, TupleBinaryTree
@@ -115,7 +115,7 @@ def reconstruct_view(
 
 class Fuzz:
     @staticmethod
-    def find_rand_leaf(root: BinaryTree[str]) -> tuple[BinaryTree[str], bool]:
+    def find_random_space(root: BinaryTree[str]) -> tuple[BinaryTree[str], bool]:
         last_node: BinaryTree[str] = root
         node: BinaryTree[str] | None = root
         add_left: bool = False
@@ -130,14 +130,13 @@ class Fuzz:
         return last_node, add_left
 
     @staticmethod
-    def gen_rand_node(size: int) -> BinaryTree[str]:
-        values = map(str, count(1))
-        root: BinaryTree[str] = BinaryTree(next(values))
+    def generate_random_node(size: int) -> BinaryTree[str]:
+        root: BinaryTree[str] = BinaryTree("1")
 
-        for _ in range(size - 1):
-            leaf, add_left = Fuzz.find_rand_leaf(root)
+        for i in range(2, size + 1):
+            leaf, add_left = Fuzz.find_random_space(root)
 
-            new_node: BinaryTree[str] = BinaryTree(next(values))
+            new_node: BinaryTree[str] = BinaryTree(str(i))
             if add_left:
                 leaf.left = new_node
             else:
@@ -146,13 +145,12 @@ class Fuzz:
         return root
 
     @staticmethod
-    def gen_rand_skewed_node(size: int) -> BinaryTree[str]:
-        values = map(str, count(1))
-        root: BinaryTree[str] = BinaryTree(next(values))
+    def generate_random_skewed_node(size: int) -> BinaryTree[str]:
+        root: BinaryTree[str] = BinaryTree("1")
 
         node: BinaryTree[str] = root
-        for _ in range(size - 1):
-            new_node: BinaryTree[str] = BinaryTree(next(values))
+        for i in range(2, size + 1):
+            new_node: BinaryTree[str] = BinaryTree(str(i))
             add_left: bool = randint(1, 2) == 1
             if add_left:
                 node.left = new_node
@@ -163,17 +161,19 @@ class Fuzz:
         return root
 
     @staticmethod
-    def gen_skewed_node(size: int, add_left: bool = False) -> BinaryTree[str]:
-        values = map(str, count(1))
-        root: BinaryTree[str] = BinaryTree(next(values))
+    def generate_skewed_node(size: int, add_left: bool = False) -> BinaryTree[str]:
+        root: BinaryTree[str] = BinaryTree("1")
         node: BinaryTree[str] = root
-        for _ in range(size - 1):
-            new_node: BinaryTree[str] = BinaryTree(next(values))
-            if add_left:
+        if add_left:
+            for i in range(2, size + 1):
+                new_node: BinaryTree[str] = BinaryTree(str(i))
                 node.left = new_node
-            else:
+                node = new_node
+        else:
+            for i in range(2, size + 1):
+                new_node: BinaryTree[str] = BinaryTree(str(i))
                 node.right = new_node
-            node = new_node
+                node = new_node
 
         return root
 
@@ -218,7 +218,7 @@ class Tests(unittest.TestCase):
 
     def test_fuzz(self):
         for _ in range(100):
-            root: BinaryTree[str] = Fuzz.gen_rand_node(size=randint(1, 100))
+            root: BinaryTree[str] = Fuzz.generate_random_node(size=randint(1, 100))
 
             preorder: list[str] = list(root.preorder_values())
             inorder: list[str] = list(root.inorder_values())
@@ -231,19 +231,19 @@ class Tests(unittest.TestCase):
                     self.assertEqual(expected, solution(preorder, inorder))
 
     def test_preorder(self):
-        node = Fuzz.gen_rand_node(size=10_000)
+        node = Fuzz.generate_random_node(size=10_000)
         preorder1 = list(node.preorder_values_rec())
         preorder2 = list(node.preorder_values())
         self.assertEqual(preorder1, preorder2)
 
     def test_inorder(self):
-        node = Fuzz.gen_rand_node(size=10_000)
+        node = Fuzz.generate_random_node(size=10_000)
         inorder1 = list(node.inorder_values_rec())
         inorder2 = list(node.inorder_values())
         self.assertEqual(inorder1, inorder2)
 
     def test_postorder(self):
-        node = Fuzz.gen_rand_node(size=10_000)
+        node = Fuzz.generate_random_node(size=10_000)
         postorder1 = list(node.postorder_values_rec())
         postorder2 = list(node.postorder_values())
         self.assertEqual(postorder1, postorder2)
@@ -279,12 +279,12 @@ def benchmark():
             f"  reconstruct: {timeit(stmt=lambda: reconstruct(preorder, inorder), number=trials)}"
         )
 
-    time_reconstruct(gen=Fuzz.gen_rand_skewed_node, size=990, trials=100)
-    time_reconstruct(gen=Fuzz.gen_rand_node, size=10, trials=100_000)
-    time_reconstruct(gen=Fuzz.gen_rand_node, size=100, trials=10_000)
-    time_reconstruct(gen=Fuzz.gen_rand_node, size=1_000, trials=1_000)
-    time_reconstruct(gen=Fuzz.gen_rand_node, size=10_000, trials=100)
-    time_reconstruct(gen=Fuzz.gen_rand_node, size=100_000, trials=10)
+    time_reconstruct(gen=Fuzz.generate_random_skewed_node, size=990, trials=100)
+    time_reconstruct(gen=Fuzz.generate_random_node, size=10, trials=100_000)
+    time_reconstruct(gen=Fuzz.generate_random_node, size=100, trials=10_000)
+    time_reconstruct(gen=Fuzz.generate_random_node, size=1_000, trials=1_000)
+    time_reconstruct(gen=Fuzz.generate_random_node, size=10_000, trials=100)
+    time_reconstruct(gen=Fuzz.generate_random_node, size=100_000, trials=10)
 
 
 if __name__ == "__main__":
