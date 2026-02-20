@@ -30,11 +30,11 @@ def map_next_brute_force(nums: list[int]) -> list[int]:
     This uses a simple algorithm where every number is processed one-by-one from
     beginning to end.
 
-    The worst case is processing a non-decreasing array, which is O(n^2) time
-    and O(n) space. The best case is processing an increasing array, which is
+    The worst case is processing a non-decreasing array, which uses O(n^2) time
+    and O(n) space. The best case is processing an increasing array, which uses
     O(n) time and O(n) space.
 
-    For a uniformly random array, this probably has O(n^2) time and O(n) space,
+    For a uniformly random array, this probably uses O(n^2) time and O(n) space,
     based on the notion that each number will traverse about i/n * n/2, or i/2,
     of the array, where i is the number's index in sorted(nums).
     """
@@ -83,7 +83,7 @@ def map_next_dict(nums: list[int]) -> list[int]:
     figure out what the next number larger than current would be.
 
     This algorithm is _wrong_ for any result list with a decreasing index, e.g.
-    `[9, 4, 3, 8, 10]`
+    `([9, 4, 3, 8, 10], [4, 3, 3, 4, -1])`
     """
     running_max_indexes: list[int] = []
     mapping: dict[int, int] = {}
@@ -106,8 +106,20 @@ def map_next_gpt(nums: list[int]) -> list[int]:
     This uses a... "monotonic stack" to keep track of all numbers that haven't
     found their next number larger.
 
-    This was suggested by a conversation with ChatGPT.
+    `decreasing_stack` is a stack of indexes such that:
 
+    ```
+    all(nums[i] <= nums[j] for i, j in pairwise(decreasing_stack))
+    ```
+
+    if the current `num[i]` is greater than the stack, values are popped from the end and
+    assigned to `result` until this rule holds true.
+
+    This really feels like one of those solutions
+
+    This uses O(n) time and O(n) space.
+
+    This was suggested by a conversation with ChatGPT.
     Source: https://chatgpt.com/share/69953fc7-1538-8007-8cdd-9493efffc874
     """
     decreasing_stack: list[int] = []
