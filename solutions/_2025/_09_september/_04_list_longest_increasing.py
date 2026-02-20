@@ -31,7 +31,6 @@ def longest_increasing(nums: list[int]) -> int:
     brute-force sequences and just uses the greedy sequence. This has O(n) time
     and O(1) space complexity.
     """
-
     if not nums:
         return 0
 
@@ -93,6 +92,8 @@ def longest_increasing_dynamic(nums: list[int]) -> int:
     longest increasing subsequence that ends with `nums[k]`.
 
     This has O(n^2) time and O(n) space complexity.
+
+    Source: https://chatgpt.com/share/69988640-55dc-8007-89df-85866957fa29
     """
     if not nums:
         return 0
@@ -118,6 +119,8 @@ def longest_increasing_patience(nums: list[int]) -> int:
     so far, a new entry is appended to the end.
 
     This has O(n log n) time and O(n) worst case space complexity.
+
+    Source: https://chatgpt.com/share/69988640-55dc-8007-89df-85866957fa29
     """
     tails: list[int] = []
     for num in nums:
