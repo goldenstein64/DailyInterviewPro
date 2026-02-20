@@ -24,6 +24,13 @@ Example:
 """
 
 from ds.binary_tree import BinaryTree
+from typing import Any, cast
+
+
+# this has been done before!
+from solutions._2025._09_september._12_tree_full import (
+    full_binary_tree as make_full_old,
+)
 
 
 def make_full[T](node: BinaryTree[T]) -> BinaryTree[T]:
@@ -41,4 +48,6 @@ def make_full[T](node: BinaryTree[T]) -> BinaryTree[T]:
 if __name__ == "__main__":
     import doctest
 
+    doctest.testmod()
+    make_full = cast(Any, make_full_old)
     doctest.testmod()
