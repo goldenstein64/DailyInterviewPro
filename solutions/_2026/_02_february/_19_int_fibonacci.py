@@ -17,6 +17,9 @@ Examples:
 13
 """
 
+# this has been done before!
+from solutions._2025._09_september._19_int_fibonacci import fibonacci as fibonacci_old
+
 
 def fibonacci(n: int) -> int:
     """Return the nth fibonacci number."""
@@ -32,4 +35,6 @@ def fibonacci(n: int) -> int:
 if __name__ == "__main__":
     import doctest
 
+    doctest.testmod()
+    fibonacci = fibonacci_old
     doctest.testmod()
