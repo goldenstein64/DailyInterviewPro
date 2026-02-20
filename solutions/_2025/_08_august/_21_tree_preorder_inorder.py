@@ -24,7 +24,6 @@ import unittest
 from collections.abc import Callable, Sequence
 from itertools import count, product
 from random import randint
-from typing import Literal
 
 from ds.binary_tree import BinaryTree, TupleBinaryTree
 from ds.list_view import ListView
@@ -119,16 +118,16 @@ class Fuzz:
     def find_rand_leaf(root: BinaryTree[str]) -> tuple[BinaryTree[str], bool]:
         last_node: BinaryTree[str] = root
         node: BinaryTree[str] | None = root
-        left: bool = False
+        add_left: bool = False
         while node:
             last_node = node
-            left = randint(1, 2) == 1
-            if left:
+            add_left = randint(1, 2) == 1
+            if add_left:
                 node = node.left
             else:
                 node = node.right
 
-        return last_node, left
+        return last_node, add_left
 
     @staticmethod
     def gen_rand_node(size: int) -> BinaryTree[str]:
@@ -154,21 +153,26 @@ class Fuzz:
         node: BinaryTree[str] = root
         for _ in range(size - 1):
             new_node: BinaryTree[str] = BinaryTree(next(values))
-            setattr(node, "left" if randint(1, 2) == 1 else "right", new_node)
+            add_left: bool = randint(1, 2) == 1
+            if add_left:
+                node.left = new_node
+            else:
+                node.right = new_node
             node = new_node
 
         return root
 
     @staticmethod
-    def gen_skewed_node(size: int, left: bool = False) -> BinaryTree[str]:
+    def gen_skewed_node(size: int, add_left: bool = False) -> BinaryTree[str]:
         values = map(str, count(1))
         root: BinaryTree[str] = BinaryTree(next(values))
-
-        attr: Literal["left", "right"] = "left" if left else "right"
         node: BinaryTree[str] = root
         for _ in range(size - 1):
             new_node: BinaryTree[str] = BinaryTree(next(values))
-            setattr(node, attr, new_node)
+            if add_left:
+                node.left = new_node
+            else:
+                node.right = new_node
             node = new_node
 
         return root
