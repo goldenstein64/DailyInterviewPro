@@ -65,8 +65,8 @@ def find_pythagorean_triplets(nums: list[int]) -> bool:
 
 def find_pythagorean_triplets_all(nums: list[int]) -> bool:
     """brute-force function provided by ChatGPT"""
-    squares = set(x * x for x in nums)
-    return any(a != b and a**2 + b**2 in squares for a, b in combinations(nums, 2))
+    squares = {x * x for x in nums}
+    return any(a + b in squares for a, b in combinations(squares, 2))
 
 
 class Tests(unittest.TestCase):
