@@ -56,6 +56,8 @@ def map_next(nums: list[int]) -> list[int]:
     For every number in `nums`, find the first number after it that is larger.
     Theory-crafting here, but it might be faster to process the array in
     reverse.
+
+    This algorithm is _wrong_ for any result list with a decreasing index.
     """
 
     result: list[int] = [-1] * len(nums)
@@ -106,24 +108,22 @@ def map_next_gpt(nums: list[int]) -> list[int]:
     This uses a... "monotonic stack" to keep track of all numbers that haven't
     found their next number larger.
 
-    `decreasing_stack` is a stack of indexes such that:
+    `decreasing_stack` is a stack of indexes into `nums` such that:
 
     ```
-    all(nums[i] <= nums[j] for i, j in pairwise(decreasing_stack))
+    all(nums[i] >= nums[j] for i, j in pairwise(decreasing_stack))
     ```
 
-    if the current `num[i]` is greater than the stack, values are popped from the end and
-    assigned to `result` until this rule holds true.
-
-    This really feels like one of those solutions
+    while the current `num` is greater than the value at the end of the stack,
+    that is the next larger number.
 
     This uses O(n) time and O(n) space.
 
     This was suggested by a conversation with ChatGPT.
     Source: https://chatgpt.com/share/69953fc7-1538-8007-8cdd-9493efffc874
     """
-    decreasing_stack: list[int] = []
     result: list[int] = [-1] * len(nums)
+    decreasing_stack: list[int] = []
     for i, num in enumerate(nums):
         while decreasing_stack and num > nums[decreasing_stack[-1]]:
             j = decreasing_stack.pop()
