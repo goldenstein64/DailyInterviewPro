@@ -26,7 +26,7 @@ def pattern_from_tier(
     i, v, x = tier
     nine = f"{i}{x}"
     four = f"{i}{v}"
-    pattern = re.compile(f"{i}{x}|{i}{v}|{v}{i}{{0,3}}|{i}{{1,3}}$")
+    pattern = re.compile(f"{i}(?:{x}|{v}|{i}{{0,2}})|{v}{i}{{0,3}}$")
 
     def to_added(input: str, endpos: int) -> tuple[int, int]:
         match = pattern.search(input, endpos=endpos)
@@ -64,19 +64,20 @@ ones = pattern_from_tier("IVX", 1)
 
 
 def digit_to_roman(digit: int, numerals: str) -> str:
+    i, v, x = numerals
     match digit:
         case 0:
             return ""
         case 1 | 2 | 3:
-            return numerals[0] * digit
+            return i * digit
         case 4:
-            return numerals[0] + numerals[1]
+            return i + v
         case 5:
-            return numerals[1]
+            return v
         case 6 | 7 | 8:
-            return numerals[1] + numerals[0] * (digit - 5)
+            return v + i * (digit - 5)
         case 9:
-            return numerals[0] + numerals[2]
+            return i + x
         case _:
             raise ValueError("not a digit")
 
