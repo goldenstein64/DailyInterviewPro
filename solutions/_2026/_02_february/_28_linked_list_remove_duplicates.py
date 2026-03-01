@@ -12,6 +12,11 @@ Example:
 from collections import Counter
 from ds.linked_list import LinkedList
 
+# This has been done before!
+from solutions._2026._02_february._08_linked_list_remove_duplicates import (
+    remove_duplicates as remove_duplicates_old,  # pyright: ignore[reportUnusedImport]
+)
+
 
 def remove_duplicates[T](ls: LinkedList[T]) -> LinkedList[T] | None:
     """
