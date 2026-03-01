@@ -20,6 +20,12 @@ Example:
 from ds.binary_tree import BinaryTree
 
 
+# This has been done before!
+from solutions._2025._08_august._14_tree_deepest import (
+    deepest_depth,  # pyright: ignore[reportUnusedImport]
+)
+
+
 def deepest_node[T](root: BinaryTree[T], depth: int = 1) -> tuple[T, int]:
     match (root.left, root.right):
         case (None, None):
