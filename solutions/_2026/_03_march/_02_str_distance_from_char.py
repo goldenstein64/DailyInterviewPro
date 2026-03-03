@@ -22,6 +22,8 @@ def distance_from_char(s: str, c: str) -> list[int]:
     `c`. It first iterates through the string to get its distance to the
     nearest character `c` left of it, and then does the same iterating
     backwards, taking the minimum.
+
+    This uses O(n) time and O(n) space.
     """
     if not s:
         return []
