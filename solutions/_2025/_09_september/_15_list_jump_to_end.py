@@ -14,10 +14,10 @@ import unittest
 
 def jump_to_end(nums: list[int]) -> int:
     """
-    Find the minimum number of jumps are needed to reach the end of `nums`,
+    Find the minimum number of jumps needed to reach the end of `nums`,
     where each element holds the farthest one can jump.
 
-    This has a worst case of O(n) time complexity and O(1) space.
+    In the worst case, this uses O(n) time complexity and O(1) space.
     """
 
     n: int = len(nums)
