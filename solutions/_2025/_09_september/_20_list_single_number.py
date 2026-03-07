@@ -7,7 +7,15 @@ Example:
 
 >>> single_number([7, 3, 5, 5, 4, 3, 4, 8, 8])
 7
-
-This has already been solved.
-See [2025/07/14](./solutions/2025/07-july/14-list-single-number.py)
 """
+
+# This has been done before!
+from solutions._2025._07_july._14_list_single_number import single_number
+
+single_number = single_number
+
+
+if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
