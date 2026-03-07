@@ -19,33 +19,59 @@ def cycles_of(nums: list[int]) -> Generator[list[int]]:
 
 
 def permute_inner(n: int) -> Generator[list[int]]:
+    """
+    Produce an n-sized permutation of indexes.
+
+    This uses precisely O(n!) time and O(n!) space. It would be O(n) space if
+    the lists produced by `cycles_of` were reused.
+    """
+
     if n == 1:
         yield [0]
-    else:
-        last_permute: Generator[list[int]] = permute_inner(n - 1)
-        for perm in last_permute:
-            perm.append(n - 1)
-            yield from cycles_of(perm)
+        return
+
+    for permutation in permute_inner(n - 1):
+        permutation.append(n - 1)
+        yield from cycles_of(permutation)
 
 
 def permute[T](nums: Sequence[T]) -> list[list[T]]:
+    """
+    My implementation of the solution, which produces every permutation of
+    indexes for a list of size `len(nums)` and maps it over `nums`.
+
+    This uses O(n!) time and O(n!) space.
+    """
     return [[nums[i] for i in perm] for perm in permute_inner(len(nums))]
 
 
 def permute_heap_rec_inner[T](k: int, nums: list[T]) -> Generator[list[T]]:
     if k == 1:
         yield nums.copy()
+        return
+
+    k_decr: int = k - 1
+    yield from permute_heap_rec_inner(k_decr, nums)
+    if k % 2 == 0:
+        for i in range(k_decr):
+            nums[i], nums[k_decr] = nums[k_decr], nums[i]
+            yield from permute_heap_rec_inner(k_decr, nums)
     else:
-        yield from permute_heap_rec_inner(k - 1, nums)
-        for i in range(k - 1):
-            if k % 2 == 0:
-                nums[i], nums[k - 1] = nums[k - 1], nums[i]
-            else:
-                nums[0], nums[k - 1] = nums[k - 1], nums[0]
-            yield from permute_heap_rec_inner(k - 1, nums)
+        for _ in range(k_decr):
+            nums[0], nums[k_decr] = nums[k_decr], nums[0]
+            yield from permute_heap_rec_inner(k_decr, nums)
 
 
 def permute_heap_rec[T](nums: list[T]) -> list[list[T]]:
+    """
+    A recursive implementation of Heap's algorithm for permutations, taken from
+    Wikipedia.
+
+    This uses O(n!) time and O(n!) space. It would use O(n) space if `nums`
+    wasn't copied on every iteration.
+
+    Source: https://en.wikipedia.org/wiki/Heap%27s_algorithm
+    """
     return list(permute_heap_rec_inner(len(nums), nums))
 
 
@@ -77,6 +103,15 @@ def permute_heap_inner[T](k: int, nums: list[T]) -> Generator[list[T]]:
 
 
 def permute_heap[T](nums: list[T]) -> list[list[T]]:
+    """
+    An iterative implementation of Heap's algorithm for permutations, taken from
+    the same Wikipedia page.
+
+    This uses O(n!) time and O(n!) space. It would use O(n) space if `nums`
+    wasn't copied on every iteration.
+
+    Source: https://en.wikipedia.org/wiki/Heap%27s_algorithm
+    """
     return list(permute_heap_inner(len(nums), nums))
 
 
