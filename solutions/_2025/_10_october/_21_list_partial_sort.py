@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from _typeshed import SupportsRichComparison
 
 
-def partial_sorted[T: SupportsRichComparison](ls: list[T], k: int) -> list[T]:
+def partial_sorted[T: SupportsRichComparison](nums: list[T], k: int) -> list[T]:
     """
     Sort `ls`, a list whose elements are at most `k` indices away from their
     sorted position.
@@ -27,9 +27,9 @@ def partial_sorted[T: SupportsRichComparison](ls: list[T], k: int) -> list[T]:
     # new value until the input and heap are exhausted.
     result: list[T] = []
 
-    heap: list[T] = ls[: k + 1]
+    heap: list[T] = nums[: k + 1]
     heapify(heap)
-    for v in ls[k + 1 :]:
+    for v in nums[k + 1 :]:
         result.append(heappushpop(heap, v))
 
     while heap:
